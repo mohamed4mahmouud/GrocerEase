@@ -9,7 +9,7 @@ export const SignUp = () => {
     let validateSchema = Yup.object({
         name: Yup.string()
             .min(3, "Name must be at least 3 characters")
-            .max(15, "Name must be at most 15 characters")
+            .max(50, "Name must be at most 50 characters")
             .required("name is required"),
         email: Yup.string()
             .email("Invalid email address")
@@ -57,6 +57,12 @@ export const SignUp = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />
+                    {formik.errors.name && formik.touched.name ? (
+                        <div className="alert alert-danger p-2 mt-2">
+                            {formik.errors.name}
+                        </div>
+                    ) : null}
+
                     <label htmlFor="email">Email</label>
                     <input
                         type="email"
@@ -67,6 +73,11 @@ export const SignUp = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />
+                    {formik.errors.email && formik.touched.email ? (
+                        <div className="alert alert-danger p-2 mt-2">
+                            {formik.errors.email}
+                        </div>
+                    ) : null}
                     <label htmlFor="phone">Phone</label>
                     <input
                         type="tel"
@@ -77,9 +88,14 @@ export const SignUp = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />
+                    {formik.errors.phone && formik.touched.phone ? (
+                        <div className="alert alert-danger p-2 mt-2">
+                            {formik.errors.phone}
+                        </div>
+                    ) : null}
                     <label htmlFor="address">Address</label>
                     <input
-                        type="tel"
+                        type="text"
                         className="form-control mb-2"
                         name="address"
                         id="address"
@@ -87,6 +103,11 @@ export const SignUp = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />
+                    {formik.errors.address && formik.touched.address ? (
+                        <div className="alert alert-danger p-2 mt-2">
+                            {formik.errors.address}
+                        </div>
+                    ) : null}
                     <label htmlFor="password">Password</label>
                     <input
                         type="password"
@@ -97,9 +118,14 @@ export const SignUp = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />
+                    {formik.errors.password && formik.touched.password ? (
+                        <div className="alert alert-danger p-2 mt-2">
+                            {formik.errors.password}
+                        </div>
+                    ) : null}
                     <label htmlFor="confirmPassword"> Confirm Password</label>
                     <input
-                        type="confirmPassword"
+                        type="password"
                         className="form-control mb-2"
                         name="confirmPassword"
                         id="confirmPassword"
@@ -107,9 +133,16 @@ export const SignUp = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     />
+                    {formik.errors.confirmPassword &&
+                    formik.touched.confirmPassword ? (
+                        <div className="alert alert-danger p-2 mt-2">
+                            {formik.errors.confirmPassword}
+                        </div>
+                    ) : null}
                     <button
                         className="btn btn-primary text-white mt-2"
                         type="submit"
+                        disabled={!(formik.isValid && formik.dirty)}
                     >
                         Register
                     </button>
