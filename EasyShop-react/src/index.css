@@ -3,22 +3,31 @@
     border-color: #407671 !important;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
-    --main-color: #0aad0a;
-    --light-color: #f0f3f2;
+    --main-color: #3BB77E;
+    --light-color: #DEF9EC;
+    --gray-color: #ADADAD;
+    --darkblue-color: #253D4E;
+    --white-color: #FFFFFF;
+    --blue-color: #5993BC;
+    --green-color: #407671;
+    --paleyellow-color: #DAC98B;
+    --lightyellow-color: #F1DBC0;
     --shadow: rgba(145, 158, 171, .2) 0px 2px 4px -1px, rgba(145, 158, 171, .14) 0px 4px 5px 0px, rgba(145, 158, 171, .12) 0px 1px 10px 0px;
-    --font-family: 'Encode Sans Expanded', sans-serif;
+    --font-family: "Poppins", sans-serif;
     --rating-color: #ffc908;
     --navbar-color: #DEF9EC;
-    --text-color:#253D4E;
+    --text-color: #253D4E;
     --icon-color: #407671;
 }
+
 
 .bgnavbar {
     color: var(--text-color) !important;
     background-color: var(--navbar-color);
+    font-family: var(--font-family);
 }
 
 .txtsearchbar {
