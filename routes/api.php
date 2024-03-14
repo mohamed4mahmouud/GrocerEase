@@ -26,4 +26,5 @@ Route::group(['prefix'=>'auth'],function(){
     Route::post('/login',[AuthController::class,'login']);
 });
 Route::middleware(['auth:sanctum','checkAdminToken'])->get('/users',[UsersController::class,'getAllUsers']);
-Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->get('/products',[ProductsController::class,'getAllProducts']);
+//Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->get('/products',[ProductsController::class,'getAllProducts']);
+Route::get('/products',[ProductsController::class,'getAllProducts']);

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Style from "./Products.module.css";
 
 export function getProducts() {
-    return axios.get(`https://dummyjson.com/products`);
+    return axios.get(`http://127.0.0.1:8000/api/products`);
 }
 
 export const Products = () => {
