@@ -4,8 +4,8 @@ import Payment from "../../assets/Payment.png";
 
 export default function Footer() {
     return (
-        <footer className="fixed-bottom text-center text-lg-start bgnavbar">
-            <section className="">
+        <footer className="text-center text-lg-start bgnavbar">
+            <section className="pt-2">
                 <div className="container text-center text-md-start mt-5">
                     <div className="row mt-3">
                         <div className="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
