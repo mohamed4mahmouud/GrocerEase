@@ -13,4 +13,11 @@ class ProductsController extends Controller
         $products=Product::all();
         return $this->returnData('products',$products,'Success');
     }
+
+    public function Search(){
+        $products=Product::all();
+        return response()->json([
+            'result'=> $products
+        ],200);
+    }
 }

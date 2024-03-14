@@ -1,10 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import styles from "./Navbar.module.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-export default function Navbar() {
+export default function Navbar({placeholder , data}) {
+
+    const [wordEntered ,SetWordEnterd ] = useState("");
+    const [filterdData , SetFilteredData] = useState([])
+
+    
+    const handleFilter = (event) =>
+    {
+        const searchProduct = event.target.value;
+        SetWordEnterd(searchProduct);
+      
+        const newFilter = data.filter((value)=>{
+            return value.title.toLowerCase().includes(searchProduct.toLowerCase())
+        })
+
+        if(searchProduct === ""){
+            SetFilteredData([])
+        }
+        else{
+            SetFilteredData(newFilter);
+        }
+    }
+
     return (
         <>
             <nav className="navbar navbar-expand-lg bgnavbar">
@@ -85,9 +107,12 @@ export default function Navbar() {
                                 <input
                                     type="text"
                                     className="form-control ps-5 txtsearchbar rounded-pill"
-                                    placeholder="What do you want..."
+                                    placeholder={placeholder}
+                                    value={wordEntered}
+                                    onChange={handleFilter}
+                                    
                                 />
-                                <i class="fa-solid fa-magnifying-glass ps-3 pb-2 txtsearchbar"></i>
+                                <i className="fa-solid fa-magnifying-glass ps-3 pb-2 txtsearchbar"></i>
                             </div>
                         </ul>
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -105,6 +130,20 @@ export default function Navbar() {
                     </div>
                 </div>
             </nav>
+            {filterdData.length !== 0 && (
+                    <div className="dataResult">
+                      {filterdData.slice(0, 15).map((value, index) => {
+                        return (
+                        <div className={`${styles.list} ${styles.borderBottom}`} key={index}>
+                            <div className="d-flex flex-column ml-3">
+                              <span>{value.title}</span>
+                            </div>                   
+                        </div>
+                        );
+                      })}
+                    </div>
+                )}
+        
         </>
     );
 }
