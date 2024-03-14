@@ -9,7 +9,7 @@ export default function Navbar() {
         <>
             <nav className="navbar navbar-expand-lg bgnavbar">
                 <div className="container-fluid">
-                    <Link className="navbar-brand bgnavbar fw-bold" to="#">
+                    <Link className="navbar-brand bgnavbar fw-bold" to="/">
                         <img src={logo} width={40} className="mb-2" /> Talabatk
                         Eh
                     </Link>
@@ -33,7 +33,7 @@ export default function Navbar() {
                                 <Link
                                     className="nav-link active bgnavbar"
                                     aria-current="page"
-                                    to="#"
+                                    to="/"
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +49,7 @@ export default function Navbar() {
                                 </Link>
                             </li>
                             <li className="nav-item me-5">
-                                <Link className="nav-link bgnavbar" to="#">
+                                <Link className="nav-link bgnavbar" to="/Cart">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="26"
@@ -64,7 +64,7 @@ export default function Navbar() {
                                 </Link>
                             </li>
                             <li className="nav-item me-5">
-                                <Link className="nav-link bgnavbar" to="#">
+                                <Link className="nav-link bgnavbar" to="/myOrder">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="26"
@@ -92,12 +92,12 @@ export default function Navbar() {
                         </ul>
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <Link className="nav-link bgnavbar" to="#">
+                                <Link className="nav-link bgnavbar" to="/login">
                                     Login
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link bgnavbar" to="#">
+                                <Link className="nav-link bgnavbar" to="/register">
                                     SignUp
                                 </Link>
                             </li>
