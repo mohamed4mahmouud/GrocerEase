@@ -12,8 +12,8 @@
     --font-family: 'Encode Sans Expanded', sans-serif;
     --rating-color: #ffc908;
     --navbar-color: #DEF9EC;
-    --text-color: #253D4E;
-
+    --text-color:#253D4E;
+    --icon-color: #407671;
 }
 
 .bgnavbar {
@@ -23,4 +23,8 @@
 
 .txtsearchbar {
     color: var(--text-color) !important;
+}
+
+.socialmediaicons {
+    color: var(--icon-color) !important;
 }
