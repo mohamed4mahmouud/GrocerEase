@@ -28,3 +28,7 @@
 .socialmediaicons {
     color: var(--icon-color) !important;
 }
+
+.ratingstar{
+    color: var(--rating-color) !important;
+}

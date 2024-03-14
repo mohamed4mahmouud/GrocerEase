@@ -22,7 +22,7 @@
   .customWidth90 {
     width: 90% !important;
   }
-  body {
+  /* body {
     height: 100vh;
     background: linear-gradient(
         to right,
@@ -31,7 +31,7 @@
         #DEF9EC 60%,
         #DEF9EC 100%
     );
-  }
+  } */
   .footerLine {
     border-top: 2px solid #407671;
     position: fixed;
