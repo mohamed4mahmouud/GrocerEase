@@ -29,3 +29,6 @@ Route::group(['prefix'=>'auth'],function(){
 Route::middleware(['auth:sanctum','checkAdminToken'])->get('/users',[UsersController::class,'getAllUsers']);
 Route::get('/products',[ProductsController::class,'getAllProducts']);
 Route::get('/categories',[CategoryController::class , 'getAllCategories']);
+
+Route::middleware(['auth:sanctum'])->get('/user/profile',[UsersController::class,'show']);
+Route::middleware(['auth:sanctum'])->put('/user/profile/edit', [UsersController::class, 'edit']);
