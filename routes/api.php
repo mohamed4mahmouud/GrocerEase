@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ShopsController;
 use App\Http\Controllers\UsersController;
 
 /*
@@ -30,6 +31,7 @@ Route::middleware(['auth:sanctum','checkAdminToken'])->get('/users',[UsersContro
 Route::get('/products',[ProductsController::class,'getAllProducts']);
 
 Route::get('allData',[ProductsController::class,'Search']);
+Route::get('/shops',[ShopsController::class,'getAllShops']);
 Route::get('/categories',[CategoryController::class , 'getAllCategories']);
 
 Route::middleware(['auth:sanctum'])->get('/user/profile',[UsersController::class,'show']);

@@ -9,6 +9,7 @@ import { Products } from "./Components/Products/Products";
 import Profile from "./Components/Profile/Profile";
 import { SignUp } from "./Components/Register/SignUp";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Shops from "./Components/Shops/Shops";
 
 let routers = createBrowserRouter([
     {
@@ -22,6 +23,7 @@ let routers = createBrowserRouter([
             { path: "cart", element: <Cart /> },
             { path: "myOrder", element: <OrderHistory /> },
             { path: "products", element: <Products /> },
+            { path: "shops", element: <Shops /> },
             { path: "*", element: <ErrorPage /> },
         ],
     },
