@@ -21,6 +21,8 @@
     --navbar-color: #DEF9EC;
     --text-color: #253D4E;
     --icon-color: #407671;
+    --darkgray-color:#666666;
+
 }
 
 
@@ -40,4 +42,45 @@
 
 .ratingstar{
     color: var(--rating-color) !important;
+}
+
+.review{
+    color: var(--darkgray-color);
+    font-family: var(--font-family);
+
+}
+.oldprice{
+    color: var(--gray-color);
+    text-decoration: line-through;
+    font-family: var(--font-family);
+
+}
+.discountedprice{
+    color: var(--green-color);
+    font-family: var(--font-family);
+
+}
+.discountrate{
+    
+    background: #fcf0ef;
+    color: #c06d6d;
+    font-family: var(--font-family);
+
+}
+.instock{
+    background-color: var(--navbar-color);
+    color: var(--green-color);
+    font-family: var(--font-family);
+}
+.greenbook{
+    color: var(--main-color);
+}
+.greencart{
+    background-color: var(--main-color) !important;
+    font-family: var(--font-family) !important;
+}
+.greybackground{
+    background-color: var(--light-color);
+    color: var(--green-color);
+    border:none;
 }

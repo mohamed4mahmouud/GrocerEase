@@ -1,0 +1,38 @@
+/* Tabs Navigation */
+.tabnav {
+  border-bottom: 1px solid #ADADAD;
+}
+
+
+.navitem {
+  display: inline-block;
+  border-radius: 0;
+  padding: 0.5rem 1rem;
+  margin-right: 2px;
+  color: #ADADAD;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
+
+
+
+.articlenavlink {
+  color: red ;
+
+}
+
+/* Tab Content */
+.tab-content {
+  border: 1px solid #dee2e6;
+  border-top: 0;
+  padding: 20px;
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane .active {
+  display: block;
+}
+
+
