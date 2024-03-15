@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Shop;
 use App\Models\Product;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
@@ -16,8 +17,12 @@ class ProductsController extends Controller
 
     public function Search(){
         $products=Product::all();
+        $shops = Shop::all();
+        
         return response()->json([
-            'result'=> $products
+            'products'=> $products,
+            'shops'=> $shops
+
         ],200);
     }
 }

@@ -1,22 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState }from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import styles from "./Navbar.module.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-export default function Navbar({placeholder , data}) {
+export default function Navbar() {
 
     const [wordEntered ,SetWordEnterd ] = useState("");
-    const [filterdData , SetFilteredData] = useState([])
-
+    const [filterdData , SetFilteredData] = useState([]);
+ 
+  //seacrh function
+  const [allProducts , SetAllProducts] = useState([]);
+  useEffect(()=>{
+    const getProducts = async()=>{
+      const products = await fetch("http://127.0.0.1:8000/api/products");
+      const setProducts = await products.json();
+      SetAllProducts({
+        products: await setProducts.products,
+        shops: await setProducts.shops
+      });
     
+    };
+    getProducts();
+  }, [])
+
+
+    // console.log(allProducts);
     const handleFilter = (event) =>
     {
         const searchProduct = event.target.value;
         SetWordEnterd(searchProduct);
-      
-        const newFilter = data.filter((value)=>{
+        console.log(allProducts);
+        allProducts? console.log('work'):console.log('nototoo');;
+         
+        const newFilter = allData.filter((value)=>{
+            // const product = value.title.toLowerCase().includes(searchProduct.toLowerCase());
+            // const shop = value.name.toLowerCase().includes(searchProduct.toLowerCase())
+            // return  shop
             return value.title.toLowerCase().includes(searchProduct.toLowerCase())
+
         })
 
         if(searchProduct === ""){
@@ -25,6 +47,7 @@ export default function Navbar({placeholder , data}) {
         else{
             SetFilteredData(newFilter);
         }
+        
     }
 
     return (
@@ -107,7 +130,7 @@ export default function Navbar({placeholder , data}) {
                                 <input
                                     type="text"
                                     className="form-control ps-5 txtsearchbar rounded-pill"
-                                    placeholder={placeholder}
+                                    placeholder="What do you need?"
                                     value={wordEntered}
                                     onChange={handleFilter}
                                     
