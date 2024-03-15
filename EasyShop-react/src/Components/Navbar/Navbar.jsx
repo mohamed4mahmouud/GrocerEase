@@ -64,7 +64,10 @@ export default function Navbar() {
                                 </Link>
                             </li>
                             <li className="nav-item me-5">
-                                <Link className="nav-link bgnavbar" to="/myOrder">
+                                <Link
+                                    className="nav-link bgnavbar"
+                                    to="/myOrder"
+                                >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="26"
@@ -87,7 +90,7 @@ export default function Navbar() {
                                     className="form-control ps-5 txtsearchbar rounded-pill"
                                     placeholder="What do you want..."
                                 />
-                                <i class="fa-solid fa-magnifying-glass ps-3 pb-2 txtsearchbar"></i>
+                                <i className="fa-solid fa-magnifying-glass ps-3 pb-2 txtsearchbar"></i>
                             </div>
                         </ul>
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -97,7 +100,10 @@ export default function Navbar() {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link bgnavbar" to="/register">
+                                <Link
+                                    className="nav-link bgnavbar"
+                                    to="/register"
+                                >
                                     SignUp
                                 </Link>
                             </li>
