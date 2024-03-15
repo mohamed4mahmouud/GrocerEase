@@ -8,46 +8,46 @@ export default function Navbar() {
 
     const [wordEntered ,SetWordEnterd ] = useState("");
     const [filterdData , SetFilteredData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
  
   //seacrh function
   const [allProducts , SetAllProducts] = useState([]);
   useEffect(()=>{
     const getProducts = async()=>{
-      const products = await fetch("http://127.0.0.1:8000/api/products");
+      const products = await fetch("http://127.0.0.1:8000/api/allData");
       const setProducts = await products.json();
       SetAllProducts({
-        products: await setProducts.products,
-        shops: await setProducts.shops
-      });
-    
+       products: await setProducts.products,
+       shops: await setProducts.shops
+    });
+    setIsLoading(false);
     };
     getProducts();
   }, [])
 
-
-    // console.log(allProducts);
     const handleFilter = (event) =>
     {
         const searchProduct = event.target.value;
+      
         SetWordEnterd(searchProduct);
-        console.log(allProducts);
-        allProducts? console.log('work'):console.log('nototoo');;
-         
-        const newFilter = allData.filter((value)=>{
-            // const product = value.title.toLowerCase().includes(searchProduct.toLowerCase());
-            // const shop = value.name.toLowerCase().includes(searchProduct.toLowerCase())
-            // return  shop
+
+        if(!isLoading){
+        const productFilter = allProducts.products.filter((value)=>{
             return value.title.toLowerCase().includes(searchProduct.toLowerCase())
-
         })
-
+        const shopFilter = allProducts.shops.filter((value)=>{
+            return value.name.toLowerCase().includes(searchProduct.toLowerCase())
+            
+        })
+    
+        const allData = [...productFilter , ...shopFilter]
         if(searchProduct === ""){
             SetFilteredData([])
         }
         else{
-            SetFilteredData(newFilter);
+            SetFilteredData(allData);
         }
-        
+    }
     }
 
     return (
@@ -159,13 +159,17 @@ export default function Navbar() {
                     </div>
                 </div>
             </nav>
-            {filterdData.length !== 0 && (
+            {wordEntered &&
+            isLoading ? (
+        <div>Loading...</div> // Show loading spinner while fetching data
+      ) :
+            filterdData.length !== 0 && (
                     <div className="dataResult">
                       {filterdData.slice(0, 15).map((value, index) => {
                         return (
                         <div className={`${styles.list} ${styles.borderBottom}`} key={index}>
                             <div className="d-flex flex-column ml-3">
-                              <span>{value.title}</span>
+                              <span>{value.title?value.title:value.name}</span>
                             </div>                   
                         </div>
                         );
