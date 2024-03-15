@@ -1,0 +1,6 @@
+.image{
+    position: absolute;
+    top: 53%;
+    transform: translate(0, -50%);
+    left: 54%;
+  }
