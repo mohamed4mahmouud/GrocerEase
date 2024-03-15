@@ -2,8 +2,18 @@ import { Fragment } from "react";
 import { useFormik } from "formik";
 import style from "./SignUp.module.css";
 import * as Yup from "yup";
+import React, { useEffect } from 'react';
 
 export const SignUp = () => {
+
+    useEffect(() => {
+        document.body.style.background = 'linear-gradient(to right, white 0%, white 60%, #DEF9EC 60%, #DEF9EC 100%)';
+    
+        return () => {
+          document.body.style.background = ''; 
+        };
+      }, []);
+
     const phoneRegExp =
         /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
@@ -45,8 +55,8 @@ export const SignUp = () => {
 
     return (
         <Fragment>
-            <div className={`${style.wrapper} col-md-4 shadow rounded mt-4`}>
-                <div className="container ">
+            <div className={`${style.wrapper} col-md-4 shadow rounded mt-5`}>
+                <div className="container">
                     <div className="d-flex justify-content-center align-items-center">
                         <div className="mt-3">
                             <h3 className={`${style.colorPrim} mr-3`}>
@@ -62,7 +72,7 @@ export const SignUp = () => {
                         </div>
                     </div>
                     <div className="ms-5">
-                        <div className="mt-4 ">
+                        <div className="mt-1">
                             <p>
                                 Do you want to get all you need when you need!!!
                                 <br />
@@ -70,7 +80,7 @@ export const SignUp = () => {
                             </p>
                         </div>
                         <div>
-                            <h1 className={`${style.colorPrim} mb-4`}>
+                            <h1 className={`${style.colorPrim} mb-2 fw-bold`}>
                                 Register
                             </h1>
                         </div>

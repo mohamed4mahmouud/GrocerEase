@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Shop;
 use App\Models\Product;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
@@ -72,5 +73,16 @@ class ProductsController extends Controller
         } catch(\Exception $e) {
             return $this->returnError(500, 'Error occurred while deleting the product.');
         } 
+    }
+
+    public function Search(){
+        $products=Product::all();
+        $shops = Shop::all();
+        
+        return response()->json([
+            'products'=> $products,
+            'shops'=> $shops
+
+        ],200);
     }
 }

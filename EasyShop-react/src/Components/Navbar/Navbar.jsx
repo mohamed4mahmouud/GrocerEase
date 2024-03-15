@@ -1,10 +1,55 @@
-import React from "react";
+import React, { useEffect, useState }from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import styles from "./Navbar.module.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 export default function Navbar() {
+
+    const [wordEntered ,SetWordEnterd ] = useState("");
+    const [filterdData , SetFilteredData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+ 
+  //seacrh function
+  const [allProducts , SetAllProducts] = useState([]);
+  useEffect(()=>{
+    const getProducts = async()=>{
+      const products = await fetch("http://127.0.0.1:8000/api/allData");
+      const setProducts = await products.json();
+      SetAllProducts({
+       products: await setProducts.products,
+       shops: await setProducts.shops
+    });
+    setIsLoading(false);
+    };
+    getProducts();
+  }, [])
+
+    const handleFilter = (event) =>
+    {
+        const searchProduct = event.target.value;
+      
+        SetWordEnterd(searchProduct);
+
+        if(!isLoading){
+        const productFilter = allProducts.products.filter((value)=>{
+            return value.title.toLowerCase().includes(searchProduct.toLowerCase())
+        })
+        const shopFilter = allProducts.shops.filter((value)=>{
+            return value.name.toLowerCase().includes(searchProduct.toLowerCase())
+            
+        })
+    
+        const allData = [...productFilter , ...shopFilter]
+        if(searchProduct === ""){
+            SetFilteredData([])
+        }
+        else{
+            SetFilteredData(allData);
+        }
+    }
+    }
+
     return (
         <>
             <nav className="navbar navbar-expand-lg bgnavbar">
@@ -64,7 +109,10 @@ export default function Navbar() {
                                 </Link>
                             </li>
                             <li className="nav-item me-5">
-                                <Link className="nav-link bgnavbar" to="/myOrder">
+                                <Link
+                                    className="nav-link bgnavbar"
+                                    to="/myOrder"
+                                >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="26"
@@ -85,9 +133,12 @@ export default function Navbar() {
                                 <input
                                     type="text"
                                     className="form-control ps-5 txtsearchbar rounded-pill"
-                                    placeholder="What do you want..."
+                                    placeholder="What do you need?"
+                                    value={wordEntered}
+                                    onChange={handleFilter}
+                                    
                                 />
-                                <i class="fa-solid fa-magnifying-glass ps-3 pb-2 txtsearchbar"></i>
+                                <i className="fa-solid fa-magnifying-glass ps-3 pb-2 txtsearchbar"></i>
                             </div>
                         </ul>
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -97,7 +148,10 @@ export default function Navbar() {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link bgnavbar" to="/register">
+                                <Link
+                                    className="nav-link bgnavbar"
+                                    to="/register"
+                                >
                                     SignUp
                                 </Link>
                             </li>
@@ -105,6 +159,24 @@ export default function Navbar() {
                     </div>
                 </div>
             </nav>
+            {wordEntered &&
+            isLoading ? (
+        <div>Loading...</div> // Show loading spinner while fetching data
+      ) :
+            filterdData.length !== 0 && (
+                    <div className="dataResult">
+                      {filterdData.slice(0, 15).map((value, index) => {
+                        return (
+                        <div className={`${styles.list} ${styles.borderBottom}`} key={index}>
+                            <div className="d-flex flex-column ml-3">
+                              <span>{value.title?value.title:value.name}</span>
+                            </div>                   
+                        </div>
+                        );
+                      })}
+                    </div>
+                )}
+        
         </>
     );
 }

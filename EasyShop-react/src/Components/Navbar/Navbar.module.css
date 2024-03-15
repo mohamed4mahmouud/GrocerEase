@@ -4,3 +4,13 @@
     transform: translateY(-50%);
     pointer-events: none;
   }
+  .list{
+    background-color:#ffffff; 
+    padding-top: 20px;padding-left:20px;
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+  }
+  .border-bottom{
+    border-bottom: 2px solid #eee;
+  }

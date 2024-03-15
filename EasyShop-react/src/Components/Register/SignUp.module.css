@@ -8,13 +8,13 @@
     display: flex;
     align-items: center;
   }
-  
+
   .line {
     flex: 1;
     height: 2px;
     background-color: #ccc;
   }
-  
+
   .word {
     padding: 0 10px;
     color: #555;
@@ -22,25 +22,17 @@
   .customWidth90 {
     width: 90% !important;
   }
-  body {
-    height: 100vh;
-    background: linear-gradient(
-        to right,
-        white 0%,
-        white 60%,
-        #DEF9EC 60%,
-        #DEF9EC 100%
-    );
-  }
   .footerLine {
     border-top: 2px solid #407671;
-    position: fixed;
+    position: absolute;
     bottom: 4%;
     width: 100%;
     color: white;
   }
   .wrapper{
-    position: absolute;
+    position: fixed;
+    max-height: 85%;
+    overflow-y: auto;
     top: 45%;
     transform: translate(0, -50%);
     left: 12%;
@@ -51,4 +43,3 @@
     transform: translate(0, -50%);
     left: 54%;
   }
-  

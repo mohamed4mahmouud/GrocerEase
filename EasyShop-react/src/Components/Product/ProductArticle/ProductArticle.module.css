@@ -1,0 +1,50 @@
+/* Tabs Navigation */
+.tabnav {
+  border-bottom: 1px solid #ADADAD;
+}
+
+
+.navitem {
+  display: inline-block;
+  border-radius: 0;
+  padding: 0.5rem 1rem;
+  margin-right: 2px;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
+
+
+
+.articlenavlink {
+  text-decoration: none !important;
+  color: #666666;
+}
+.articlenavlink.active{
+  padding-bottom: 9px;
+  border-bottom: 2px solid #3bb77e !important;
+}
+
+/* Tab Content */
+.tabcontent {
+  border-top: 0;
+  padding: 20px;
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane .active {
+  display: block;
+}
+.ratio-16x9 {
+  border-radius: 10px;
+}
+
+.customcard:hover{
+
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-color: #3bb77e;
+    color: #3bb77e;
+
+}
+
