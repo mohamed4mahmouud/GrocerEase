@@ -28,6 +28,8 @@ Route::group(['prefix'=>'auth'],function(){
 });
 Route::middleware(['auth:sanctum','checkAdminToken'])->get('/users',[UsersController::class,'getAllUsers']);
 Route::get('/products',[ProductsController::class,'getAllProducts']);
+
+Route::get('allData',[ProductsController::class,'Search']);
 Route::get('/categories',[CategoryController::class , 'getAllCategories']);
 
 Route::middleware(['auth:sanctum'])->get('/user/profile',[UsersController::class,'show']);
