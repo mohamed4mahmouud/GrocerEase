@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 
 class ShopsController extends Controller
 {
-    public function getAllShops(){
+    public function getAllShops(string $shopCategory){
 
-        $filteredShops = Shop::orderBy('rating','desc')->get();
-        $shops = Shop::all();
+        $shops = Shop::where('category' ,$shopCategory)->get();
+        $filteredShops = Shop::where('category' ,$shopCategory)->orderBy('rating','desc')->get();
 
         return response()->json([
             'shops'=> $shops,

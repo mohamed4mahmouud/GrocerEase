@@ -4,14 +4,17 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import { Link } from 'react-router-dom';
 import Style from "../Products/Products.module.css";
-
+import { useParams } from "react-router-dom";
   
-    export function getShops(){
-        return axios.get(`http://127.0.0.1:8000/api/shops`)
+
+    export function getShops(category){
+        return axios.get(`http://127.0.0.1:8000/api/shops/${category}`)
     }
 
     export default function Shops() {
-        let {isLoading , data} = useQuery("getShops",getShops);
+        const { category } = useParams();
+        console.log(category);
+        let {isLoading , data} = useQuery("getShops",() =>  getShops(category));
         const [ratingFilter, setRatingFilter] = useState(null);
          
         const onRatingChange = (rating) => {
@@ -31,7 +34,7 @@ import Style from "../Products/Products.module.css";
                 <div className="col-lg-9 col-md-8 col-sm-12 offset-lg-3 offset-md-4 p-3">
                 
                 {isLoading ? (
-                    <div className="d-flex justify-content-center mt-2">
+                    <div className="d-flex justify-content-center mt-5">
                         <div className="spinner-border" role="status">
                             <span className="visually-hidden">Loading...</span>
                         </div>

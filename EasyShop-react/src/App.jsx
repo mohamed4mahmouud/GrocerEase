@@ -25,7 +25,7 @@ let routers = createBrowserRouter([
             { path: "myOrder", element: <OrderHistory /> },
             {path: 'product', element: <Product/>},
             { path: "products", element: <Products /> },
-            { path: "shops", element: <Shops /> },
+            { path: "shops/:category", element: <Shops /> },
             { path: "*", element: <ErrorPage /> },
         ],
     },
