@@ -22,7 +22,7 @@ let routers = createBrowserRouter([
             { path: "profile", element: <Profile /> },
             { path: "cart", element: <Cart /> },
             { path: "myOrder", element: <OrderHistory /> },
-    {path: 'product', element: <Product/>},
+            {path: 'product', element: <Product/>},
             { path: "products", element: <Products /> },
             { path: "*", element: <ErrorPage /> },
         ],

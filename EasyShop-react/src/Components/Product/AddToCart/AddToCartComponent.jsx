@@ -5,25 +5,25 @@ export const AddToCartComponent = () => {
         count: 1
     });
     const incrementCount = () => {
-        setState({
-            count: state.count++
-        })
+        setState(prevState => ({
+            count: prevState.count + 1
+        }));
     }
 
     const decrementCount = () => {
-        setState({
-            count: state.count--
-        })
+        setState(prevState => ({
+            count: prevState.count - 1
+        }));
     }
 
     return (
         <>
             <div className="row">
                 <div className="col-4 d-flex p-2 border rounded-pill mt-2" style={{height:"60px"}}>
-                    <button className='btn greenbook col-4 border rounded-circle'><i class="fa fa-1x fa-minus"></i>
+                    <button onClick={decrementCount} className='btn greenbook col-4 border rounded-circle'><i class="fa fa-1x fa-minus"></i>
                     </button>
-                    <div className='d-flex justify-content-center align-items-center col-4'>1</div>
-                    <button className='btn greenbook border col-4 rounded-circle'><i class="fa-solid fa-plus"></i>
+                    <div className='d-flex justify-content-center align-items-center col-4'>{state.count}</div>
+                    <button onClick={incrementCount} className='btn greenbook border col-4 rounded-circle'><i class="fa-solid fa-plus"></i>
                     </button>
 
                 </div>
