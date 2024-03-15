@@ -17,7 +17,7 @@ export const RelatedProducts = () => {
                     </div>
                 </div>
                 <div className="col">
-                    <div className="card customcard h-100">
+                    <div className={`${styles.customcard} card h-100`}>
                         <img src="..." className="card-img-top" alt="..."/>
                             <div className="card-body">
                                 <h5 className="card-title">Card title</h5>
@@ -26,7 +26,7 @@ export const RelatedProducts = () => {
                     </div>
                 </div>
                 <div className="col">
-                    <div className="card customcard h-100">
+                    <div className={`${styles.customcard} card h-100`}>
                         <img src="..." className="card-img-top" alt="..."/>
                             <div className="card-body">
                                 <h5 className="card-title">Card title</h5>
@@ -35,7 +35,7 @@ export const RelatedProducts = () => {
                     </div>
                 </div>
                 <div className="col">
-                    <div className="card h-100">
+                    <div className={`${styles.customcard} card h-100`}>
                         <img src="..." className="card-img-top" alt="..."/>
                             <div className="card-body">
                                 <h5 className="card-title">Card title</h5>

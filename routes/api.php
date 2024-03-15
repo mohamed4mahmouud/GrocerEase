@@ -4,6 +4,7 @@ use App\Http\Controllers\ProductsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UsersController;
 
 /*
@@ -26,4 +27,8 @@ Route::group(['prefix'=>'auth'],function(){
     Route::post('/login',[AuthController::class,'login']);
 });
 Route::middleware(['auth:sanctum','checkAdminToken'])->get('/users',[UsersController::class,'getAllUsers']);
-Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->get('/products',[ProductsController::class,'getAllProducts']);
+Route::get('/products',[ProductsController::class,'getAllProducts']);
+Route::get('/categories',[CategoryController::class , 'getAllCategories']);
+
+Route::middleware(['auth:sanctum'])->get('/user/profile',[UsersController::class,'show']);
+Route::middleware(['auth:sanctum'])->put('/user/profile/edit', [UsersController::class, 'edit']);

@@ -6,7 +6,6 @@
 
 .navitem {
   display: inline-block;
-  border:solid;
   border-radius: 0;
   padding: 0.5rem 1rem;
   margin-right: 2px;
@@ -19,9 +18,9 @@
   text-decoration: none !important;
   color: #666666;
 }
-.articlenavlink:active{
-  color: red;
-  
+.articlenavlink.active{
+  padding-bottom: 9px;
+  border-bottom: 2px solid #3bb77e !important;
 }
 
 /* Tab Content */
@@ -42,7 +41,10 @@
 }
 
 .customcard:hover{
-  border: 1px solid;
-  border-color: green;
+
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-color: #3bb77e;
+    color: #3bb77e;
+
 }
 

@@ -5,7 +5,7 @@ function TabNavItem({ tabNumber, activeTab, onClick, to, children }) {
   return (
     <li className={style.navitem} role="presentation">
       <Link
-        className={`${style.articlenavlink} ${tabNumber === activeTab ? 'active' : ''}`}
+        className={`${style.articlenavlink}  ${tabNumber === activeTab ? style.active : ''}`}
         id={`ex1-tab-${tabNumber}`}
         to={to}
         role="tab"
