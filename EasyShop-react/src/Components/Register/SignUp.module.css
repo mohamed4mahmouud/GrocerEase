@@ -8,13 +8,13 @@
     display: flex;
     align-items: center;
   }
-  
+
   .line {
     flex: 1;
     height: 2px;
     background-color: #ccc;
   }
-  
+
   .word {
     padding: 0 10px;
     color: #555;
@@ -51,4 +51,3 @@
     transform: translate(0, -50%);
     left: 54%;
   }
-  

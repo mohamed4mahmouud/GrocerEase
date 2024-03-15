@@ -109,7 +109,10 @@ export default function Navbar() {
                                 </Link>
                             </li>
                             <li className="nav-item me-5">
-                                <Link className="nav-link bgnavbar" to="/myOrder">
+                                <Link
+                                    className="nav-link bgnavbar"
+                                    to="/myOrder"
+                                >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="26"
@@ -145,7 +148,10 @@ export default function Navbar() {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link bgnavbar" to="/register">
+                                <Link
+                                    className="nav-link bgnavbar"
+                                    to="/register"
+                                >
                                     SignUp
                                 </Link>
                             </li>
