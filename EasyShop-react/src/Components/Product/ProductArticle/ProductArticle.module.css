@@ -6,23 +6,26 @@
 
 .navitem {
   display: inline-block;
+  border:solid;
   border-radius: 0;
   padding: 0.5rem 1rem;
   margin-right: 2px;
-  color: #ADADAD;
   border-color: #dee2e6 #dee2e6 #fff;
 }
 
 
 
 .articlenavlink {
-  color: red ;
-
+  text-decoration: none !important;
+  color: #666666;
+}
+.articlenavlink:active{
+  color: red;
+  
 }
 
 /* Tab Content */
-.tab-content {
-  border: 1px solid #dee2e6;
+.tabcontent {
   border-top: 0;
   padding: 20px;
 }
@@ -34,5 +37,12 @@
 .tab-pane .active {
   display: block;
 }
+.ratio-16x9 {
+  border-radius: 10px;
+}
 
+.customcard:hover{
+  border: 1px solid;
+  border-color: green;
+}
 

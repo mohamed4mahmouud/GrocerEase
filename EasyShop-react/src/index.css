@@ -53,19 +53,19 @@
     color: var(--gray-color);
     text-decoration: line-through;
     font-family: var(--font-family);
-
+    
 }
 .discountedprice{
     color: var(--green-color);
     font-family: var(--font-family);
-
+    
 }
 .discountrate{
     
     background: #fcf0ef;
     color: #c06d6d;
     font-family: var(--font-family);
-
+    
 }
 .instock{
     background-color: var(--navbar-color);
@@ -83,4 +83,9 @@
     background-color: var(--light-color);
     color: var(--green-color);
     border:none;
+}
+.para{
+    font-family: var(--font-family);
+    color: var(--gray-color);
+    
 }
