@@ -12,14 +12,19 @@ export default function Navbar() {
  
   //seacrh function
   const [allProducts , SetAllProducts] = useState([]);
+
+
   useEffect(()=>{
     const getProducts = async()=>{
-      const products = await fetch("http://127.0.0.1:8000/api/allData");
+      const products = await fetch("http://127.0.0.1:8000/api/products");
       const setProducts = await products.json();
+      const shops = await fetch("http://127.0.0.1:8000/api/shops");
+      const setShops = await shops.json();
       SetAllProducts({
-       products: await setProducts.products,
-       shops: await setProducts.shops
-    });
+        'products': await setProducts.products,
+        'shops':await setShops.shops , 
+      });
+
     setIsLoading(false);
     };
     getProducts();

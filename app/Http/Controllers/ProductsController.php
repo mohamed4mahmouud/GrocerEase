@@ -72,21 +72,37 @@ class ProductsController extends Controller
             return $this->returnData('products', $products, 'Success');
         } catch(\Exception $e) {
             return $this->returnError(500, 'Error occurred while deleting the product.');
-        } 
+        }
     }
 
-    public function Search(){
-        $products=Product::all();
-        $shops = Shop::all();
-        
-        return response()->json([
-            'products'=> $products,
-            'shops'=> $shops
+    // public function Search(){
+    //     $products=Product::all();
+    //     $shops = Shop::all();
 
-        ],200);
-    }
+    //     return response()->json([
+    //         'products'=> $products,
+    //         'shops'=> $shops
 
-    public function addToCart(){
-        
+    //     ],200);
+    // }
+
+    public function addProductToCart(string $id)
+    {
+        $product = Product::find($id);
+        $cart = session()->get('cart',[]);
+
+        if(isset($cart[$id])){
+            $cart[$id]['quantity']++;
+        }else{
+            $cart[$id] =[
+                'name' => $product->title,
+                'quantity'=>1,
+                'price' => $product->price,
+                'image' => $product->image,
+            ];
+        }
+        session()->put('cart', $cart);
+
+        return response()->json($cart);
     }
 }
