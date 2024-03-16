@@ -1,7 +1,52 @@
 import React from "react";
 import { OrderSummery } from "./Order Summery";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
 
 export const BillingInfo = () => {
+    const initialValues = {
+        firstName: "",
+        lastName: "",
+        email: "",
+        address: "",
+        country: "",
+        state: "",
+        zip: "",
+        paymentMethod: "",
+        ccName: "",
+        ccNumber: "",
+        ccExpiration: "",
+        ccCvv: "",
+        notes: "",
+    };
+
+    const validationSchema = Yup.object({
+        firstName: Yup.string().required("Required"),
+        lastName: Yup.string().required("Required"),
+        email: Yup.string().email("Invalid email address").required("Required"),
+        address: Yup.string().required("Required"),
+        country: Yup.string().required("Required"),
+        state: Yup.string().required("Required"),
+        zip: Yup.string().required("Required"),
+        paymentMethod: Yup.string().required("Required"),
+        ccName: Yup.string().required("Required"),
+        ccNumber: Yup.string().required("Required"),
+        ccExpiration: Yup.string().required("Required"),
+        ccCvv: Yup.string().required("Required"),
+    });
+
+    const handleSubmit = async (values, actions) => {
+        try {
+            const response = await axios.post(
+                "http://127.0.0.1:8000/api/payment",
+                values
+            );
+            console.log(response.data);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
     return (
         <>
             <div className="checkout">
@@ -13,6 +58,12 @@ export const BillingInfo = () => {
                                 <h4 className="mb-3 checkout">
                                     Billing Information
                                 </h4>
+                                <Formik
+                                    initialValues={initialValues}
+                                    validationSchema={validationSchema}
+                                    onSubmit={handleSubmit}
+                                >
+                                 {formik => (
                                 <form className="needs-validation" novalidate>
                                     <div className="row">
                                         <div className="col-md-6 mb-3 checkout">
@@ -316,6 +367,8 @@ export const BillingInfo = () => {
                                         Place Order
                                     </button>
                                 </form>
+                                )}
+                                </Formik>
                             </div>
                         </div>
                     </div>
