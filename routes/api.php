@@ -33,7 +33,8 @@ Route::get('/products/{id}', [ProductsController::class, 'getProductById']);
 Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->post('/addproducts', [ProductsController::class, 'create']);
 Route::middleware(['auth:sanctum'])->put('/updateproducts/{id}', [ProductsController::class, 'updateById']);
 Route::middleware(['auth:sanctum'])->delete('/deleteproduct/{id}', [ProductsController::class, 'deleteproduct']);
-Route::post('/addtocart',[ProductsController::class ,'addToCart']);
+Route::post('/addtoc
+art',[ProductsController::class ,'addToCart']);
 
 Route::get('/shops/{shopCategory}',[ShopsController::class,'getAllShops']);
 Route::get('/allData',[ProductsController::class,'Search']);

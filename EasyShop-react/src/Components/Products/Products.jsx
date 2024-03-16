@@ -6,9 +6,8 @@ import Style from "./Products.module.css";
 export function getProducts() {
     return axios.get(`http://127.0.0.1:8000/api/products`);
 }
+
 export function addToCart (product){
-    // event.preventDefault();
-    // console.log(product);
     const data ={
         product_id: product.id,
         

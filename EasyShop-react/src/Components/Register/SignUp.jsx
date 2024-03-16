@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import style from "./SignUp.module.css";
 import * as Yup from "yup";
 import React, { useEffect } from 'react';
+import axios from "axios";
 
 export const SignUp = () => {
 
@@ -36,8 +37,8 @@ export const SignUp = () => {
             .required("Please confirm your password"),
     });
 
-    function registerSubmit(values) {
-        console.log(values);
+    async function registerSubmit(values) {
+     let response = await axios.post(`http://127.0.0.1:8000/api/auth/register`,values)
     }
 
     let formik = useFormik({
@@ -86,17 +87,16 @@ export const SignUp = () => {
                         </div>
                         <form onSubmit={formik.handleSubmit}>
                             <div className="form-group">
-                                <label htmlFor="fullName">Full Name</label>
+                                <label htmlFor="name">Full Name</label>
                                 <input
                                     type="text"
                                     className={`${style.customWidth90} form-control  mb-2`}
-                                    id="fullName"
-                                    name="fullName"
+                                    id="name"
+                                    name="name"
                                     placeholder="Enter your full name"
-                                    value={formik.values.fullName}
+                                    value={formik.values.name}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    required
                                 />
                                 {formik.errors.name && formik.touched.name ? (
                                     <div className="alert alert-danger p-2 mt-2">
@@ -115,7 +115,7 @@ export const SignUp = () => {
                                     value={formik.values.email}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    required
+                                    
                                 />
                                 {formik.errors.email && formik.touched.email ? (
                                     <div className="alert alert-danger p-2 mt-2">
@@ -134,7 +134,7 @@ export const SignUp = () => {
                                     value={formik.values.phone}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    required
+                                    
                                 />
                                 {formik.errors.phone && formik.touched.phone ? (
                                     <div className="alert alert-danger p-2 mt-2">
@@ -153,7 +153,7 @@ export const SignUp = () => {
                                     value={formik.values.address}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    required
+                                    
                                 />
                                 {formik.errors.address &&
                                 formik.touched.address ? (
@@ -173,7 +173,7 @@ export const SignUp = () => {
                                     value={formik.values.password}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    required
+                                    
                                 />
                                 {formik.errors.password &&
                                 formik.touched.password ? (
@@ -195,7 +195,7 @@ export const SignUp = () => {
                                     value={formik.values.confirmPassword}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    required
+                                    
                                 />
                                 {formik.errors.confirmPassword &&
                                 formik.touched.confirmPassword ? (
