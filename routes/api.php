@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\ProductsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\ShopsController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +34,11 @@ Route::get('/products/{id}', [ProductsController::class, 'getProductById']);
 Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->post('/addproducts', [ProductsController::class, 'create']);
 Route::middleware(['auth:sanctum'])->put('/updateproducts/{id}', [ProductsController::class, 'updateById']);
 Route::middleware(['auth:sanctum'])->delete('/deleteproduct/{id}', [ProductsController::class, 'deleteproduct']);
+Route::get('/product/{id}' , [ProductsController::class ,'addProductToCart']);
+Route::middleware(['auth:sanctum'])->post('/add-to-cart',[CartController::class ,'addToCart']);
 
+Route::get('/shops/{shopCategory}',[ShopsController::class,'getAllShops']);
+Route::get('/allData',[ProductsController::class,'Search']);
 Route::get('/categories',[CategoryController::class , 'getAllCategories']);
 Route::get('/categories/{category}',[CategoryController::class , 'getCategory']);
 Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->delete('/delete-category/{category}',[CategoryController::class,  'deleteCategory']);

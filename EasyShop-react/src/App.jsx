@@ -10,6 +10,7 @@ import { Product } from "./Components/Product/Product";
 import Profile from "./Components/Profile/Profile";
 import { SignUp } from "./Components/Register/SignUp";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Shops from "./Components/Shops/Shops";
 
 let routers = createBrowserRouter([
     {
@@ -24,6 +25,7 @@ let routers = createBrowserRouter([
             { path: "myOrder", element: <OrderHistory /> },
             {path: 'product', element: <Product/>},
             { path: "products", element: <Products /> },
+            { path: "shops/:category", element: <Shops /> },
             { path: "*", element: <ErrorPage /> },
         ],
     },
