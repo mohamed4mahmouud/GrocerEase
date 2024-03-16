@@ -9,6 +9,7 @@ import { Products } from "./Components/Products/Products";
 import { Product } from "./Components/Product/Product";
 import Profile from "./Components/Profile/Profile";
 import { SignUp } from "./Components/Register/SignUp";
+import { Checkout } from "./Components/Checkout/Checkout";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 let routers = createBrowserRouter([
@@ -16,14 +17,15 @@ let routers = createBrowserRouter([
         path: "",
         element: <Layout />,
         children: [
-            { index: true, element: <Home /> },
+            { index: true, element: <Checkout /> },
             { path: "register", element: <SignUp /> },
             { path: "login", element: <Login /> },
             { path: "profile", element: <Profile /> },
             { path: "cart", element: <Cart /> },
             { path: "myOrder", element: <OrderHistory /> },
-            {path: 'product', element: <Product/>},
+            { path: "product", element: <Product /> },
             { path: "products", element: <Products /> },
+            // { path: "Checkout", element: <Checkout /> },
             { path: "*", element: <ErrorPage /> },
         ],
     },
