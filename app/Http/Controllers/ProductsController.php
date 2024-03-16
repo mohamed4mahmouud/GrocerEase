@@ -85,4 +85,8 @@ class ProductsController extends Controller
 
         ],200);
     }
+
+    public function addToCart(){
+        
+    }
 }
