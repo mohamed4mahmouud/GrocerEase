@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\ProductsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\StripeController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,3 +42,4 @@ Route::delete('/delete-category/{category}',[CategoryController::class,  'delete
 
 Route::middleware(['auth:sanctum'])->get('/user/profile',[UsersController::class,'show']);
 Route::middleware(['auth:sanctum'])->put('/user/profile/edit', [UsersController::class, 'edit']);
+Route::post('/payment', [StripeController::class, 'processPayment']);
