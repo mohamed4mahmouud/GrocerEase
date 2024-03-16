@@ -39,9 +39,9 @@ Route::get('/shops/{shopCategory}',[ShopsController::class,'getAllShops']);
 Route::get('/allData',[ProductsController::class,'Search']);
 Route::get('/categories',[CategoryController::class , 'getAllCategories']);
 Route::get('/categories/{category}',[CategoryController::class , 'getCategory']);
-Route::post('/add-categories',[CategoryController::class , 'addCategory']);
-Route::put('/update-category/{category}',[CategoryController::class,  'updateCategory']);
-Route::delete('/delete-category/{category}',[CategoryController::class,  'deleteCategory']);
+Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->delete('/delete-category/{category}',[CategoryController::class,  'deleteCategory']);
+Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->post('/add-categories',[CategoryController::class , 'addCategory']);
+Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->put('/update-category/{category}',[CategoryController::class,  'updateCategory']);
 
 Route::middleware(['auth:sanctum'])->get('/user/profile',[UsersController::class,'show']);
 Route::middleware(['auth:sanctum'])->put('/user/profile/edit', [UsersController::class, 'edit']);
