@@ -1,16 +1,61 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import style from "../Register/SignUp.module.css";
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
+import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import * as Yup from "yup";
 import style2 from "./Login.module.css";
+
 export default function Login() {
+    let navigate = useNavigate();
+
+    const [error, setError] = useState(null);
+    const [isLoading, setisLoading] = useState(false);
+
+    let validationSchema = Yup.object({
+        email: Yup.string()
+            .email("Invalid email address")
+            .required("email is required"),
+
+        password: Yup.string().required("password is required"),
+    });
+
+    async function loginSubmit(values) {
+        setisLoading(true);
+        let { data } = await axios
+            .post(`http://localhost:8000/api/auth/login`, values)
+            .catch((err) => {
+                setisLoading(false);
+                setError(err.response.data.msg);
+            });
+
+        let token = data.accessToken.split("|")[1];
+
+        if (data.msg === "success") {
+            setisLoading(false);
+            localStorage.setItem("userToken", token);
+            navigate("/");
+        }
+    }
+
+    let formik = useFormik({
+        initialValues: {
+            email: "",
+            password: "",
+        },
+        validationSchema,
+        onSubmit: loginSubmit,
+    });
 
     useEffect(() => {
-        document.body.style.background = 'linear-gradient(to right, white 0%, white 60%, #DEF9EC 60%, #DEF9EC 100%)';
-    
+        document.body.style.background =
+            "linear-gradient(to right, white 0%, white 60%, #DEF9EC 60%, #DEF9EC 100%)";
+
         return () => {
-          document.body.style.background = ''; 
+            document.body.style.background = "";
         };
-      }, []);
+    }, []);
 
     return (
         <Fragment>
@@ -32,16 +77,14 @@ export default function Login() {
                     </div>
                     <div className="ms-5">
                         <div className="mt-1">
-                            <p>
-                                Welcome back !!!
-                            </p>
+                            <p>Welcome back !!!</p>
                         </div>
                         <div>
                             <h1 className={`${style.colorPrim} mb-2 fw-bold`}>
                                 Log in
                             </h1>
                         </div>
-                        <form >
+                        <form onSubmit={formik.handleSubmit}>
                             <div className="form-group">
                                 <label htmlFor="email">Email</label>
                                 <input
@@ -50,9 +93,15 @@ export default function Login() {
                                     id="email"
                                     name="email"
                                     placeholder="Enter email"
-                                    required
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                 />
                             </div>
+                            {formik.errors.email && formik.touched.email ? (
+                                <div className="alert alert-danger p-2 mt-2">
+                                    {formik.errors.email}
+                                </div>
+                            ) : null}
                             <div className="form-group">
                                 <label htmlFor="password">Password</label>
                                 <input
@@ -61,20 +110,41 @@ export default function Login() {
                                     id="password"
                                     name="password"
                                     placeholder="Enter your Password"
-                                    required
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                 />
                             </div>
+                            {formik.errors.password &&
+                            formik.touched.password ? (
+                                <div className="alert alert-danger p-2 mt-2">
+                                    {formik.errors.password}
+                                </div>
+                            ) : null}
                             <button
                                 type="submit"
                                 className={`${style.customWidth90} btn btn-primary  mt-2 mb-2`}
                             >
-                                Login &#8594;
+                                {isLoading ? (
+                                    <div className="d-flex justify-content-center mt-2">
+                                        <div
+                                            className="spinner-border"
+                                            role="status"
+                                        >
+                                            <span className="visually-hidden">
+                                                Loading...
+                                            </span>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <span>Login</span>
+                                )}
+                                &#8594;
                             </button>
                         </form>
                     </div>
                     <div className="text-center ">
                         <p>
-                            I don't have an account ? 
+                            I don't have an account ?
                             <a
                                 href=""
                                 className={`${style.colorSec} text-decoration-none text-reset fw-bold ms-1`}
@@ -126,5 +196,5 @@ export default function Login() {
                 <img src="../../images/log.png" alt="woman_pic" />
             </div>
         </Fragment>
-  )
+    );
 }
