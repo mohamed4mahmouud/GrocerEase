@@ -3,10 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\ShopsController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\StripeController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ShopsController;
 use App\Http\Controllers\ProductsController;
 
 /*
@@ -46,3 +46,4 @@ Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->put('/update-categor
 
 Route::middleware(['auth:sanctum'])->get('/user/profile',[UsersController::class,'show']);
 Route::middleware(['auth:sanctum'])->put('/user/profile/edit', [UsersController::class, 'edit']);
+Route::post('/payment', [StripeController::class, 'processPayment']);
