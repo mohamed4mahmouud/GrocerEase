@@ -1,0 +1,17 @@
+.card:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-color: #3bb77e;
+    color: #3bb77e;
+}
+
+.text {
+    color: black;
+}
+.ratingstar{
+    color: var(--rating-color) !important;
+}
+input[type="radio"].form-check-input:checked {
+ 
+    background-color: var( --icon-color); 
+    border-color: var( --icon-color); 
+}

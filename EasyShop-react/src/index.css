@@ -39,6 +39,10 @@
 .socialmediaicons {
     color: var(--icon-color) !important;
 }
+.btnsColor{
+    background-color: var(--icon-color) !important;
+    color: var(--white-color) !important;
+}
 
 .ratingstar {
     color: var(--rating-color) !important;

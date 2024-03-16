@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            //
-            $table->unsignedBigInteger('category')->nullable()->change();
-            $table->foreign('categories_id')->references('id')->on('categories')->onDelete('Cascade');
+        Schema::table('shops', function (Blueprint $table) {
+            $table->tinyInteger('rating');
         });
     }
 
@@ -23,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            //
+        Schema::table('shops', function (Blueprint $table) {
+            Schema:: dropColumns('rating');
         });
     }
 };
