@@ -159,6 +159,7 @@ export default function Navbar() {
                     </div>
                 </div>
             </nav>
+            {/* TODO: Handle search result appearnace */}
             {wordEntered &&
             isLoading ? (
         <div>Loading...</div> // Show loading spinner while fetching data
