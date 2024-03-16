@@ -35,7 +35,6 @@ Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->post('/addproducts'
 Route::middleware(['auth:sanctum'])->put('/updateproducts/{id}', [ProductsController::class, 'updateById']);
 Route::middleware(['auth:sanctum'])->delete('/deleteproduct/{id}', [ProductsController::class, 'deleteproduct']);
 Route::get('/product/{id}' , [ProductsController::class ,'addProductToCart']);
-Route::middleware(['auth:sanctum'])->post('/add-to-cart',[CartController::class ,'addToCart']);
 
 Route::get('/shops/{shopCategory}',[ShopsController::class,'getAllShops']);
 Route::get('/allData',[ProductsController::class,'Search']);
