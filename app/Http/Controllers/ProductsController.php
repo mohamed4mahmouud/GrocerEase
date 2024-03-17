@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
+use App\Models\CartProduct;
 use App\Models\Shop;
 use App\Models\Product;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
+
 
 class ProductsController extends Controller
 {
@@ -86,23 +89,68 @@ class ProductsController extends Controller
         ],200);
     }
 
-    public function addProductToCart(string $id)
+    public function addProductToCart(Request $request)
     {
-        $product = Product::find($id);
-        $cart = session()->get('cart',[]);
+        $userId  = $request->user()->id;
+        $cart = Cart::where('user_id' ,$userId)->first();
 
-        if(isset($cart[$id])){
-            $cart[$id]['quantity']++;
-        }else{
-            $cart[$id] =[
-                'name' => $product->title,
-                'quantity'=>1,
-                'price' => $product->price,
-                'image' => $product->image,
-            ];
+        if(!$cart){
+            //create cart for logged user
+            $cart = Cart::create([
+                'user_id'=> $userId,
+            ]);
+            $cart->products()->attach($request->product_id, ['quantity' => 1]);
+            $cartItems = CartProduct::all();
+            return $this->returnData('cart',$cartItems , 'success');
         }
-        session()->put('cart', $cart);
+        // Check if the product already exists in the cart
+        $product = $cart->products()->where('product_id', $request->product_id)->first();
 
-        return response()->json($cart);
+        if($product){
+            // If the product already exists, increment its quantity
+            $product->pivot->increment('quantity');
+        } else {
+            // Otherwise, attach the product to the cart with quantity 1
+            $cart->products()->attach($request->product_id, ['quantity' => 1]);
+        }
+        $cartItems = CartProduct::all();
+        return $this->returnData('cart',$cartItems , 'success');
+    }
+
+    public function getLoggedUserCart(Request $request)
+    {
+        $cart = Cart::where('user_id' , $request->user()->id)->first();
+
+        //check if user have cart
+        if($cart){
+            $cartItems = CartProduct::all();
+            return $this->returnData('cart', $cartItems , 'success') ;
+        }else{
+            return $this->returnError(404 , 'Cart is empty or does not exist');
+        }
+    }
+
+    public function deleteCartItem(string $id)
+    {
+        $cartItem = CartProduct::where('product_id' , $id)->first();
+        if($cartItem){
+            $cartItem->delete();
+            return $this->returnSuccessMessage('Cart item deleted successfully',200);
+        }else {
+            return $this->returnError(404 , "Cart item not found");
+        }
+    }
+
+    public function clearCart(Request $request)
+    {
+        $cart = Cart::where('user_id',$request->user()->id)->first();
+
+        if($cart){
+            $cart->products()->detach();
+
+            return $this->returnSuccessMessage('Cart cleared successfully',200);
+        }else{
+            return $this->returnError(404 , "Cart not found");
+        }
     }
 }
