@@ -11,6 +11,7 @@ import Profile from "./Components/Profile/Profile";
 import { SignUp } from "./Components/Register/SignUp";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Shops from "./Components/Shops/Shops";
+import UserContextProvider from "./Context/UserContext";
 
 let routers = createBrowserRouter([
     {
@@ -23,7 +24,7 @@ let routers = createBrowserRouter([
             { path: "profile", element: <Profile /> },
             { path: "cart", element: <Cart /> },
             { path: "myOrder", element: <OrderHistory /> },
-            {path: 'product', element: <Product/>},
+            { path: "product", element: <Product /> },
             { path: "products", element: <Products /> },
             { path: "shops/:category", element: <Shops /> },
             { path: "*", element: <ErrorPage /> },
@@ -34,7 +35,9 @@ let routers = createBrowserRouter([
 function App() {
     return (
         <>
-            <RouterProvider router={routers}></RouterProvider>
+            <UserContextProvider>
+                <RouterProvider router={routers}></RouterProvider>
+            </UserContextProvider>
         </>
     );
 }
