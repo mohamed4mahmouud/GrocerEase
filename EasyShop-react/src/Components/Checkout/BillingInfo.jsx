@@ -1,26 +1,11 @@
-import React from "react";
-import { OrderSummery } from "./Order Summery";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useState } from "react";
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { OrderSummery } from "./Order Summery";
 
 export const BillingInfo = () => {
-    const initialValues = {
-        firstName: "",
-        lastName: "",
-        email: "",
-        address: "",
-        country: "",
-        state: "",
-        zip: "",
-        paymentMethod: "",
-        ccName: "",
-        ccNumber: "",
-        ccExpiration: "",
-        ccCvv: "",
-        notes: "",
-    };
-
     const validationSchema = Yup.object({
         firstName: Yup.string().required("Required"),
         lastName: Yup.string().required("Required"),
@@ -36,17 +21,65 @@ export const BillingInfo = () => {
         ccCvv: Yup.string().required("Required"),
     });
 
-    const handleSubmit = async (values, actions) => {
+    const stripe = useStripe();
+    const elements = useElements();
+    const [error, setError] = useState(null);
+
+    const paymentSubmit = async (values) => {
         try {
+            if (!stripe || !elements) {
+                return;
+            }
+
+            const { error, paymentMethod } = await stripe.createPaymentMethod({
+                type: "card",
+                card: elements.getElement(CardElement),
+            });
+
+            if (error) {
+                setError(error.message);
+                return;
+            }
+
             const response = await axios.post(
-                "http://127.0.0.1:8000/api/payment",
-                values
+                `http://127.0.0.1:8000/api/payment`,
+                {
+                    token: paymentMethod.id,
+                }
             );
-            console.log(response.data);
+            console.log(response);
+
+            if (response.data.success) {
+                console.log("Payment succeeded:", response.data);
+                // Redirect or show success message
+            } else {
+                console.error("Payment failed:", response.data.error);
+                setError("Payment failed. Please try again.");
+            }
         } catch (error) {
             console.error("Error:", error);
+            setError("Payment failed. Please try again.");
         }
     };
+    let formik = useFormik({
+        initialValues: {
+            firstName: "",
+            lastName: "",
+            email: "",
+            address: "",
+            country: "",
+            state: "",
+            zip: "",
+            paymentMethod: "",
+            ccName: "",
+            ccNumber: "",
+            ccExpiration: "",
+            ccCvv: "",
+            notes: "",
+        },
+        validationSchema,
+        onSubmit: paymentSubmit,
+    });
     return (
         <>
             <div className="checkout">
@@ -55,20 +88,16 @@ export const BillingInfo = () => {
                         <div className="row">
                             <OrderSummery />
                             <div className="col-md-8 order-md-1">
-                                <h4 className="mb-3 checkout">
-                                    Billing Information
-                                </h4>
-                                <Formik
-                                    initialValues={initialValues}
-                                    validationSchema={validationSchema}
-                                    onSubmit={handleSubmit}
+                                <h4 className="mb-3">Billing Information</h4>
+                                <form
+                                    className="needs-validation"
+                                    noValidate
+                                    onSubmit={formik.handleSubmit}
                                 >
-                                 {formik => (
-                                <form className="needs-validation" novalidate>
                                     <div className="row">
-                                        <div className="col-md-6 mb-3 checkout">
+                                        <div className="col-md-6 mb-3">
                                             <label
-                                                for="firstName"
+                                                htmlFor="firstName"
                                                 className="form-label"
                                             >
                                                 First name
@@ -77,17 +106,26 @@ export const BillingInfo = () => {
                                                 type="text"
                                                 className="form-control"
                                                 id="firstName"
+                                                name="firstName"
                                                 placeholder="Your first name"
-                                                value=""
+                                                value={formik.values.firstName}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
                                                 required
                                             />
-                                            <div className="invalid-feedback">
-                                                Valid first name is required.
-                                            </div>
+                                            {formik.touched.firstName &&
+                                                formik.errors.firstName && (
+                                                    <div className="invalid-feedback">
+                                                        {
+                                                            formik.errors
+                                                                .firstName
+                                                        }
+                                                    </div>
+                                                )}
                                         </div>
-                                        <div className="col-md-6 mb-3 checkout">
+                                        <div className="col-md-6 mb-3">
                                             <label
-                                                for="lastName"
+                                                htmlFor="lastName"
                                                 className="form-label"
                                             >
                                                 Last name
@@ -96,94 +134,129 @@ export const BillingInfo = () => {
                                                 type="text"
                                                 className="form-control"
                                                 id="lastName"
+                                                name="lastName"
                                                 placeholder="Your last name"
-                                                value=""
+                                                value={formik.values.lastName}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
                                                 required
                                             />
-                                            <div className="invalid-feedback">
-                                                Valid last name is required.
-                                            </div>
+                                            {formik.touched.lastName &&
+                                                formik.errors.lastName && (
+                                                    <div className="invalid-feedback">
+                                                        {formik.errors.lastName}
+                                                    </div>
+                                                )}
                                         </div>
-                                        <div className="mb-3 checkout">
+                                        <div className="mb-3">
                                             <label
-                                                for="email"
+                                                htmlFor="email"
                                                 className="form-label"
-                                                required
                                             >
-                                                Email{" "}
+                                                Email
                                             </label>
                                             <input
                                                 type="email"
                                                 className="form-control"
                                                 id="email"
+                                                name="email"
                                                 placeholder="you@example.com"
+                                                value={formik.values.email}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                required
                                             />
-                                            <div className="invalid-feedback">
-                                                Please enter a valid email
-                                                address for shipping updates.
-                                            </div>
+                                            {formik.touched.email &&
+                                                formik.errors.email && (
+                                                    <div className="invalid-feedback">
+                                                        {formik.errors.email}
+                                                    </div>
+                                                )}
                                         </div>
-                                    </div>
-                                    <div className="mb-3 checkout">
-                                        <label
-                                            for="address"
-                                            className="form-label"
-                                        >
-                                            Street Address
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="address"
-                                            placeholder="1234 Main St"
-                                            required
-                                        />
-                                        <div className="invalid-feedback">
-                                            Please enter your shipping address.
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="address"
+                                                className="form-label"
+                                            >
+                                                Street Address
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                id="address"
+                                                name="address"
+                                                placeholder="1234 Main St"
+                                                value={formik.values.address}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                required
+                                            />
+                                            {formik.touched.address &&
+                                                formik.errors.address && (
+                                                    <div className="invalid-feedback">
+                                                        {formik.errors.address}
+                                                    </div>
+                                                )}
                                         </div>
                                     </div>
                                     <div className="row">
-                                        <div className="col-md-5 mb-3 checkout">
+                                        <div className="col-md-5 mb-3">
                                             <label
-                                                for="country"
+                                                htmlFor="country"
                                                 className="form-label"
                                             >
                                                 Country / Region
                                             </label>
                                             <select
+                                                as="select"
                                                 className="form-select d-block w-100"
                                                 id="country"
+                                                name="country"
+                                                value={formik.values.country}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
                                                 required
                                             >
                                                 <option value="">Select</option>
                                                 <option>United States</option>
                                             </select>
-                                            <div className="invalid-feedback">
-                                                Please select a valid country.
-                                            </div>
+                                            {formik.touched.country &&
+                                                formik.errors.country && (
+                                                    <div className="invalid-feedback">
+                                                        {formik.errors.country}
+                                                    </div>
+                                                )}
                                         </div>
-                                        <div className="col-md-4 mb-3 checkout">
+                                        <div className="col-md-4 mb-3">
                                             <label
-                                                for="state"
+                                                htmlFor="state"
                                                 className="form-label"
                                             >
                                                 States
                                             </label>
                                             <select
+                                                as="select"
                                                 className="form-select d-block w-100"
                                                 id="state"
+                                                name="state"
+                                                value={formik.values.state}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
                                                 required
                                             >
                                                 <option value="">Select</option>
                                                 <option>California</option>
                                             </select>
-                                            <div className="invalid-feedback">
-                                                Please provide a valid state.
-                                            </div>
+                                            {formik.touched.state &&
+                                                formik.errors.state && (
+                                                    <div className="invalid-feedback">
+                                                        {formik.errors.state}
+                                                    </div>
+                                                )}
                                         </div>
-                                        <div className="col-md-3 mb-3 checkout">
+                                        <div className="col-md-3 mb-3">
                                             <label
-                                                for="zip"
+                                                htmlFor="zip"
                                                 className="form-label"
                                             >
                                                 Zip Code
@@ -192,183 +265,319 @@ export const BillingInfo = () => {
                                                 type="text"
                                                 className="form-control"
                                                 id="zip"
+                                                name="zip"
                                                 placeholder="Zip Code"
+                                                value={formik.values.zip}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
                                                 required
                                             />
-                                            <div className="invalid-feedback">
-                                                Zip code required.
+                                            {formik.touched.zip &&
+                                                formik.errors.zip && (
+                                                    <div className="invalid-feedback">
+                                                        {formik.errors.zip}
+                                                    </div>
+                                                )}
+                                        </div>
+                                        <div className="form-check">
+                                            <input
+                                                type="checkbox"
+                                                className="form-check-input"
+                                                id="same-address"
+                                                name="sameAddress"
+                                            />
+                                            <label
+                                                className="form-check-label"
+                                                htmlFor="same-address"
+                                            >
+                                                Ship to a different address
+                                            </label>
+                                        </div>
+                                        <hr className="mb-4" />
+                                        <h4 className="mb-3">
+                                            Additional Info
+                                        </h4>
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="notes"
+                                                className="form-label"
+                                            >
+                                                Order Notes{" "}
+                                                <span className="text-muted">
+                                                    (Optional)
+                                                </span>
+                                            </label>
+                                            <textarea
+                                                as="textarea"
+                                                className="form-control"
+                                                id="notes"
+                                                name="notes"
+                                                placeholder="Notes about your order, e.g. special notes for delivery"
+                                                value={formik.values.notes}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                            />
+                                            {formik.touched.notes &&
+                                                formik.errors.notes && (
+                                                    <div className="invalid-feedback">
+                                                        {formik.errors.notes}
+                                                    </div>
+                                                )}
+                                        </div>
+                                        <hr className="mb-4" />
+                                        <h4 className="mb-3">Payment</h4>
+                                        <div className="d-block my-3">
+                                            <div className="form-check">
+                                                <input
+                                                    type="radio"
+                                                    id="credit"
+                                                    name="paymentMethod"
+                                                    className="form-check-input"
+                                                    value={
+                                                        formik.values
+                                                            .paymentMethod
+                                                    }
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    onBlur={formik.handleBlur}
+                                                    required
+                                                />
+                                                {formik.touched.paymentMethod &&
+                                                    formik.errors
+                                                        .paymentMethod && (
+                                                        <div className="invalid-feedback">
+                                                            {
+                                                                formik.errors
+                                                                    .paymentMethod
+                                                            }
+                                                        </div>
+                                                    )}
+                                                <label
+                                                    className="form-check-label"
+                                                    htmlFor="credit"
+                                                >
+                                                    Credit card
+                                                </label>
+                                            </div>
+                                            <div className="form-check">
+                                                <input
+                                                    type="radio"
+                                                    id="paypal"
+                                                    name="paymentMethod"
+                                                    className="form-check-input"
+                                                    value={
+                                                        formik.values
+                                                            .paymentMethod
+                                                    }
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    onBlur={formik.handleBlur}
+                                                    required
+                                                />
+                                                {formik.touched.paymentMethod &&
+                                                    formik.errors
+                                                        .paymentMethod && (
+                                                        <div className="invalid-feedback">
+                                                            {
+                                                                formik.errors
+                                                                    .paymentMethod
+                                                            }
+                                                        </div>
+                                                    )}
+                                                <label
+                                                    className="form-check-label"
+                                                    htmlFor="paypal"
+                                                >
+                                                    Paypal
+                                                </label>
+                                            </div>
+                                            <div className="form-check">
+                                                <input
+                                                    type="radio"
+                                                    id="cash"
+                                                    name="paymentMethod"
+                                                    className="form-check-input"
+                                                    value={
+                                                        formik.values
+                                                            .paymentMethod
+                                                    }
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    onBlur={formik.handleBlur}
+                                                    required
+                                                />
+                                                {formik.touched.paymentMethod &&
+                                                    formik.errors
+                                                        .paymentMethod && (
+                                                        <div className="invalid-feedback">
+                                                            {
+                                                                formik.errors
+                                                                    .paymentMethod
+                                                            }
+                                                        </div>
+                                                    )}
+                                                <label
+                                                    className="form-check-label"
+                                                    htmlFor="cash"
+                                                >
+                                                    Cash on Delivery
+                                                </label>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="form-check">
-                                        <input
-                                            type="checkbox"
-                                            className="form-check-input"
-                                            id="same-address"
-                                        />
-                                        <label
-                                            className="form-check-label"
-                                            for="same-address"
-                                        >
-                                            Ship to a different address
-                                        </label>
-                                    </div>
-                                    <hr className="mb-4" />
-                                    <h4 className="mb-3">Additional Info</h4>
-                                    <div className="mb-3">
-                                        <label
-                                            for="address"
-                                            className="form-label"
-                                        >
-                                            Order Notes{" "}
-                                            <span className="text-muted">
-                                                (Optional)
-                                            </span>
-                                        </label>
-                                        <textarea
-                                            className="form-control"
-                                            id="notes"
-                                            placeholder="Notes about your order, e.g. special notes for delivery"
-                                        ></textarea>
-                                    </div>
-                                    <hr className="mb-4" />
-                                    <h4 class="mb-3">Payment</h4>
-                                    <div class="d-block my-3">
-                                        <div class="form-check">
-                                            <input
-                                                id="credit"
-                                                name="paymentMethod"
-                                                type="radio"
-                                                class="form-check-input"
-                                                checked
-                                                required
-                                            />
-                                            <label
-                                                class="form-check-label"
-                                                for="credit"
-                                            >
-                                                Credit card
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input
-                                                id="debit"
-                                                name="paymentMethod"
-                                                type="radio"
-                                                class="form-check-input"
-                                                required
-                                            />
-                                            <label
-                                                class="form-check-label"
-                                                for="debit"
-                                            >
-                                                Paypal
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input
-                                                id="paypal"
-                                                name="paymentMethod"
-                                                type="radio"
-                                                class="form-check-input"
-                                                required
-                                            />
-                                            <label
-                                                class="form-check-label"
-                                                for="paypal"
-                                            >
-                                                Cash on Delivery
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label
-                                                for="cc-name"
-                                                class="form-label"
-                                            >
-                                                Name on card
-                                            </label>
-                                            <input
-                                                type="text"
-                                                class="form-control"
-                                                id="cc-name"
-                                                placeholder=""
-                                                required
-                                            />
-                                            <small class="text-muted">
-                                                Full name as displayed on card
-                                            </small>
-                                            <div class="invalid-feedback">
-                                                Name on card is required
+                                        <div className="row">
+                                            <div className="col-md-6 mb-3">
+                                                <label
+                                                    htmlFor="cc-name"
+                                                    className="form-label"
+                                                >
+                                                    Name on card
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    id="cc-name"
+                                                    name="ccName"
+                                                    placeholder=""
+                                                    value={formik.values.ccName}
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    onBlur={formik.handleBlur}
+                                                    required
+                                                />
+                                                {formik.touched.ccName &&
+                                                    formik.errors.ccName && (
+                                                        <div className="invalid-feedback">
+                                                            {
+                                                                formik.errors
+                                                                    .ccName
+                                                            }
+                                                        </div>
+                                                    )}
+                                                <small className="text-muted">
+                                                    Full name as displayed on
+                                                    card
+                                                </small>
+                                            </div>
+                                            <div className="col-md-6 mb-3">
+                                                <label
+                                                    htmlFor="cc-number"
+                                                    className="form-label"
+                                                >
+                                                    Credit card number
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    id="cc-number"
+                                                    name="ccNumber"
+                                                    placeholder=""
+                                                    value={
+                                                        formik.values.ccNumber
+                                                    }
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    onBlur={formik.handleBlur}
+                                                    required
+                                                />
+                                                {formik.touched.ccNumber &&
+                                                    formik.errors.ccNumber && (
+                                                        <div className="invalid-feedback">
+                                                            {
+                                                                formik.errors
+                                                                    .ccNumber
+                                                            }
+                                                        </div>
+                                                    )}
                                             </div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label
-                                                for="cc-number"
-                                                class="form-label"
-                                            >
-                                                Credit card number
-                                            </label>
-                                            <input
-                                                type="text"
-                                                class="form-control"
-                                                id="cc-number"
-                                                placeholder=""
-                                                required
-                                            />
-                                            <div class="invalid-feedback">
-                                                Credit card number is required
+                                        <div className="row">
+                                            <div className="col-md-3 mb-3">
+                                                <label
+                                                    htmlFor="cc-expiration"
+                                                    className="form-label"
+                                                >
+                                                    Expiration
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    id="cc-expiration"
+                                                    name="ccExpiration"
+                                                    placeholder=""
+                                                    value={
+                                                        formik.values
+                                                            .ccExpiration
+                                                    }
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    onBlur={formik.handleBlur}
+                                                    required
+                                                />
+                                                {formik.touched.ccExpiration &&
+                                                    formik.errors
+                                                        .ccExpiration && (
+                                                        <div className="invalid-feedback">
+                                                            {
+                                                                formik.errors
+                                                                    .ccExpiration
+                                                            }
+                                                        </div>
+                                                    )}
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3 mb-3">
-                                            <label
-                                                for="cc-expiration"
-                                                class="form-label"
-                                            >
-                                                Expiration
-                                            </label>
-                                            <input
-                                                type="text"
-                                                class="form-control"
-                                                id="cc-expiration"
-                                                placeholder=""
-                                                required
-                                            />
-                                            <div class="invalid-feedback">
-                                                Expiration date required
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 mb-3">
-                                            <label
-                                                for="cc-expiration"
-                                                class="form-label"
-                                            >
-                                                CVV
-                                            </label>
-                                            <input
-                                                type="text"
-                                                class="form-control"
-                                                id="cc-cvv"
-                                                placeholder=""
-                                                required
-                                            />
-                                            <div class="invalid-feedback">
-                                                Security code required
+                                            <div className="col-md-3 mb-3">
+                                                <label
+                                                    htmlFor="cc-cvv"
+                                                    className="form-label"
+                                                >
+                                                    CVV
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    id="cc-cvv"
+                                                    name="ccCvv"
+                                                    placeholder=""
+                                                    value={formik.values.ccCvv}
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    onBlur={formik.handleBlur}
+                                                    required
+                                                />
+
+                                                {formik.touched.ccCvv &&
+                                                    formik.errors.ccCvv && (
+                                                        <div className="invalid-feedback">
+                                                            {
+                                                                formik.errors
+                                                                    .ccCvv
+                                                            }
+                                                        </div>
+                                                    )}
                                             </div>
                                         </div>
                                     </div>
                                     <button
-                                        class="btn px-4 rounded-pill greencart text-white fw-medium"
-                                        type="button"
+                                        className="btn px-4 rounded-pill greencart text-white fw-medium"
+                                        type="submit"
+                                        // disabled={
+                                        //     !(formik.isValid && formik.dirty)
+                                        // }
                                     >
                                         Place Order
                                     </button>
+                                    {error && (
+                                        <div className="text-danger mt-3">
+                                            {error}
+                                        </div>
+                                    )}
                                 </form>
-                                )}
-                                </Formik>
                             </div>
                         </div>
                     </div>
