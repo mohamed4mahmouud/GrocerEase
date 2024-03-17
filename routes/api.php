@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ShopsController;
 use App\Http\Controllers\ProductsController;
 
@@ -44,6 +45,10 @@ Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->delete('/delete-cate
 Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->post('/add-categories',[CategoryController::class , 'addCategory']);
 Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->put('/update-category/{category}',[CategoryController::class,  'updateCategory']);
 
-Route::middleware(['auth:sanctum'])->get('/user/profile',[UsersController::class,'show']);
-Route::middleware(['auth:sanctum'])->put('/user/profile/edit', [UsersController::class, 'edit']);
-Route::post('/payment', [StripeController::class, 'processPayment']);
+Route::post('/payment', [OrdersController::class, 'processPayment']);
+Route::middleware("auth:sanctum")->group(function(){
+    Route::get('/user/profile',[UsersController::class,'show']);
+    Route::put('/user/profile/edit', [UsersController::class, 'edit']);
+    Route::post('/orders',[OrdersController::class,'getAllOrders']);
+    Route::get('/orders/{id?}',[OrdersController::class,'getOrderById']);
+});
