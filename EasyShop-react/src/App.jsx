@@ -12,6 +12,7 @@ import { SignUp } from "./Components/Register/SignUp";
 import { Checkout } from "./Components/Checkout/Checkout";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Shops from "./Components/Shops/Shops";
+import PaymentContextProvider from "./Context/paymentContext";
 
 let routers = createBrowserRouter([
     {
@@ -27,7 +28,7 @@ let routers = createBrowserRouter([
             { path: "product", element: <Product /> },
             { path: "products", element: <Products /> },
             { path: "shops/:category", element: <Shops /> },
-            // { path: "Checkout", element: <Checkout /> },
+            { path: "Checkout", element: <Checkout /> },
             { path: "*", element: <ErrorPage /> },
         ],
     },
@@ -37,6 +38,9 @@ function App() {
     return (
         <>
             <RouterProvider router={routers}></RouterProvider>
+            <PaymentContextProvider>
+                <Checkout />
+            </PaymentContextProvider>
         </>
     );
 }
