@@ -34,7 +34,15 @@ Route::get('/products/{id}', [ProductsController::class, 'getProductById']);
 Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->post('/addproducts', [ProductsController::class, 'create']);
 Route::middleware(['auth:sanctum'])->put('/updateproducts/{id}', [ProductsController::class, 'updateById']);
 Route::middleware(['auth:sanctum'])->delete('/deleteproduct/{id}', [ProductsController::class, 'deleteproduct']);
-Route::get('/product/{id}' , [ProductsController::class ,'addProductToCart']);
+
+
+//Cart Routes
+Route::middleware(['auth:sanctum'])->post('/add-to-cart' , [ProductsController::class ,'addProductToCart']);
+Route::middleware(['auth:sanctum'])->get('/get-cart' , [ProductsController::class ,'getLoggedUserCart']);
+Route::middleware(['auth:sanctum'])->delete('/delete-product-cart/{id}' , [ProductsController::class ,'deleteCartItem']);
+Route::middleware(['auth:sanctum'])->delete('/clear-cart' , [ProductsController::class ,'clearCart']);
+
+
 
 Route::get('/shops/{shopCategory}',[ShopsController::class,'getCategorizedShops']);
 Route::get('/shops',[ShopsController::class,'getAllShops']);

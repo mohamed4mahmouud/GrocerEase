@@ -8,7 +8,10 @@ export function getProducts() {
 }
 
 export async function addToCart (product){
-   let res = await axios.get(`http://127.0.0.1:8000/api/product/${product.id}`);
+    let data = {
+        'product_id':product.id
+    }
+   let res = await axios.post(`http://127.0.0.1:8000/api/auth/add-to-cart`,data);
    console.log(res);
 }
 
