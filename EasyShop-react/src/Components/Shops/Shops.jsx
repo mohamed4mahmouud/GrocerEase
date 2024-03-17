@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import FilterShops from '../FilterShops/FilterShops'
+import React, { useState } from 'react';
+import FilterShops from '../FilterShops/FilterShops';
 import { useQuery } from "react-query";
 import axios from "axios";
 import { Link } from 'react-router-dom';
@@ -13,16 +13,24 @@ import { useParams } from "react-router-dom";
 
     export default function Shops() {
         const { category } = useParams();
-        console.log(category);
         let {isLoading , data} = useQuery("getShops",() =>  getShops(category));
         const [ratingFilter, setRatingFilter] = useState(null);
+        const [filteredShops , SetFilteredShops] = useState(null);
          
-        const onRatingChange = (rating) => {
-            console.log("Filtering by rating:", rating);
+        const onRatingChange =  (rating) => {      
             
-            setRatingFilter(rating);
+            if (rating === 1) {
+              const sortedShops = data?.data.shops.sort((a, b) => b.rating - a.rating);
+              SetFilteredShops(sortedShops);
+              setRatingFilter(1);
+            }
+            else{
+            setRatingFilter(null);
+            SetFilteredShops(null)
+            }
+           
         };
-
+        
     return <>
         <div className="container-fluid">
             <div className="row">
@@ -42,7 +50,7 @@ import { useParams } from "react-router-dom";
                 ) : (
                     <div className="container py-2">
                         <div className="row row-cols-5 g-6">
-                            {(ratingFilter == 1? data?.data.filteredShops : data?.data.shops).map((shop) => (
+                            { (ratingFilter == 1 ? filteredShops : data?.data.shops).map((shop) => (
                                 <div key={shop.id} className="col-md-2">
                                     <Link
                                         className={`cursor-pointer py-3 px-2 card  ${Style.card} h-100 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-0-hover`}

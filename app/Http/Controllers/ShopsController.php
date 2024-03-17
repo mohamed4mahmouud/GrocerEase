@@ -20,12 +20,7 @@ class ShopsController extends Controller
     public function getCategorizedShops(string $shopCategory){
 
         $shops = Shop::where('category' ,$shopCategory)->get();
-        $filteredShops = Shop::where('category' ,$shopCategory)->orderBy('rating','desc')->get();
-
-        return response()->json([
-            'shops'=> $shops,
-            'filteredShops'=>$filteredShops
-
-        ],200);
+        
+        return $this->returnData('shops', $shops, 'Success');
     }
 }

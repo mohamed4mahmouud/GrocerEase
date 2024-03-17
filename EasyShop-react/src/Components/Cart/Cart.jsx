@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import style from './Cart.module.css'
+import { Link } from 'react-router-dom';
 
 const PlusMinusCounter = () => {
   const [count, setCount] = useState(1);
@@ -107,7 +108,7 @@ export default function Cart() {
             </tbody>
           </table>
               <div className={`${style.cartFooter} card-footer d-flex justify-content-between`}>
-                <button className={`${style.cartButton} rounded-5`}>Return to shop</button>
+                <Link to="/products" className={`${style.cartButton} rounded-5`}>Return to shop</Link>
                 <button className={`${style.cartButton} rounded-5`}>Update Cart</button>
               </div>
             </div>
