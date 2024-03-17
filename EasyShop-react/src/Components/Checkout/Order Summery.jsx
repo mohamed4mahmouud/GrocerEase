@@ -45,7 +45,7 @@ export const OrderSummery = () => {
                             <span>Subtotal:</span>
                             <span className="text-muted">$20.00</span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between">
+                        <li className="list-group-item d-flex justify-content-between">
                             <span>Shipping:</span>
                             <span className="text-muted">Free</span>
                         </li>

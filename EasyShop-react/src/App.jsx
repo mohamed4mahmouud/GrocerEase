@@ -37,9 +37,8 @@ let routers = createBrowserRouter([
 function App() {
     return (
         <>
-            <RouterProvider router={routers}></RouterProvider>
             <PaymentContextProvider>
-                <Checkout />
+                <RouterProvider router={routers}></RouterProvider>
             </PaymentContextProvider>
         </>
     );

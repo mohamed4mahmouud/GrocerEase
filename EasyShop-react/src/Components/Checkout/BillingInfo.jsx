@@ -1,11 +1,23 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { OrderSummery } from "./Order Summery";
+import { PaymentContext } from "../../Context/paymentContext";
 
 export const BillingInfo = () => {
+    let { stripePayment } = useContext(PaymentContext);
+
+    async function paymentSubmit(values) {
+        let response = await stripePayment(
+            "13",
+            "http://localhost:3000",
+            values
+        );
+        console.log(response?.data.session.url);
+        window.location.href = response?.data.session.url;
+    }
+
     const validationSchema = Yup.object({
         firstName: Yup.string().required("Required"),
         lastName: Yup.string().required("Required"),
@@ -15,52 +27,12 @@ export const BillingInfo = () => {
         state: Yup.string().required("Required"),
         zip: Yup.string().required("Required"),
         paymentMethod: Yup.string().required("Required"),
-        ccName: Yup.string().required("Required"),
-        ccNumber: Yup.string().required("Required"),
-        ccExpiration: Yup.string().required("Required"),
-        ccCvv: Yup.string().required("Required"),
+        // ccName: Yup.string().required("Required"),
+        // ccNumber: Yup.string().required("Required"),
+        // ccExpiration: Yup.string().required("Required"),
+        // ccCvv: Yup.string().required("Required"),
     });
 
-    const stripe = useStripe();
-    const elements = useElements();
-    const [error, setError] = useState(null);
-
-    const paymentSubmit = async (values) => {
-        try {
-            if (!stripe || !elements) {
-                return;
-            }
-
-            const { error, paymentMethod } = await stripe.createPaymentMethod({
-                type: "card",
-                card: elements.getElement(CardElement),
-            });
-
-            if (error) {
-                setError(error.message);
-                return;
-            }
-
-            const response = await axios.post(
-                `http://127.0.0.1:8000/api/payment`,
-                {
-                    token: paymentMethod.id,
-                }
-            );
-            console.log(response);
-
-            if (response.data.success) {
-                console.log("Payment succeeded:", response.data);
-                // Redirect or show success message
-            } else {
-                console.error("Payment failed:", response.data.error);
-                setError("Payment failed. Please try again.");
-            }
-        } catch (error) {
-            console.error("Error:", error);
-            setError("Payment failed. Please try again.");
-        }
-    };
     let formik = useFormik({
         initialValues: {
             firstName: "",
@@ -71,11 +43,11 @@ export const BillingInfo = () => {
             state: "",
             zip: "",
             paymentMethod: "",
-            ccName: "",
-            ccNumber: "",
-            ccExpiration: "",
-            ccCvv: "",
-            notes: "",
+            // ccName: "",
+            // ccNumber: "",
+            // ccExpiration: "",
+            // ccCvv: "",
+            // notes: "",
         },
         validationSchema,
         onSubmit: paymentSubmit,
@@ -89,11 +61,7 @@ export const BillingInfo = () => {
                             <OrderSummery />
                             <div className="col-md-8 order-md-1">
                                 <h4 className="mb-3">Billing Information</h4>
-                                <form
-                                    className="needs-validation"
-                                    noValidate
-                                    onSubmit={formik.handleSubmit}
-                                >
+                                <form onSubmit={formik.handleSubmit}>
                                     <div className="row">
                                         <div className="col-md-6 mb-3">
                                             <label
@@ -427,7 +395,7 @@ export const BillingInfo = () => {
                                                 </label>
                                             </div>
                                         </div>
-                                        <div className="row">
+                                        {/* <div className="row">
                                             <div className="col-md-6 mb-3">
                                                 <label
                                                     htmlFor="cc-name"
@@ -560,8 +528,8 @@ export const BillingInfo = () => {
                                                             }
                                                         </div>
                                                     )}
-                                            </div>
-                                        </div>
+                                            </div> */}
+                                        {/* </div> */}
                                     </div>
                                     <button
                                         className="btn px-4 rounded-pill greencart text-white fw-medium"
@@ -572,11 +540,11 @@ export const BillingInfo = () => {
                                     >
                                         Place Order
                                     </button>
-                                    {error && (
+                                    {/* {error && (
                                         <div className="text-danger mt-3">
                                             {error}
                                         </div>
-                                    )}
+                                    )} */}
                                 </form>
                             </div>
                         </div>
