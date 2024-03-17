@@ -1,54 +1,63 @@
-import React, { useEffect, useState }from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import styles from "./Navbar.module.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { userContext } from "../../Context/UserContext";
 
 export default function Navbar() {
+    let { token, setToken } = useContext(userContext);
+    let navigate = useNavigate();
+    function logOut() {
+        localStorage.setItem("userToken", null);
+        setToken(null);
+        navigate("/login");
+    }
 
-    const [wordEntered ,SetWordEnterd ] = useState("");
-    const [filterdData , SetFilteredData] = useState([]);
+    const [wordEntered, SetWordEnterd] = useState("");
+    const [filterdData, SetFilteredData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
- 
-  //seacrh function
-  const [allProducts , SetAllProducts] = useState([]);
-  useEffect(()=>{
-    const getProducts = async()=>{
-      const products = await fetch("http://127.0.0.1:8000/api/allData");
-      const setProducts = await products.json();
-      SetAllProducts({
-       products: await setProducts.products,
-       shops: await setProducts.shops
-    });
-    setIsLoading(false);
-    };
-    getProducts();
-  }, [])
 
-    const handleFilter = (event) =>
-    {
+    //seacrh function
+    const [allProducts, SetAllProducts] = useState([]);
+    useEffect(() => {
+        const getProducts = async () => {
+            const products = await fetch("http://127.0.0.1:8000/api/allData");
+            const setProducts = await products.json();
+            SetAllProducts({
+                products: await setProducts.products,
+                shops: await setProducts.shops,
+            });
+            setIsLoading(false);
+        };
+        getProducts();
+    }, []);
+
+    const handleFilter = (event) => {
         const searchProduct = event.target.value;
-      
+
         SetWordEnterd(searchProduct);
 
-        if(!isLoading){
-        const productFilter = allProducts.products.filter((value)=>{
-            return value.title.toLowerCase().includes(searchProduct.toLowerCase())
-        })
-        const shopFilter = allProducts.shops.filter((value)=>{
-            return value.name.toLowerCase().includes(searchProduct.toLowerCase())
-            
-        })
-    
-        const allData = [...productFilter , ...shopFilter]
-        if(searchProduct === ""){
-            SetFilteredData([])
+        if (!isLoading) {
+            const productFilter = allProducts.products.filter((value) => {
+                return value.title
+                    .toLowerCase()
+                    .includes(searchProduct.toLowerCase());
+            });
+            const shopFilter = allProducts.shops.filter((value) => {
+                return value.name
+                    .toLowerCase()
+                    .includes(searchProduct.toLowerCase());
+            });
+
+            const allData = [...productFilter, ...shopFilter];
+            if (searchProduct === "") {
+                SetFilteredData([]);
+            } else {
+                SetFilteredData(allData);
+            }
         }
-        else{
-            SetFilteredData(allData);
-        }
-    }
-    }
+    };
 
     return (
         <>
@@ -136,48 +145,69 @@ export default function Navbar() {
                                     placeholder="What do you need?"
                                     value={wordEntered}
                                     onChange={handleFilter}
-                                    
                                 />
                                 <i className="fa-solid fa-magnifying-glass ps-3 pb-2 txtsearchbar"></i>
                             </div>
                         </ul>
-                        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                            <li className="nav-item">
-                                <Link className="nav-link bgnavbar" to="/login">
-                                    Login
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link
-                                    className="nav-link bgnavbar"
-                                    to="/register"
-                                >
-                                    SignUp
-                                </Link>
-                            </li>
-                        </ul>
+                        {token !== null ? (
+                            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                                <li className="nav-item">
+                                    <span
+                                        className="nav-link bgnavbar cursor-pointer"
+                                        onClick={logOut}
+                                    >
+                                        LogOut
+                                    </span>
+                                </li>
+                            </ul>
+                        ) : (
+                            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                                <li className="nav-item">
+                                    <Link
+                                        className="nav-link bgnavbar"
+                                        to="/login"
+                                    >
+                                        Login
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link
+                                        className="nav-link bgnavbar"
+                                        to="/register"
+                                    >
+                                        SignUp
+                                    </Link>
+                                </li>
+                            </ul>
+                        )}
                     </div>
                 </div>
             </nav>
             {/* TODO: Handle search result appearnace */}
-            {wordEntered &&
-            isLoading ? (
-        <div>Loading...</div> // Show loading spinner while fetching data
-      ) :
-            filterdData.length !== 0 && (
+            {wordEntered && isLoading ? (
+                <div>Loading...</div> // Show loading spinner while fetching data
+            ) : (
+                filterdData.length !== 0 && (
                     <div className="dataResult">
-                      {filterdData.slice(0, 15).map((value, index) => {
-                        return (
-                        <div className={`${styles.list} ${styles.borderBottom}`} key={index}>
-                            <div className="d-flex flex-column ml-3">
-                              <span>{value.title?value.title:value.name}</span>
-                            </div>                   
-                        </div>
-                        );
-                      })}
+                        {filterdData.slice(0, 15).map((value, index) => {
+                            return (
+                                <div
+                                    className={`${styles.list} ${styles.borderBottom}`}
+                                    key={index}
+                                >
+                                    <div className="d-flex flex-column ml-3">
+                                        <span>
+                                            {value.title
+                                                ? value.title
+                                                : value.name}
+                                        </span>
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
-                )}
-        
+                )
+            )}
         </>
     );
 }
