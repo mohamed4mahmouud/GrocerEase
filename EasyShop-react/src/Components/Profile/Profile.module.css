@@ -1,0 +1,16 @@
+.active{
+    background-color: var(--selected-color) !important;
+    border-left: 3px solid #20B526 !important;
+    border-radius: 0 !important;
+    color: var(--darkblue-color) !important;;
+}
+.listContainer{
+    border: 0 !important;
+}
+
+.orange{
+    color: var(--rating-color);
+}
+.cardHeader{
+    background-color: white;
+}
