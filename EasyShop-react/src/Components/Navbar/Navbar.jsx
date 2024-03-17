@@ -1,12 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import styles from "./Navbar.module.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { userContext } from "../../Context/UserContext";
 
 export default function Navbar() {
-    const { token } = useContext(userContext);
+    let { token, setToken } = useContext(userContext);
+    let navigate = useNavigate();
+    function logOut() {
+        localStorage.setItem("userToken", null);
+        setToken(null);
+        navigate("/login");
+    }
 
     const [wordEntered, SetWordEnterd] = useState("");
     const [filterdData, SetFilteredData] = useState([]);
@@ -143,12 +149,15 @@ export default function Navbar() {
                                 <i className="fa-solid fa-magnifying-glass ps-3 pb-2 txtsearchbar"></i>
                             </div>
                         </ul>
-                        {token ? (
+                        {token !== null ? (
                             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                                 <li className="nav-item">
-                                    <Link className="nav-link bgnavbar" to="#">
+                                    <span
+                                        className="nav-link bgnavbar cursor-pointer"
+                                        onClick={logOut}
+                                    >
                                         LogOut
-                                    </Link>
+                                    </span>
                                 </li>
                             </ul>
                         ) : (

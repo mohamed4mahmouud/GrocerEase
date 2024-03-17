@@ -11,7 +11,9 @@ import Profile from "./Components/Profile/Profile";
 import { SignUp } from "./Components/Register/SignUp";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Shops from "./Components/Shops/Shops";
-import UserContextProvider from "./Context/UserContext";
+import UserContextProvider, { userContext } from "./Context/UserContext";
+import axios from "axios";
+import { useContext } from "react";
 
 let routers = createBrowserRouter([
     {
@@ -31,6 +33,11 @@ let routers = createBrowserRouter([
         ],
     },
 ]);
+let token = localStorage.getItem("userToken");
+axios.interceptors.request.use((config) => {
+    config.headers.Authorization = `Bearer ${token}`;
+    return config;
+});
 
 function App() {
     return (
