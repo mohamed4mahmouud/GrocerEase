@@ -8,6 +8,7 @@ use Stripe\PaymentIntent;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 use App\Http\Requests\OrderValidation;
+use App\Models\Cart;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class OrdersController extends Controller
@@ -44,7 +45,8 @@ class OrdersController extends Controller
     {
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
         //Get Order by its id
-        $products = Order::find(1)->cart;
+        $products = Cart::find(13)->products;
+        // return response()->json($products);
         $lineItems = [];                       
         $totalPrice = 0;
         foreach ($products as $product) {
@@ -53,25 +55,30 @@ class OrdersController extends Controller
                 'price_data' => [
                     'currency' => 'usd',
                     'product_data' => [
-                        'name' => $product->name,
-                        'images' => [$product->image]
+                        'name' => $product->title,
                     ],
                     'unit_amount' => $product->price * 100,
                 ],
-                'quantity' => 1,
+                'quantity' => $product->quantity,
             ];
         }
         $session = \Stripe\Checkout\Session::create([
             'line_items' => $lineItems,
             'mode' => 'payment',
-            'success_url' => route('checkout.success', [], true) . "?session_id={CHECKOUT_SESSION_ID}",
+            'success_url' => route('checkout.success', [], true) ."?session_id={CHECKOUT_SESSION_ID}",
             'cancel_url' => route('checkout.cancel', [], true),
         ]);
 
         $order = new Order();
-        $order->status = 'unpaid';
-        $order->total_price = $totalPrice;
+        $order->status = 'new';
+        $order->shipping_address="ezayk 3amle eh";
+        $order->shipping_date=now();
+        $order->price = $totalPrice;
         $order->session_id = $session->id;
+        //TODO :set user ID dynamically
+
+        $order->user_id = 8;
+        $order->shop_id = 1;
         $order->save();
 
         return redirect($session->url);
@@ -85,20 +92,20 @@ class OrdersController extends Controller
         try {
             $session = \Stripe\Checkout\Session::retrieve($sessionId);
             if (!$session) {
-                throw new NotFoundHttpException;
+                return response()->json(["msg"=>"session not found"]);
             }
             // $customer = \Stripe\Customer::retrieve($session->customer);
-
+            
             $order = Order::where('session_id', $session->id)->first();
             if (!$order) {
-                throw new NotFoundHttpException();
+                return response()->json(["msg"=>"order with that session not found"]);
             }
-            if ($order->status === 'unpaid') {
-                $order->status = 'paid';
+            if ($order->status === 'new') {
+                $order->status = 'payment received';
                 $order->save();
             }
 
-            return view('products.checkout-success');
+            return view('success');
         } catch (\Exception $e) {
             throw new NotFoundHttpException();
         }
@@ -132,8 +139,8 @@ class OrdersController extends Controller
                 $session = $event->data->object;
 
                 $order = Order::where('session_id', $session->id)->first();
-                if ($order && $order->status === 'unpaid') {
-                    $order->status = 'paid';
+                if ($order && $order->status === 'new') {
+                    $order->status = 'payment received';
                     $order->save();
                     // Send email to customer
                 }
