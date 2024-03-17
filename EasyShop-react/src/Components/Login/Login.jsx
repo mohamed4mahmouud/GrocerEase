@@ -27,13 +27,12 @@ export default function Login() {
             .post(`http://localhost:8000/api/auth/login`, values)
             .catch((err) => {
                 setisLoading(false);
-                setError(err.response.data.msg);
+                setError(err.response.data.message);
             });
-
-        let token = data.accessToken.split("|")[1];
 
         if (data.msg === "success") {
             setisLoading(false);
+            let token = data.accessToken.split("|")[1];
             localStorage.setItem("userToken", token);
             navigate("/");
         }
@@ -140,6 +139,11 @@ export default function Login() {
                                 )}
                                 &#8594;
                             </button>
+                            {error ? (
+                                <div className="alert alert alert-danger p-2 mt-2">
+                                    {error}
+                                </div>
+                            ) : null}
                         </form>
                     </div>
                     <div className="text-center ">
