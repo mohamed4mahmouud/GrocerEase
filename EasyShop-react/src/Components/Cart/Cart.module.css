@@ -1,0 +1,35 @@
+.coupon {
+    background-color: var(--darkblue-color);
+    border: 0;
+}
+
+.cartText{
+    color: var(--darkgray-color);
+}
+
+.mainColor{
+    background-color: var(--main-color) !important;
+    border: 0 !important;
+}
+
+.counterButton{
+    border: 0;
+    outline: 0;
+    min-width: 30px !important;
+    background-color: var(--lightgray-color);
+}
+.cartButton{
+    border: 0;
+    background-color: var(--lightgray-color);
+    width: 9rem;
+    height: 2rem;
+}
+.cartFooter{
+    background-color: white;
+}
+.productImg{
+    width: 40%;
+}
+.ttt{
+    border-bottom: 1px solid bl;
+}
