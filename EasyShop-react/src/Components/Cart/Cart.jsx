@@ -9,15 +9,32 @@ export async function getCart(){
   return await axios.get(`http://127.0.0.1:8000/api/get-cart`);
 }
 
-const PlusMinusCounter = (quantity) => {
+// update quantity function
+async function updateQuantity(product_id,quantity){
+  let data ={
+    "product_id":product_id,
+    "quantity":quantity
+  }
+  let res = await axios.post(`http://127.0.0.1:8000/api/update-quantity`,data);
+  console.log(res);
+  
+}
+
+const  PlusMinusCounter = ({ quantity, onQuantityChange }) => {
   const [count, setCount] = useState(quantity.quantity);
 
   const increment = () => {
-    setCount(count + 1);
+    const newCount = count+1
+    setCount(newCount);
+    onQuantityChange(newCount);
   };
 
   const decrement = () => {
-    setCount(count - 1);
+    if (count > 1) {
+      const newCount = count - 1;
+      setCount(newCount);
+      onQuantityChange(newCount);
+    }
   };
   
   return (
@@ -37,7 +54,10 @@ const PlusMinusCounter = (quantity) => {
 
 export default function Cart() {
   let { isLoading , data } = useQuery("getCart",getCart);
-  // console.log(data?.data.cart);
+
+  const handleQuantityChange = async (productId, newQuantity) => {
+    await updateQuantity(productId, newQuantity);
+  };
   return (
     <>
     {isLoading ? (
@@ -63,8 +83,8 @@ export default function Cart() {
                 <th>SUBTOTAL</th>
               </tr>
             </thead>
-            {data?.data.cart.map((cartItem) => (
-            <tbody className='text-start'>
+            {data?.data.cart.map((cartItem, index) => (
+            <tbody className='text-start' key={index}>
               <tr className='border'>
                 <td style={{ width: '40%',paddingLeft: '20px' }}>
                   <img src="../../images/productTest.png" alt="product" className={`${style.productImg}`}/>
@@ -72,7 +92,8 @@ export default function Cart() {
                 </td>
                 <td>{cartItem.price}</td>
                 <td> 
-                  <PlusMinusCounter quantity={cartItem.quantity}/>
+                  <PlusMinusCounter quantity={cartItem.quantity}
+                  onQuantityChange={(newQuantity) => handleQuantityChange(cartItem.product_id, newQuantity)}/>
                 </td>
                 {/* TODO:calculate total price */}
                 <td>{cartItem.price}</td>
