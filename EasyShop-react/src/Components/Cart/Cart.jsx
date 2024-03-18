@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import style from './Cart.module.css'
 
@@ -21,7 +21,7 @@ const PlusMinusCounter = () => {
           <div className="d-flex justify-content-center align-items-center border rounded-pill"  style={{height:"40px",width:"110px"}}>
             <button onClick={decrement} className={`${style.counterButton} rounded-5`}>-</button>
             <span className="mx-3">{count}</span>
-            <button onClick={increment} className={`${style.counterButton} rounded-5`}>+</button> 
+            <button onClick={increment} className={`${style.counterButton} rounded-5`}>+</button>
           </div>
         </div>
       </div>
@@ -53,7 +53,7 @@ export default function Cart() {
                   <span>Green Felfel</span>
                 </td>
                 <td>12412</td>
-                <td> 
+                <td>
                   <PlusMinusCounter />
                 </td>
                 <td>235235</td>
@@ -72,7 +72,7 @@ export default function Cart() {
                   <span>Green Felfel</span>
                 </td>
                 <td>12412</td>
-                <td> 
+                <td>
                   <PlusMinusCounter />
                 </td>
                 <td>235235</td>
@@ -91,7 +91,7 @@ export default function Cart() {
                   <span>Green Felfel</span>
                 </td>
                 <td>12412</td>
-                <td> 
+                <td>
                   <PlusMinusCounter />
                 </td>
                 <td>235235</td>
@@ -143,7 +143,7 @@ export default function Cart() {
             </div>
           </div>
         </div>
-      </div> 
+      </div>
     </Fragment>
   );
 }
