@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment } from 'react'
 import style from './Profile.module.css'
 import { Link } from "react-router-dom";
 import ProfileNav from './ProfileNav/ProfileNav';
