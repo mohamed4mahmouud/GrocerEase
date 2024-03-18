@@ -11,7 +11,7 @@ export async function addToCart (product){
     let data = {
         'product_id':product.id
     }
-   let res = await axios.post(`http://127.0.0.1:8000/api/auth/add-to-cart`,data);
+   let res = await axios.post(`http://127.0.0.1:8000/api/add-to-cart`,data);
    console.log(res);
 }
 

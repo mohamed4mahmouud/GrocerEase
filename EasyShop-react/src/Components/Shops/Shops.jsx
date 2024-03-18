@@ -30,7 +30,7 @@ import { useParams } from "react-router-dom";
             }
            
         };
-        
+        console.log(ratingFilter);
     return <>
         <div className="container-fluid">
             <div className="row">
