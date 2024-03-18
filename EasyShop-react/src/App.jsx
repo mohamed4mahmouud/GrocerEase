@@ -13,6 +13,9 @@ import { Checkout } from "./Components/Checkout/Checkout";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Shops from "./Components/Shops/Shops";
 import PaymentContextProvider from "./Context/paymentContext";
+import UserContextProvider, { userContext } from "./Context/UserContext";
+import axios from "axios";
+import { useContext } from "react";
 
 let routers = createBrowserRouter([
     {
@@ -33,13 +36,21 @@ let routers = createBrowserRouter([
         ],
     },
 ]);
+let token = localStorage.getItem("userToken");
+axios.interceptors.request.use((config) => {
+    config.headers.Authorization = `Bearer ${token}`;
+    return config;
+});
 
 function App() {
     return (
         <>
-            <PaymentContextProvider>
+            <UserContextProvider>
+                <PaymentContextProvider>
                 <RouterProvider router={routers}></RouterProvider>
-            </PaymentContextProvider>
+                </PaymentContextProvider>
+            </UserContextProvider>
+            
         </>
     );
 }

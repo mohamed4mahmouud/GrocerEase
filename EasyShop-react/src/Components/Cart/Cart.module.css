@@ -23,6 +23,8 @@
     background-color: var(--lightgray-color);
     width: 9rem;
     height: 2rem;
+    text-decoration: none;
+    color: black;
 }
 .cartFooter{
     background-color: white;

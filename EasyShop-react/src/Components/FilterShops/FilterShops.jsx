@@ -10,12 +10,12 @@ export default function FilterShops({onRatingChange}) {
         onRatingChange(newRating);
 
       };
+    //   TODO: handle reset all functionality
       const resetAll = () =>{  
         setRating('');
         onRatingChange('');
-        console.log(rating);
+       
       }
-
     return (
         <>
             <div className="container m-4">
@@ -41,12 +41,12 @@ export default function FilterShops({onRatingChange}) {
                         name="flexRadioDefault"
                         id="flexRadioDefault2"
                         value="1"
-                        checked={rating === "1"}
+                        checked={rating==1}
                         onChange={handleRatingChange}
                         
                     />
-                    <label className="form-check-label" htmlFor="flexRadioDefault2">
-                       Rating
+                    <label className={`form-check-label ${rating === '1' ? 'checked' : ''}`} htmlFor="flexRadioDefault2">
+                        Rating
                     </label>
                 </div>
                 <div className="form-check pt-3">
