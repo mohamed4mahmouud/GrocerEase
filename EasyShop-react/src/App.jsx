@@ -9,13 +9,13 @@ import { Products } from "./Components/Products/Products";
 import { Product } from "./Components/Product/Product";
 import Profile from "./Components/Profile/Profile";
 import { SignUp } from "./Components/Register/SignUp";
-import { Checkout } from "./Components/Checkout/Checkout";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Shops from "./Components/Shops/Shops";
 import PaymentContextProvider from "./Context/paymentContext";
 import UserContextProvider, { userContext } from "./Context/UserContext";
 import axios from "axios";
 import { useContext } from "react";
+import { Checkout } from "./Components/Checkout/BillingInfo";
 
 let routers = createBrowserRouter([
     {
@@ -47,10 +47,9 @@ function App() {
         <>
             <UserContextProvider>
                 <PaymentContextProvider>
-                <RouterProvider router={routers}></RouterProvider>
+                    <RouterProvider router={routers}></RouterProvider>
                 </PaymentContextProvider>
             </UserContextProvider>
-            
         </>
     );
 }

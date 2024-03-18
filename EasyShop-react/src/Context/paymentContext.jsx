@@ -9,8 +9,8 @@ let headers = {
     token: userToken,
 };
 
-function stripePayment(cartId, values, url) {
-    return axios
+async function CardPayment(cartId, values, url) {
+    return await axios
         .post(
             `http://localhost:8000/checkout/${cartId}?url=${url}`,
             {
@@ -25,22 +25,28 @@ function stripePayment(cartId, values, url) {
 export default function PaymentContextProvider(props) {
     const [cartId, setCartId] = useState(null);
 
+    async function fetchCartId() {
+        try {
+            const response = await getCart();
+        console.log("Cart response:", response);
+        const cartItems = response?.data?.cart;
+        if (cartItems && cartItems.length > 0) {
+            const cartId = cartItems[0].cart_id; 
+            console.log("Cart Id:", cartId);
+            setCartId(cartId);
+        } else {
+            console.error("Cart is empty or undefined");
+        }
+        } catch (error) {
+            console.error("Error fetching cart:", error);
+        }
+    }
     useEffect(() => {
-        const fetchCartId = async () => {
-            try {
-                const response = await getCart();
-                const cartId = response.data.cartId;
-                setCartId(cartId);
-            } catch (error) {
-                console.error("Error fetching cart:", error);
-            }
-        };
-
         fetchCartId();
     }, []);
 
     return (
-        <PaymentContext.Provider value={{ stripePayment, cartId }}>
+        <PaymentContext.Provider value={{ CardPayment, cartId }}>
             {props.children}
         </PaymentContext.Provider>
     );

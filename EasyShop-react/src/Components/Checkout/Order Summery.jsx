@@ -1,18 +1,19 @@
 import React from "react";
 import product1 from "../../assets/Green-Capsicum.png";
-import product2 from "../../assets/Red-Capsicum.png";
 import { getCart } from "../Cart/Cart";
 import { useQuery } from "react-query";
 
 export const OrderSummery = () => {
     let { isLoading, data } = useQuery("getCart", getCart);
-    console.log(data?.data.cart);
+    // console.log(data?.data.cart);
     return (
         <>
             {isLoading ? (
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                    <div className="spinner-border checkout" role="status">
-                        <span className="visually-hidden">Loading...</span>
+                <div className="col-md-4 order-md-2 mb-4">
+                    <div className="d-flex justify-content-center align-items-center mb-3">
+                        <div className="spinner-border checkout" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
                     </div>
                 </div>
             ) : (
@@ -23,7 +24,7 @@ export const OrderSummery = () => {
                     <ul className="list-group mb-3">
                         <ul className="list-group">
                             {data?.data.cart.map((cartItem) => (
-                                <li className="list-group-item d-flex justify-content-between lh-condensed border-bottom-0">
+                                <li key={cartItem.id} className="list-group-item d-flex justify-content-between lh-condensed border-bottom-0">
                                     <div className="d-flex align-items-center">
                                         <img
                                             src={product1}
@@ -35,7 +36,8 @@ export const OrderSummery = () => {
                                             }}
                                         />
                                         <h6 className="my-0">
-                                            {cartItem.product_name}
+                                            {cartItem.product_name} x{" "}
+                                            {cartItem.quantity}
                                         </h6>
                                     </div>
 
