@@ -3,11 +3,12 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ShopsController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\CouponController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\OrdersController;
-use App\Http\Controllers\ShopsController;
 use App\Http\Controllers\ProductsController;
 
 /*
@@ -43,6 +44,13 @@ Route::middleware(['auth:sanctum'])->get('/get-cart' , [ProductsController::clas
 Route::middleware(['auth:sanctum'])->delete('/delete-product-cart/{id}' , [ProductsController::class ,'deleteCartItem']);
 Route::middleware(['auth:sanctum'])->delete('/clear-cart' , [ProductsController::class ,'clearCart']);
 
+//Coupon Routes
+Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->get('/coupons',[CouponController::class,  'getAllCoupons']);
+Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->get('/coupons/{id}',[CouponController::class,  'getCoupon']);
+Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->post('/coupons',[CouponController::class,  'createCoupon']);
+Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->put('/coupons/{id}',[CouponController::class,  'updateCoupon']);
+Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->delete('/coupons/{id}',[CouponController::class,  'deleteCoupon']);
+Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->get('/valid-coupons',[CouponController::class,  'checkCouponIsValid']);
 
 
 Route::get('/shops/{shopCategory}',[ShopsController::class,'getCategorizedShops']);
