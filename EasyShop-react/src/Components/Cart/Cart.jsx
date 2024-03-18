@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import style from './Cart.module.css'
 import { Link } from 'react-router-dom';
@@ -27,7 +27,7 @@ const PlusMinusCounter = (quantity) => {
           <div className="d-flex justify-content-center align-items-center border rounded-pill"  style={{height:"40px",width:"110px"}}>
             <button onClick={decrement} className={`${style.counterButton} rounded-5`}>-</button>
             <span className="mx-3">{count}</span>
-            <button onClick={increment} className={`${style.counterButton} rounded-5`}>+</button> 
+            <button onClick={increment} className={`${style.counterButton} rounded-5`}>+</button>
           </div>
         </div>
       </div>
