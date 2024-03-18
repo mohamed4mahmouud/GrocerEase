@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 import style from "../Register/SignUp.module.css";
 import React, { useEffect } from "react";
 import { useFormik } from "formik";
@@ -6,9 +6,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import * as Yup from "yup";
 import style2 from "./Login.module.css";
+import { userContext } from "../../Context/UserContext";
 
 export default function Login() {
     let navigate = useNavigate();
+
+    let { setToken } = useContext(userContext);
 
     const [error, setError] = useState(null);
     const [isLoading, setisLoading] = useState(false);
@@ -34,6 +37,7 @@ export default function Login() {
             setisLoading(false);
             let token = data.accessToken.split("|")[1];
             localStorage.setItem("userToken", token);
+            setToken(token);
             navigate("/");
         }
     }

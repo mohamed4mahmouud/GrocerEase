@@ -6,15 +6,13 @@ import Style from "./Products.module.css";
 export function getProducts() {
     return axios.get(`http://127.0.0.1:8000/api/products`);
 }
-export function addToCart (product){
-    // event.preventDefault();
-    // console.log(product);
-    const data ={
-        product_id: product.id,
 
+export async function addToCart (product){
+    let data = {
+        'product_id':product.id
     }
-    console.log(data);
-    axios.post(`http://127.0.0.1:8000/api/addtocart`,data)
+   let res = await axios.post(`http://127.0.0.1:8000/api/add-to-cart`,data);
+   console.log(res);
 }
 
 export const Products = () => {

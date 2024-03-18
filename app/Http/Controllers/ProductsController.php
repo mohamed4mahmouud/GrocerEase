@@ -78,40 +78,53 @@ class ProductsController extends Controller
         }
     }
 
-    public function Search(){
-        $products=Product::all();
-        $shops = Shop::all();
+    // public function Search(){
+    //     $products=Product::all();
+    //     $shops = Shop::all();
 
-        return response()->json([
-            'products'=> $products,
-            'shops'=> $shops
+    //     return response()->json([
+    //         'products'=> $products,
+    //         'shops'=> $shops
 
-        ],200);
-    }
+    //     ],200);
+    // }
 
     public function addProductToCart(Request $request)
     {
         $userId  = $request->user()->id;
         $cart = Cart::where('user_id' ,$userId)->first();
+        $product = Product::find($request->product_id);
 
         if(!$cart){
             //create cart for logged user
             $cart = Cart::create([
                 'user_id'=> $userId,
             ]);
-            $cart->products()->attach($request->product_id, ['quantity' => 1]);
-            $cartItems = CartProduct::all();
-            return $this->returnData('cart',$cartItems , 'success');
+
+
+            if($product){
+                $cart->products()->attach($product->id, [
+                    'quantity' => 1,
+                    'price' => $product->price,
+                    'product_name' => $product->title
+                ]);
+                $cartItems = CartProduct::all();
+                return $this->returnData('cart',$cartItems , 'success');
+            }
         }
         // Check if the product already exists in the cart
-        $product = $cart->products()->where('product_id', $request->product_id)->first();
+        $currentProduct = $cart->products()->where('product_id', $request->product_id)->first();
 
-        if($product){
+        if($currentProduct){
             // If the product already exists, increment its quantity
-            $product->pivot->increment('quantity');
+            $currentProduct->pivot->increment('quantity');
         } else {
             // Otherwise, attach the product to the cart with quantity 1
-            $cart->products()->attach($request->product_id, ['quantity' => 1]);
+            $cart->products()->attach($product->id, [
+                    'quantity' => 1,
+                    'price' => $product->price,
+                    'product_name' => $product->title
+                ]);
         }
         $cartItems = CartProduct::all();
         return $this->returnData('cart',$cartItems , 'success');

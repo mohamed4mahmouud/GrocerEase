@@ -11,6 +11,9 @@ import Profile from "./Components/Profile/Profile";
 import { SignUp } from "./Components/Register/SignUp";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Shops from "./Components/Shops/Shops";
+import UserContextProvider, { userContext } from "./Context/UserContext";
+import axios from "axios";
+import { useContext } from "react";
 
 let routers = createBrowserRouter([
     {
@@ -23,18 +26,25 @@ let routers = createBrowserRouter([
             { path: "profile", element: <Profile /> },
             { path: "cart", element: <Cart /> },
             { path: "myOrder", element: <OrderHistory /> },
-            {path: 'product', element: <Product/>},
+            { path: "product", element: <Product /> },
             { path: "products", element: <Products /> },
             { path: "shops/:category", element: <Shops /> },
             { path: "*", element: <ErrorPage /> },
         ],
     },
 ]);
+let token = localStorage.getItem("userToken");
+axios.interceptors.request.use((config) => {
+    config.headers.Authorization = `Bearer ${token}`;
+    return config;
+});
 
 function App() {
     return (
         <>
-            <RouterProvider router={routers}></RouterProvider>
+            <UserContextProvider>
+                <RouterProvider router={routers}></RouterProvider>
+            </UserContextProvider>
         </>
     );
 }
