@@ -78,16 +78,16 @@ class ProductsController extends Controller
         }
     }
 
-    public function Search(){
-        $products=Product::all();
-        $shops = Shop::all();
+    // public function Search(){
+    //     $products=Product::all();
+    //     $shops = Shop::all();
 
-        return response()->json([
-            'products'=> $products,
-            'shops'=> $shops
+    //     return response()->json([
+    //         'products'=> $products,
+    //         'shops'=> $shops
 
-        ],200);
-    }
+    //     ],200);
+    // }
 
     public function addProductToCart(Request $request)
     {

@@ -17,21 +17,26 @@ export default function Navbar() {
     const [wordEntered, SetWordEnterd] = useState("");
     const [filterdData, SetFilteredData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+ 
+  //seacrh function
+  const [allProducts , SetAllProducts] = useState([]);
 
-    //seacrh function
-    const [allProducts, SetAllProducts] = useState([]);
-    useEffect(() => {
-        const getProducts = async () => {
-            const products = await fetch("http://127.0.0.1:8000/api/allData");
-            const setProducts = await products.json();
-            SetAllProducts({
-                products: await setProducts.products,
-                shops: await setProducts.shops,
-            });
-            setIsLoading(false);
-        };
-        getProducts();
-    }, []);
+
+  useEffect(()=>{
+    const getProducts = async()=>{
+      const products = await fetch("http://127.0.0.1:8000/api/products");
+      const setProducts = await products.json();
+      const shops = await fetch("http://127.0.0.1:8000/api/shops");
+      const setShops = await shops.json();
+      SetAllProducts({
+        'products': await setProducts.products,
+        'shops':await setShops.shops , 
+      });
+
+    setIsLoading(false);
+    };
+    getProducts();
+  }, [])
 
     const handleFilter = (event) => {
         const searchProduct = event.target.value;

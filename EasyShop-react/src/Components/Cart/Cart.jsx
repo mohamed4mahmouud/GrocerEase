@@ -1,10 +1,16 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import style from './Cart.module.css'
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useQuery } from 'react-query';
 
-const PlusMinusCounter = () => {
-  const [count, setCount] = useState(1);
+export async function getCart(){
+  return await axios.get(`http://127.0.0.1:8000/api/get-cart`);
+}
 
+const PlusMinusCounter = (quantity) => {
+  const [count, setCount] = useState(quantity.quantity);
 
   const increment = () => {
     setCount(count + 1);
@@ -13,7 +19,7 @@ const PlusMinusCounter = () => {
   const decrement = () => {
     setCount(count - 1);
   };
-
+  
   return (
     <div className="container">
       <div>
@@ -30,7 +36,18 @@ const PlusMinusCounter = () => {
 };
 
 export default function Cart() {
+  let { isLoading , data } = useQuery("getCart",getCart);
+  // console.log(data?.data.cart);
   return (
+    <>
+    {isLoading ? (
+      <div className="d-flex justify-content-center mt-2">
+          <div className="spinner-border" role="status">
+              <span className="visually-hidden">Loading...</span>
+          </div>
+      </div>
+  ) :(
+
     <Fragment>
       <div className="container text-center">
         <h1 className='mt-5 mb-5'>My Shopping Cart</h1>
@@ -46,36 +63,19 @@ export default function Cart() {
                 <th>SUBTOTAL</th>
               </tr>
             </thead>
+            {data?.data.cart.map((cartItem) => (
             <tbody className='text-start'>
               <tr className='border'>
                 <td style={{ width: '40%',paddingLeft: '20px' }}>
                   <img src="../../images/productTest.png" alt="product" className={`${style.productImg}`}/>
-                  <span>Green Felfel</span>
+                  <span>{cartItem.product_name}</span>
                 </td>
-                <td>12412</td>
-                <td>
-                  <PlusMinusCounter />
+                <td>{cartItem.price}</td>
+                <td> 
+                  <PlusMinusCounter quantity={cartItem.quantity}/>
                 </td>
-                <td>235235</td>
-                <td>
-                  <a href="" className="text-reset text-decoration-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-x-circle " viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                    </svg>
-                  </a>
-                </td>
-              </tr>
-              <tr className='border'>
-                <td style={{ width: '40%',paddingLeft: '20px' }}>
-                  <img src="../../images/productTest.png" alt="product" className={`${style.productImg}`}/>
-                  <span>Green Felfel</span>
-                </td>
-                <td>12412</td>
-                <td>
-                  <PlusMinusCounter />
-                </td>
-                <td>235235</td>
+                {/* TODO:calculate total price */}
+                <td>{cartItem.price}</td>
                 <td>
                   <a href="" className="text-reset text-decoration-none">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-x-circle " viewBox="0 0 16 16">
@@ -85,30 +85,13 @@ export default function Cart() {
                   </a>
                 </td>
               </tr>
-              <tr className='border'>
-                <td style={{ width: '40%',paddingLeft: '20px' }}>
-                  <img src="../../images/productTest.png" alt="product" className={`${style.productImg}`}/>
-                  <span>Green Felfel</span>
-                </td>
-                <td>12412</td>
-                <td>
-                  <PlusMinusCounter />
-                </td>
-                <td>235235</td>
-                <td>
-                  <a href="" className="text-reset text-decoration-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-x-circle " viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                    </svg>
-                  </a>
-                </td>
-              </tr>
+            
             </tbody>
+            ))}
           </table>
               <div className={`${style.cartFooter} card-footer d-flex justify-content-between`}>
-                <button className={`${style.cartButton} rounded-5`}>Return to shop</button>
-                <button className={`${style.cartButton} rounded-5`}>Update Cart</button>
+                <Link to="/products" className={`${style.cartButton} rounded-5`}>Return to shop</Link>
+                <button className={`${style.cartButton} rounded-5`}>Clear Cart</button>
               </div>
             </div>
           </div>
@@ -143,7 +126,12 @@ export default function Cart() {
             </div>
           </div>
         </div>
-      </div>
+      </div> 
+      
     </Fragment>
+            
+  )};
+  </>
   );
+    
 }

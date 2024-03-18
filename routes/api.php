@@ -45,8 +45,9 @@ Route::middleware(['auth:sanctum'])->delete('/clear-cart' , [ProductsController:
 
 
 
-Route::get('/shops/{shopCategory}',[ShopsController::class,'getAllShops']);
-Route::get('/allData',[ProductsController::class,'Search']);
+Route::get('/shops/{shopCategory}',[ShopsController::class,'getCategorizedShops']);
+Route::get('/shops',[ShopsController::class,'getAllShops']);
+
 Route::get('/categories',[CategoryController::class , 'getAllCategories']);
 Route::get('/categories/{category}',[CategoryController::class , 'getCategory']);
 Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->delete('/delete-category/{category}',[CategoryController::class,  'deleteCategory']);
