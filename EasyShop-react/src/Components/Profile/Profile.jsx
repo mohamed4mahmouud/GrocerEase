@@ -1,46 +1,33 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import style from './Profile.module.css'
 import { Link } from "react-router-dom";
+import ProfileNav from './ProfileNav/ProfileNav';
+
 export default function Profile() {
   return (
     <Fragment>
       <div className="container text-center mt-5">
         <div className="row">
-          <div className='col-md-3'>
-            <div className="card text-start shadow">
-              <div className='mt-3 ms-3'>
-                <h3>Navigation</h3>
-              </div>
-              
-              <div className={`${style.listContainer} list-group`} id="list-tab" role="tablist">
-                <a className={`${style.active} list-group-item list-group-item-action`} id="dashboard" data-toggle="list" href="#list-home" role="tab" aria-controls="dashboard">Dashboard</a>
-                <a className="list-group-item list-group-item-action" id="orderHistory" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Order History</a>
-                <a className="list-group-item list-group-item-action" id="whishList" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Whish List</a>
-                <a className="list-group-item list-group-item-action" id="basket" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Basket</a>
-                <a className="list-group-item list-group-item-action" id="settings" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings</a>
-                <a className="list-group-item list-group-item-action" id="logOut" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Log-Out</a>
-              </div>
-            </div>
-          </div>
+          <ProfileNav />
           <div className='col-md-9 '>
             <div className="row">
               <div className="col-md-6">
-                <div className="card d-flex align-items-center shadow">
+                <div className={`${style.cardHeight} card d-flex align-items-center shadow flex-column`}>
                 <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" className="rounded-circle mt-4" width={150} alt="Avatar" />
                 <p className='h3'>John Doe</p>
                 <p className='h5 text-muted'>Customer</p>
-                <Link className={`${style.orange} text-decoration-none`}>Edit Profile</Link>
+                <Link className={`${style.orange} text-decoration-none h6`}>Edit Profile</Link>
                 </div>
               </div>
               <div className="col-md-6">
-                <div className="card shadow text-start ">
+                <div className={`${style.cardHeight} card shadow text-start d-flex flex-column`}>
                   <div className="ms-4">
-                    <p className="h6 mt-3 ">BILLING ADDRESS</p>
-                    <p className="mt-3 h3">John Doe</p>
-                    <p className="mt-3 h6">3 shar3 ezayek ya wa7shni</p>
-                    <p className="mt-3 h6">7ambozo@gmail.com</p>
-                    <p className="mt-3 h6">(+20)12345678</p>
-                    <Link className={`${style.orange} text-decoration-none`}>Edit Address</Link>
+                    <p className="h6 mt-4 mb-2">BILLING ADDRESS</p>
+                    <p className="mt-3 h3 mb-2">John Doe</p>
+                    <p className="mt-3 h6 nb-2">3 shar3 ezayek ya wa7shni</p>
+                    <p className="mt-3 h6 mb-2">7ambozo@gmail.com</p>
+                    <p className="mt-3 h6 mb-4">(+20)12345678</p>
+                    <Link className={`${style.orange} text-decoration-none h6`}>Edit Address</Link>
                   </div>
                 </div>
               </div>
@@ -51,7 +38,7 @@ export default function Profile() {
                     <p className="h3 m-0">Recent Order History</p>
                 </div>
                 <div>
-                    <p className={`${style.orange} m-0`}>View All</p>
+                    <Link className={`${style.orange} m-0 text-decoration-none h6`}>View All</Link>
                 </div>
             </div>
             <div className="card-header">
@@ -63,12 +50,25 @@ export default function Profile() {
                 <p className='h6 col-md-2'></p>
               </div>
             </div>
-            <div className="col-md-12 card-body d-flex">
-              <p className=' col-md-2 text-start ps-3'>#123</p>
-              <p className=' col-md-3'>8 Sep,2020</p>
-              <p className=' col-md-3'>$135.00(5 Products)</p>
-              <p className='col-md-2'>on the way</p>
-              <p className={`${style.orange} col-md-2 text-end`}>View Details</p>
+            <div className="card-body d-flex">
+              <table className='col-md-12'>
+                <tbody>
+                  <tr>
+                    <td className=' col-md-2 text-start ps-3'><p>#123</p></td>
+                    <td className=' col-md-3'><p>8 Sep,2020</p></td>
+                    <td className=' col-md-3'><p>$135.00(5 Products)</p></td>
+                    <td className=' col-md-2'><p>on the way</p></td>
+                    <td className=' col-md-2 text-end h6 pb-3'><Link className={`${style.orange} text-decoration-none `}>View Details</Link></td>
+                  </tr>
+                  <tr>
+                    <td className=' col-md-2 text-start ps-3'><p>#123</p></td>
+                    <td className=' col-md-3'><p>8 Sep,2020</p></td>
+                    <td className=' col-md-3'><p>$135.00(5 Products)</p></td>
+                    <td className=' col-md-2'><p>on the way</p></td>
+                    <td className=' col-md-2 text-end h6 pb-3'><Link className={`${style.orange} text-decoration-none `}>View Details</Link></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
             </div>
           </div>
@@ -77,3 +77,4 @@ export default function Profile() {
     </Fragment>
   )
 }
+
