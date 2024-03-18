@@ -6,11 +6,11 @@ import { OrderSummery } from "./Order Summery";
 import { PaymentContext } from "../../Context/paymentContext";
 
 export const BillingInfo = () => {
-    let { stripePayment } = useContext(PaymentContext);
+    let { stripePayment, cartId } = useContext(PaymentContext);
 
     async function paymentSubmit(values) {
         let response = await stripePayment(
-            "14",
+            cartId,
             "http://localhost:3000",
             values
         );
