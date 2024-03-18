@@ -9,10 +9,12 @@ let headers = {
 }
 
 function stripePayment(cartId, values, url) {
-    return axios.post(`http://127.0.0.1:8000/api/payment/${cartId}?url=${url}`,
+    return axios.post(`http://localhost:8000/checkout/${cartId}?url=${url}`,
         {
             shippingAddress: values
-        }, { headers })
+        }, 
+        { headers }
+        )
         .then((response) => response)
         .catch((err) => err)
 }

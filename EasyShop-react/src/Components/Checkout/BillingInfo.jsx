@@ -10,28 +10,13 @@ export const BillingInfo = () => {
 
     async function paymentSubmit(values) {
         let response = await stripePayment(
-            "13",
+            "14",
             "http://localhost:3000",
             values
         );
         console.log(response?.data.session.url);
         window.location.href = response?.data.session.url;
     }
-
-    const validationSchema = Yup.object({
-        firstName: Yup.string().required("Required"),
-        lastName: Yup.string().required("Required"),
-        email: Yup.string().email("Invalid email address").required("Required"),
-        address: Yup.string().required("Required"),
-        country: Yup.string().required("Required"),
-        state: Yup.string().required("Required"),
-        zip: Yup.string().required("Required"),
-        paymentMethod: Yup.string().required("Required"),
-        // ccName: Yup.string().required("Required"),
-        // ccNumber: Yup.string().required("Required"),
-        // ccExpiration: Yup.string().required("Required"),
-        // ccCvv: Yup.string().required("Required"),
-    });
 
     let formik = useFormik({
         initialValues: {
@@ -43,13 +28,8 @@ export const BillingInfo = () => {
             state: "",
             zip: "",
             paymentMethod: "",
-            // ccName: "",
-            // ccNumber: "",
-            // ccExpiration: "",
-            // ccCvv: "",
-            // notes: "",
         },
-        validationSchema,
+        // validationSchema,
         onSubmit: paymentSubmit,
     });
     return (
@@ -79,7 +59,7 @@ export const BillingInfo = () => {
                                                 value={formik.values.firstName}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
-                                                required
+                                                // required
                                             />
                                             {formik.touched.firstName &&
                                                 formik.errors.firstName && (
@@ -107,7 +87,7 @@ export const BillingInfo = () => {
                                                 value={formik.values.lastName}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
-                                                required
+                                                // required
                                             />
                                             {formik.touched.lastName &&
                                                 formik.errors.lastName && (
@@ -132,7 +112,7 @@ export const BillingInfo = () => {
                                                 value={formik.values.email}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
-                                                required
+                                                // required
                                             />
                                             {formik.touched.email &&
                                                 formik.errors.email && (
@@ -157,7 +137,7 @@ export const BillingInfo = () => {
                                                 value={formik.values.address}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
-                                                required
+                                                // required
                                             />
                                             {formik.touched.address &&
                                                 formik.errors.address && (
@@ -183,7 +163,7 @@ export const BillingInfo = () => {
                                                 value={formik.values.country}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
-                                                required
+                                                // required
                                             >
                                                 <option value="">Select</option>
                                                 <option>United States</option>
@@ -210,7 +190,7 @@ export const BillingInfo = () => {
                                                 value={formik.values.state}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
-                                                required
+                                                // required
                                             >
                                                 <option value="">Select</option>
                                                 <option>California</option>
@@ -238,7 +218,7 @@ export const BillingInfo = () => {
                                                 value={formik.values.zip}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
-                                                required
+                                                // required
                                             />
                                             {formik.touched.zip &&
                                                 formik.errors.zip && (
@@ -261,8 +241,8 @@ export const BillingInfo = () => {
                                                 Ship to a different address
                                             </label>
                                         </div>
-                                        <hr className="mb-4" />
-                                        <h4 className="mb-3">
+                                        {/* <hr className="mb-4" /> */}
+                                        {/* <h4 className="mb-3">
                                             Additional Info
                                         </h4>
                                         <div className="mb-3">
@@ -291,7 +271,7 @@ export const BillingInfo = () => {
                                                         {formik.errors.notes}
                                                     </div>
                                                 )}
-                                        </div>
+                                        </div> */}
                                         <hr className="mb-4" />
                                         <h4 className="mb-3">Payment</h4>
                                         <div className="d-block my-3">
@@ -309,7 +289,7 @@ export const BillingInfo = () => {
                                                         formik.handleChange
                                                     }
                                                     onBlur={formik.handleBlur}
-                                                    required
+                                                    // required
                                                 />
                                                 {formik.touched.paymentMethod &&
                                                     formik.errors
@@ -342,7 +322,7 @@ export const BillingInfo = () => {
                                                         formik.handleChange
                                                     }
                                                     onBlur={formik.handleBlur}
-                                                    required
+                                                    // required
                                                 />
                                                 {formik.touched.paymentMethod &&
                                                     formik.errors
@@ -375,7 +355,7 @@ export const BillingInfo = () => {
                                                         formik.handleChange
                                                     }
                                                     onBlur={formik.handleBlur}
-                                                    required
+                                                    // required
                                                 />
                                                 {formik.touched.paymentMethod &&
                                                     formik.errors
@@ -395,156 +375,13 @@ export const BillingInfo = () => {
                                                 </label>
                                             </div>
                                         </div>
-                                        {/* <div className="row">
-                                            <div className="col-md-6 mb-3">
-                                                <label
-                                                    htmlFor="cc-name"
-                                                    className="form-label"
-                                                >
-                                                    Name on card
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    id="cc-name"
-                                                    name="ccName"
-                                                    placeholder=""
-                                                    value={formik.values.ccName}
-                                                    onChange={
-                                                        formik.handleChange
-                                                    }
-                                                    onBlur={formik.handleBlur}
-                                                    required
-                                                />
-                                                {formik.touched.ccName &&
-                                                    formik.errors.ccName && (
-                                                        <div className="invalid-feedback">
-                                                            {
-                                                                formik.errors
-                                                                    .ccName
-                                                            }
-                                                        </div>
-                                                    )}
-                                                <small className="text-muted">
-                                                    Full name as displayed on
-                                                    card
-                                                </small>
-                                            </div>
-                                            <div className="col-md-6 mb-3">
-                                                <label
-                                                    htmlFor="cc-number"
-                                                    className="form-label"
-                                                >
-                                                    Credit card number
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    id="cc-number"
-                                                    name="ccNumber"
-                                                    placeholder=""
-                                                    value={
-                                                        formik.values.ccNumber
-                                                    }
-                                                    onChange={
-                                                        formik.handleChange
-                                                    }
-                                                    onBlur={formik.handleBlur}
-                                                    required
-                                                />
-                                                {formik.touched.ccNumber &&
-                                                    formik.errors.ccNumber && (
-                                                        <div className="invalid-feedback">
-                                                            {
-                                                                formik.errors
-                                                                    .ccNumber
-                                                            }
-                                                        </div>
-                                                    )}
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-3 mb-3">
-                                                <label
-                                                    htmlFor="cc-expiration"
-                                                    className="form-label"
-                                                >
-                                                    Expiration
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    id="cc-expiration"
-                                                    name="ccExpiration"
-                                                    placeholder=""
-                                                    value={
-                                                        formik.values
-                                                            .ccExpiration
-                                                    }
-                                                    onChange={
-                                                        formik.handleChange
-                                                    }
-                                                    onBlur={formik.handleBlur}
-                                                    required
-                                                />
-                                                {formik.touched.ccExpiration &&
-                                                    formik.errors
-                                                        .ccExpiration && (
-                                                        <div className="invalid-feedback">
-                                                            {
-                                                                formik.errors
-                                                                    .ccExpiration
-                                                            }
-                                                        </div>
-                                                    )}
-                                            </div>
-                                            <div className="col-md-3 mb-3">
-                                                <label
-                                                    htmlFor="cc-cvv"
-                                                    className="form-label"
-                                                >
-                                                    CVV
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    id="cc-cvv"
-                                                    name="ccCvv"
-                                                    placeholder=""
-                                                    value={formik.values.ccCvv}
-                                                    onChange={
-                                                        formik.handleChange
-                                                    }
-                                                    onBlur={formik.handleBlur}
-                                                    required
-                                                />
-
-                                                {formik.touched.ccCvv &&
-                                                    formik.errors.ccCvv && (
-                                                        <div className="invalid-feedback">
-                                                            {
-                                                                formik.errors
-                                                                    .ccCvv
-                                                            }
-                                                        </div>
-                                                    )}
-                                            </div> */}
-                                        {/* </div> */}
                                     </div>
                                     <button
                                         className="btn px-4 rounded-pill greencart text-white fw-medium"
                                         type="submit"
-                                        // disabled={
-                                        //     !(formik.isValid && formik.dirty)
-                                        // }
                                     >
                                         Place Order
                                     </button>
-                                    {/* {error && (
-                                        <div className="text-danger mt-3">
-                                            {error}
-                                        </div>
-                                    )} */}
                                 </form>
                             </div>
                         </div>

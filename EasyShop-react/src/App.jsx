@@ -19,7 +19,7 @@ let routers = createBrowserRouter([
         path: "",
         element: <Layout />,
         children: [
-            { index: true, element: <Checkout /> },
+            { index: true, element: <Home /> },
             { path: "register", element: <SignUp /> },
             { path: "login", element: <Login /> },
             { path: "profile", element: <Profile /> },
@@ -28,7 +28,7 @@ let routers = createBrowserRouter([
             { path: "product", element: <Product /> },
             { path: "products", element: <Products /> },
             { path: "shops/:category", element: <Shops /> },
-            { path: "Checkout", element: <Checkout /> },
+            { path: "checkout", element: <Checkout /> },
             { path: "*", element: <ErrorPage /> },
         ],
     },

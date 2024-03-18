@@ -11,7 +11,7 @@ export function addToCart (product){
     // console.log(product);
     const data ={
         product_id: product.id,
-        
+
     }
     console.log(data);
     axios.post(`http://127.0.0.1:8000/api/addtocart`,data)

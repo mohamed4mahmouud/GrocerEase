@@ -1,4 +1,3 @@
-import React from "react";
 import logo from "../../assets/logo.png";
 import Payment from "../../assets/Payment.png";
 
@@ -151,4 +150,3 @@ export default function Footer() {
         </footer>
     );
 }
-
