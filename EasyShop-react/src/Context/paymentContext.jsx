@@ -9,12 +9,14 @@ let headers = {
     token: userToken,
 };
 
-async function CardPayment(cartId, values, url) {
+async function CardPayment(values, cartId) {
+    console.log(cartId);
+    // console.log('context values:',values)
     return await axios
         .post(
-            `http://localhost:8000/checkout/${cartId}?url=${url}`,
+            `http://localhost:8000/checkout/${cartId}/${values.shipping_address}`,
             {
-                shippingAddress: values,
+                shipping_address: values,
             },
             { headers }
         )
@@ -28,15 +30,15 @@ export default function PaymentContextProvider(props) {
     async function fetchCartId() {
         try {
             const response = await getCart();
-        console.log("Cart response:", response);
-        const cartItems = response?.data?.cart;
-        if (cartItems && cartItems.length > 0) {
-            const cartId = cartItems[0].cart_id; 
-            console.log("Cart Id:", cartId);
-            setCartId(cartId);
-        } else {
-            console.error("Cart is empty or undefined");
-        }
+            console.log("Cart response:", response);
+            const cartItems = response?.data?.cart;
+            if (cartItems && cartItems.length > 0) {
+                const cartId = cartItems[0].cart_id;
+                console.log("Cart Id:", cartId);
+                setCartId(cartId);
+            } else {
+                console.error("Cart is empty or undefined");
+            }
         } catch (error) {
             console.error("Error fetching cart:", error);
         }

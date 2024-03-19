@@ -42,13 +42,12 @@ class OrdersController extends Controller
 
 
     //Payment 
-    public function checkout(Request $request, $cartId)
+    public function checkout($shipping_address, $cartId)
     {
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-        $shippingAddress = $request->input('address');
-        if (!$shippingAddress) {
-            return $this->returnError(400, "Shipping address is required.");
-        }
+        // if (!$shippingAddress) {
+        //     return $this->returnError(400, "Shipping address is required.");
+        // }
         //Get Order by its id
         $products = Cart::find($cartId)->products;
         // return response()->json($products);
@@ -75,12 +74,12 @@ class OrdersController extends Controller
             'shipping_address_collection' => [
                 'allowed_countries' => ['EG'],
             ],
-            'shipping_address' => $shippingAddress,
+            'shipping_address' => $shipping_address,
         ]);
 
         $order = new Order();
         $order->status = 'new';
-        $order->shipping_address = $shippingAddress;
+        $order->shipping_address = $shipping_address;
         $order->shipping_date = now();
         $order->price = $totalPrice;
         $order->session_id = $session->id;

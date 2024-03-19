@@ -24,7 +24,10 @@ export const OrderSummery = () => {
                     <ul className="list-group mb-3">
                         <ul className="list-group">
                             {data?.data.cart.map((cartItem) => (
-                                <li key={cartItem.id} className="list-group-item d-flex justify-content-between lh-condensed border-bottom-0">
+                                <li
+                                    key={cartItem.id}
+                                    className="list-group-item d-flex justify-content-between lh-condensed border-bottom-0"
+                                >
                                     <div className="d-flex align-items-center">
                                         <img
                                             src={product1}
