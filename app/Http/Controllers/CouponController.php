@@ -102,7 +102,6 @@ class CouponController extends Controller
     }
 
     // @desc  check coupon Is Valid
-    // @access Owner
     public function checkCouponIsValid(Request $request)
     {
         try {
