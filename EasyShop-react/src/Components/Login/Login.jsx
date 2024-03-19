@@ -2,7 +2,7 @@ import { Fragment, useContext, useState } from "react";
 import style from "../Register/SignUp.module.css";
 import React, { useEffect } from "react";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import * as Yup from "yup";
 import style2 from "./Login.module.css";
@@ -153,12 +153,12 @@ export default function Login() {
                     <div className="text-center ">
                         <p>
                             I don't have an account ?
-                            <a
-                                href=""
+                            <Link
+                                to="/register"
                                 className={`${style.colorSec} text-decoration-none text-reset fw-bold ms-1`}
                             >
                                 Sign up
-                            </a>
+                            </Link>
                         </p>
                     </div>
                     <div className="text-center">
