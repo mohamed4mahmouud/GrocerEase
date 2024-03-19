@@ -45,7 +45,7 @@ Route::middleware(['auth:sanctum'])->post('/add-to-cart' , [ProductsController::
 Route::middleware(['auth:sanctum'])->get('/get-cart' , [ProductsController::class ,'getLoggedUserCart']);
 Route::middleware(['auth:sanctum'])->delete('/delete-product-cart/{id}' , [ProductsController::class ,'deleteCartItem']);
 Route::middleware(['auth:sanctum'])->delete('/clear-cart' , [ProductsController::class ,'clearCart']);
-
+Route::middleware(['auth:sanctum'])->post('/update-quantity' , [ProductsController::class ,'updateQuantity']);
 //Coupon Routes
 Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->get('/coupons',[CouponController::class,  'getAllCoupons']);
 Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->get('/coupons/{id}',[CouponController::class,  'getCoupon']);

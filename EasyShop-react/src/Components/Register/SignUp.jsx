@@ -38,7 +38,8 @@ export const SignUp = () => {
     });
 
     async function registerSubmit(values) {
-     let response = await axios.post(`http://127.0.0.1:8000/api/auth/register`,values)
+     let response = await axios.post(`http://127.0.0.1:8000/api/auth/register`,values);
+     console.log(response);
     }
 
     let formik = useFormik({
