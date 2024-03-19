@@ -14,6 +14,7 @@ import Shops from "./Components/Shops/Shops";
 import UserContextProvider, { userContext } from "./Context/UserContext";
 import axios from "axios";
 import { useContext } from "react";
+import CreateShop from "./Components/Shops/CreateShop";
 
 let routers = createBrowserRouter([
     {
@@ -29,6 +30,7 @@ let routers = createBrowserRouter([
             { path: "product", element: <Product /> },
             { path: "products", element: <Products /> },
             { path: "shops/:category", element: <Shops /> },
+            { path: "createshop", element: <CreateShop /> },
             { path: "*", element: <ErrorPage /> },
         ],
     },
