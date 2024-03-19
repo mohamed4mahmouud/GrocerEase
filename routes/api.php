@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ShopsController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\TrackingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,3 +71,5 @@ Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->group(function(){
 });
 
 Route::post('/payment', [OrdersController::class, 'processPayment']);
+
+Route::get('/trackme',[TrackingController::class,'index']);
