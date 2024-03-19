@@ -157,7 +157,7 @@ let [cartSubTotal , setCartTotal] = useState(0);
                 <div className={`${style.cartText} text-start d-flex justify-content-between`}>
                   <h5>Total:</h5><h5>{cartSubTotal}EGP</h5>
                 </div>
-                <a href='http://localhost:8000/checkout'>CheckOut</a><button className={`${style.mainColor} btn btn-primary w-100 rounded-5 mt-3`}>Procced to checkout</button>
+                <button className={`${style.mainColor} btn btn-primary w-100 rounded-5 mt-3`}>Procced to checkout</button>
               </div>
             </div>
           </div>
