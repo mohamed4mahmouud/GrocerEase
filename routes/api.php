@@ -52,7 +52,7 @@ Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->get('/coupons/{id}',
 Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->post('/coupons',[CouponController::class,  'createCoupon']);
 Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->put('/coupons/{id}',[CouponController::class,  'updateCoupon']);
 Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->delete('/coupons/{id}',[CouponController::class,  'deleteCoupon']);
-Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->get('/valid-coupons',[CouponController::class,  'checkCouponIsValid']);
+Route::middleware(['auth:sanctum'])->get('/valid-coupons',[CouponController::class,  'checkCouponIsValid']);
 
 
 Route::get('/shops/{shopCategory}',[ShopsController::class,'getCategorizedShops']);
