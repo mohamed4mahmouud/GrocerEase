@@ -8,7 +8,9 @@ export default function Profile() {
     <Fragment>
       <div className="container text-center mt-5">
         <div className="row">
-          <ProfileNav />
+          <div className='col-md-3'>
+            <ProfileNav />
+          </div>
           <div className='col-md-9 '>
             <div className="row">
               <div className="col-md-6">

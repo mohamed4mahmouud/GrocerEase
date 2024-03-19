@@ -14,6 +14,7 @@ import Shops from "./Components/Shops/Shops";
 import UserContextProvider, { userContext } from "./Context/UserContext";
 import axios from "axios";
 import { useContext } from "react";
+import ProfileEdit from "./Components/Profile/ProfileEdit/ProfileEdit";
 
 let routers = createBrowserRouter([
     {
@@ -24,6 +25,7 @@ let routers = createBrowserRouter([
             { path: "register", element: <SignUp /> },
             { path: "login", element: <Login /> },
             { path: "profile", element: <Profile /> },
+            { path: "profileEdit", element: <ProfileEdit /> },
             { path: "cart", element: <Cart /> },
             { path: "myOrder", element: <OrderHistory /> },
             { path: "product", element: <Product /> },
