@@ -42,7 +42,7 @@ class OrdersController extends Controller
 
 
     //Payment 
-    public function checkout($shipping_address, $cartId)
+    public function checkout($cartId, $shipping_address)
     {
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
         // if (!$shippingAddress) {
@@ -117,6 +117,7 @@ class OrdersController extends Controller
         } catch (\Exception $e) {
             throw new NotFoundHttpException();
         }
+        return redirect()->away('http://localhost:3000/');
     }
     public function webhook()
     {

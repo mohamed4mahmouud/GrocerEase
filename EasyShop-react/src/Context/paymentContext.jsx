@@ -9,12 +9,12 @@ let headers = {
     token: userToken,
 };
 
-async function CardPayment(values, cartId) {
+async function CardPayment(cartId, values) {
     console.log(cartId);
     // console.log('context values:',values)
     return await axios
         .post(
-            `http://localhost:8000/checkout/${cartId}/${values.shipping_address}`,
+            `http://localhost:8000/checkout/${cartId}/${shipping_address}`,
             {
                 shipping_address: values,
             },

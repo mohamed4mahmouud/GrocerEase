@@ -19,6 +19,7 @@ export const Checkout = () => {
         // console.log("Values:", values);
         try {
             const response = await CardPayment(cartId, values.shipping_address);
+            console.log(response)
             // console.log(response?.data.session.url);
             // window.location.href = response?.data.session.url;
         } catch (error) {
