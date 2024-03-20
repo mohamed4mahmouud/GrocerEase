@@ -23,4 +23,11 @@ class ShopsController extends Controller
         
         return $this->returnData('shops', $shops, 'Success');
     }
+    public function createShop(Request $request){
+        $shop = Shop::create(['name'=>$request->input('name'),
+    'location'=>$request->input('location'),
+    'category'=>$request->input('category')]);
+    return $this->returnSuccessMessage("Shop Created Successfully");
+
+    }
 }
