@@ -1,0 +1,55 @@
+/* Custom Pagination Styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.pagination li {
+    list-style: none;
+    margin: 0 5px;
+}
+
+.pagination a {
+    display: block;
+    padding: 10px;
+    border-radius: 50%;
+    text-decoration: none;
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.pagination .active a {
+    background-color: blue;
+    color: white;
+}
+
+.pagination .disabled a {
+    pointer-events: none;
+    background-color: #ddd;
+    color: #999;
+}
+
+.pagination .arrow {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    color: #333;
+    cursor: pointer;
+}
+
+.pagination-arrow {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: blue;
+}
+
+.pagination-arrow:hover {
+    color: darkblue;
+}
