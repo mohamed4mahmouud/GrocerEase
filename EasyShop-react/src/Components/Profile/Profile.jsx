@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import style from './Profile.module.css'
 import { Link } from "react-router-dom";
 import ProfileNav from './ProfileNav/ProfileNav';
+import Delivery from '../Delivery/Delivery';
 
 export default function Profile() {
   return (
@@ -15,10 +16,10 @@ export default function Profile() {
             <div className="row">
               <div className="col-md-6">
                 <div className={`${style.cardHeight} card d-flex align-items-center shadow flex-column`}>
-                <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" className="rounded-circle mt-4" width={150} alt="Avatar" />
-                <p className='h3'>John Doe</p>
-                <p className='h5 text-muted'>Customer</p>
-                <Link className={`${style.orange} text-decoration-none h6`}>Edit Profile</Link>
+                  <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" className="rounded-circle mt-4" width={150} alt="Avatar" />
+                  <p className='h3'>John Doe</p>
+                  <p className='h5 text-muted'>Customer</p>
+                  <Link className={`${style.orange} text-decoration-none h6`}>Edit Profile</Link>
                 </div>
               </div>
               <div className="col-md-6">
@@ -37,41 +38,45 @@ export default function Profile() {
             <div className="card mt-4 shadow">
               <div className={`${style.cardHeader} card-header d-flex justify-content-between align-items-center`}>
                 <div className="d-flex align-items-center">
-                    <p className="h3 m-0">Recent Order History</p>
+                  <p className="h3 m-0">Recent Order History</p>
                 </div>
                 <div>
-                    <Link className={`${style.orange} m-0 text-decoration-none h6`}>View All</Link>
+                  <Link className={`${style.orange} m-0 text-decoration-none h6`}>View All</Link>
                 </div>
-            </div>
-            <div className="card-header">
-              <div className="d-flex ">
-                <p className='h6 col-md-2 text-start'>ORDER ID</p>
-                <p className='h6 col-md-3'>DATE</p>
-                <p className='h6 col-md-3'>TOTAL</p>
-                <p className='h6 col-md-2'>STATUS</p>
-                <p className='h6 col-md-2'></p>
+              </div>
+              <div className="card-header">
+                <div className="d-flex ">
+                  <p className='h6 col-md-2 text-start'>ORDER ID</p>
+                  <p className='h6 col-md-3'>DATE</p>
+                  <p className='h6 col-md-3'>TOTAL</p>
+                  <p className='h6 col-md-2'>STATUS</p>
+                  <p className='h6 col-md-2'></p>
+                </div>
+              </div>
+              <div className="card-body d-flex">
+                <table className='col-md-12'>
+                  <tbody>
+                    <tr>
+                      <td className=' col-md-2 text-start ps-3'><p>#123</p></td>
+                      <td className=' col-md-3'><p>8 Sep,2020</p></td>
+                      <td className=' col-md-3'><p>$135.00(5 Products)</p></td>
+                      <td className=' col-md-2'><p>on the way</p></td>
+                      <td className=' col-md-2 text-end h6 pb-3'><Link className={`${style.orange} text-decoration-none `}>View Details</Link></td>
+                    </tr>
+                    <tr>
+                      <td className=' col-md-2 text-start ps-3'><p>#123</p></td>
+                      <td className=' col-md-3'><p>8 Sep,2020</p></td>
+                      <td className=' col-md-3'><p>$135.00(5 Products)</p></td>
+                      <td className=' col-md-2'><p>on the way</p></td>
+                      <td className=' col-md-2 text-end h6 pb-3'><Link className={`${style.orange} text-decoration-none `}>View Details</Link></td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
-            <div className="card-body d-flex">
-              <table className='col-md-12'>
-                <tbody>
-                  <tr>
-                    <td className=' col-md-2 text-start ps-3'><p>#123</p></td>
-                    <td className=' col-md-3'><p>8 Sep,2020</p></td>
-                    <td className=' col-md-3'><p>$135.00(5 Products)</p></td>
-                    <td className=' col-md-2'><p>on the way</p></td>
-                    <td className=' col-md-2 text-end h6 pb-3'><Link className={`${style.orange} text-decoration-none `}>View Details</Link></td>
-                  </tr>
-                  <tr>
-                    <td className=' col-md-2 text-start ps-3'><p>#123</p></td>
-                    <td className=' col-md-3'><p>8 Sep,2020</p></td>
-                    <td className=' col-md-3'><p>$135.00(5 Products)</p></td>
-                    <td className=' col-md-2'><p>on the way</p></td>
-                    <td className=' col-md-2 text-end h6 pb-3'><Link className={`${style.orange} text-decoration-none `}>View Details</Link></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <div className="card mt-4 shadow">
+
+              <Delivery />
             </div>
           </div>
         </div>
