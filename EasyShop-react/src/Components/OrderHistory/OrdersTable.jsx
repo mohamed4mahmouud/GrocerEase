@@ -41,12 +41,14 @@ export const OrdersTable = ({ orders }) => {
     const goToPrevPage = () => {
         if (currentPage > 1) {
             setCurrentPage(currentPage - 1);
+            console.log("Current Page: ", currentPage - 1);
         }
     };
 
     const goToNextPage = () => {
         if (currentPage < Math.ceil(orders.length / ordersPerPage)) {
             setCurrentPage(currentPage + 1);
+            console.log("Current Page: ", currentPage + 1);
         }
     };
 
@@ -76,7 +78,7 @@ export const OrdersTable = ({ orders }) => {
                                         <Link
                                             className="text-decoration-none"
                                             to="#"
-                                            style={{ color: '#3BB77E' }}
+                                            style={{ color: "#3BB77E" }}
                                         >
                                             View Details
                                         </Link>
