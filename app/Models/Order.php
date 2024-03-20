@@ -27,4 +27,7 @@ class Order extends Model
     public function cart(): BelongsTo{
         return $this->belongsTo(Cart::class);
     }
+    public function delivery(): BelongsTo{
+        return $this->belongsTo(Delivery::class);
+    }
 }
