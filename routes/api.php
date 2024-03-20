@@ -67,6 +67,7 @@ Route::middleware(['auth:sanctum'])->get('/valid-coupons',[CouponController::cla
 
 Route::get('/shops/{shopCategory}',[ShopsController::class,'getCategorizedShops']);
 Route::get('/shops',[ShopsController::class,'getAllShops']);
+Route::post('/store/create',[ShopsController::class,'createShop'])->name('shops.create');
 
 Route::get('/categories',[CategoryController::class , 'getAllCategories']);
 Route::get('/categories/{category}',[CategoryController::class , 'getCategory']);

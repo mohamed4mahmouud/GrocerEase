@@ -121,7 +121,7 @@ let [cartSubTotal , setCartTotal] = useState(0);
                   onQuantityChange={(newQuantity) => handleQuantityChange(cartItem.product_id, newQuantity)}/>
                 </td>
                 {/* TODO:calculate total price */}
-                <td>{cartItem.price*cartItem.quantity}</td>
+                <td>{cartItem.price*cartItem.quantity} EGP</td>
                 <td>
                   <button href="" className="btn rounded-circle text-reset text-decoration-none" onClick={() => removeItem(cartItem.product_id)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-x-circle " viewBox="0 0 16 16">
@@ -155,7 +155,7 @@ let [cartSubTotal , setCartTotal] = useState(0);
                 </div>
                 <hr />
                 <div className={`${style.cartText} text-start d-flex justify-content-between`}>
-                  <h5>Total:</h5><h5>{cartSubTotal}EGP</h5>
+                  <h5>Total:</h5><h5>{cartSubTotal} $</h5>
                 </div>
                 <button className={`${style.mainColor} btn btn-primary w-100 rounded-5 mt-3`}>Procced to checkout</button>
               </div>
