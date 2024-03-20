@@ -1,0 +1,57 @@
+.active{
+    background-color: var(--selected-color) !important;
+    border-left: 3px solid #20B526 !important;
+    border-radius: 0 !important;
+    color: var(--darkblue-color) !important;;
+}
+.listContainer{
+    border: 0 !important;
+}
+
+.orange{
+    color: var(--rating-color);
+}
+.cardHeader{
+    background-color: white;
+}
+.cardHeight{
+    height: 100%;
+}
+.orangeBtn{
+    background-color: var(--rating-color);
+}
+
+.choseImg{
+    color: #EB996E;
+    border: 2px solid #EB996E;
+}
+
+.savechange{
+    background-color: #EB996E;
+    color: white;
+}
+.savechange:hover{
+    background-color: #FF8A00;
+    color: white;
+}
+.choseImg:hover{
+    background-color: #FF8A00;
+    color: white;
+}
+
+.inpOrg:focus{
+    border: 2px solid #EB996E;
+    box-shadow: none;
+}
+
+.newWidth{
+    width: 30%;
+}
+.dropCity:focus{
+    box-shadow: none;
+}
+.dropCity{
+    background-color: white !important;
+    color: black !important;
+    border: 1px solid #D2D2D2 !important;;
+}

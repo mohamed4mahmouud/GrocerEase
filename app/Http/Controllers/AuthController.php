@@ -53,4 +53,18 @@ class AuthController extends Controller
             return $this->returnError(422, $errors);
         }
     }
+    public function  logout(Request $request)
+    {
+        $user=$request->user();
+        if(!$user){
+            return $this->returnError(401,'Unauthenticated');
+        }
+        try {
+            $user->tokens()->delete();
+        }catch (\Exception $e){
+            return $this->returnError(500,"Couldn't retrieve tokens");
+        }
+        return $this->returnSuccessMessage("Token revoked successfully");
+    }
+
 }

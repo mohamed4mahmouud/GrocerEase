@@ -3,11 +3,12 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ShopsController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\CouponController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\OrdersController;
-use App\Http\Controllers\ShopsController;
 use App\Http\Controllers\ProductsController;
 
 /*
@@ -29,8 +30,9 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 });
-Route::middleware(['auth:sanctum','checkAdminToken'])->get('/users',[UsersController::class,'getAllUsers']);
-Route::get('/products',[ProductsController::class,'getAllProducts']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware("auth:sanctum");
+Route::middleware(['auth:sanctum', 'checkAdminToken'])->get('/users', [UsersController::class, 'getAllUsers']);
+Route::get('/products', [ProductsController::class, 'getAllProducts']);
 Route::get('/products/{id}', [ProductsController::class, 'getProductById']);
 Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->post('/addproducts', [ProductsController::class, 'create']);
 Route::middleware(['auth:sanctum'])->put('/updateproducts/{id}', [ProductsController::class, 'updateById']);
@@ -38,26 +40,34 @@ Route::middleware(['auth:sanctum'])->delete('/deleteproduct/{id}', [ProductsCont
 
 
 //Cart Routes
-Route::middleware(['auth:sanctum'])->post('/add-to-cart' , [ProductsController::class ,'addProductToCart']);
-Route::middleware(['auth:sanctum'])->get('/get-cart' , [ProductsController::class ,'getLoggedUserCart']);
-Route::middleware(['auth:sanctum'])->delete('/delete-product-cart/{id}' , [ProductsController::class ,'deleteCartItem']);
-Route::middleware(['auth:sanctum'])->delete('/clear-cart' , [ProductsController::class ,'clearCart']);
+Route::middleware(['auth:sanctum'])->post('/add-to-cart', [ProductsController::class, 'addProductToCart']);
+Route::middleware(['auth:sanctum'])->get('/get-cart', [ProductsController::class, 'getLoggedUserCart']);
+Route::middleware(['auth:sanctum'])->delete('/delete-product-cart/{id}', [ProductsController::class, 'deleteCartItem']);
+Route::middleware(['auth:sanctum'])->delete('/clear-cart', [ProductsController::class, 'clearCart']);
+Route::middleware(['auth:sanctum'])->post('/update-quantity', [ProductsController::class, 'updateQuantity']);
+//Coupon Routes
+Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->get('/coupons', [CouponController::class,  'getAllCoupons']);
+Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->get('/coupons/{id}', [CouponController::class,  'getCoupon']);
+Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->post('/coupons', [CouponController::class,  'createCoupon']);
+Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->put('/coupons/{id}', [CouponController::class,  'updateCoupon']);
+Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->delete('/coupons/{id}', [CouponController::class,  'deleteCoupon']);
+Route::middleware(['auth:sanctum'])->get('/valid-coupons', [CouponController::class,  'checkCouponIsValid']);
 
 
+Route::get('/shops/{shopCategory}', [ShopsController::class, 'getCategorizedShops']);
+Route::get('/shops', [ShopsController::class, 'getAllShops']);
+Route::post('/store/create', [ShopsController::class, 'createShop'])->name('shops.create');
 
-Route::get('/shops/{shopCategory}',[ShopsController::class,'getCategorizedShops']);
-Route::get('/shops',[ShopsController::class,'getAllShops']);
-
-Route::get('/categories',[CategoryController::class , 'getAllCategories']);
-Route::get('/categories/{category}',[CategoryController::class , 'getCategory']);
-Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->delete('/delete-category/{category}',[CategoryController::class,  'deleteCategory']);
-Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->post('/add-categories',[CategoryController::class , 'addCategory']);
-Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->put('/update-category/{category}',[CategoryController::class,  'updateCategory']);
+Route::get('/categories', [CategoryController::class, 'getAllCategories']);
+Route::get('/categories/{category}', [CategoryController::class, 'getCategory']);
+Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->delete('/delete-category/{category}', [CategoryController::class,  'deleteCategory']);
+Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->post('/add-categories', [CategoryController::class, 'addCategory']);
+Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->put('/update-category/{category}', [CategoryController::class,  'updateCategory']);
 
 Route::post('/payment', [OrdersController::class, 'processPayment']);
-Route::middleware("auth:sanctum")->group(function(){
-    Route::get('/user/profile',[UsersController::class,'show']);
+Route::middleware("auth:sanctum")->group(function () {
+    Route::get('/user/profile', [UsersController::class, 'show']);
     Route::put('/user/profile/edit', [UsersController::class, 'edit']);
-    Route::post('/orders',[OrdersController::class,'getAllOrders']);
-    Route::get('/orders/{id?}',[OrdersController::class,'getOrderById']);
+    Route::post('/orders', [OrdersController::class, 'getAllOrders']);
+    Route::get('/orders/{id?}', [OrdersController::class, 'getOrderById']);
 });

@@ -78,17 +78,6 @@ class ProductsController extends Controller
         }
     }
 
-    // public function Search(){
-    //     $products=Product::all();
-    //     $shops = Shop::all();
-
-    //     return response()->json([
-    //         'products'=> $products,
-    //         'shops'=> $shops
-
-    //     ],200);
-    // }
-
     public function addProductToCart(Request $request)
     {
         $userId  = $request->user()->id;
@@ -108,6 +97,7 @@ class ProductsController extends Controller
                     'price' => $product->price,
                     'product_name' => $product->title
                 ]);
+                // TODO: Create instance at cart-product table on each product add
                 $cartItems = CartProduct::all();
                 return $this->returnData('cart',$cartItems , 'success');
             }
@@ -165,5 +155,12 @@ class ProductsController extends Controller
         }else{
             return $this->returnError(404 , "Cart not found");
         }
+    }
+
+    public function updateQuantity(Request $request){
+        $cartItem = CartProduct::where('product_id',$request->product_id)->first();
+        $cartItem->update(['quantity' => $request->quantity]);
+
+        return $this->returnData('cart',$cartItem , 'success');        
     }
 }

@@ -13,17 +13,15 @@ async function CardPayment(cartId, shipping_address) {
     // console.log(cartId);
     // console.log(shipping_address);
     // console.log('context values:',values)
-    let response = await axios
-        .post(
-            `http://localhost:8000/checkout/${cartId}`,
-            {
-                shipping_address: shipping_address,
-            },
-            { headers }
-        )
-        console.log(response);
+    let response = await axios.get(
+        `http://localhost:8000/checkout/${cartId}`,
+        {
+            shipping_address: shipping_address,
+        },
+        { headers }
+    );
+    console.log(response);
 }
-
 
 export default function PaymentContextProvider(props) {
     const [cartId, setCartId] = useState(null);

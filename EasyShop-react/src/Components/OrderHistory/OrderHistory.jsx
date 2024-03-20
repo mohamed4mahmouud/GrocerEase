@@ -1,24 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { OrdersTable } from "./OrdersTable";
+import ProfileNav from "../Profile/ProfileNav/ProfileNav";
 
 export default function OrderHistory() {
-    // Dummy orders data for testing
-    const orders = [
-        { id: 1, date: "2024-03-19", total: 100, status: "Pending" },
-        { id: 2, date: "2024-03-20", total: 150, status: "Completed" },
-        { id: 3, date: "2024-03-20", total: 150, status: "Completed" },
-        { id: 4, date: "2024-03-20", total: 150, status: "Completed" },
-        { id: 5, date: "2024-03-20", total: 150, status: "Completed" },
-        { id: 6, date: "2024-03-20", total: 150, status: "Completed" },
-        { id: 7, date: "2024-03-20", total: 150, status: "Completed" },
-        { id: 8, date: "2024-03-20", total: 150, status: "Completed" },
-        // Add more orders as needed
-    ];
 
-    // Use the OrdersTable component here
     return (
-        <div>
-            <OrdersTable orders={orders} />
+        <div className="container text-center mt-5">
+            <div className="row">
+                <div className="col-md-3">
+                    <ProfileNav />
+                </div>
+                <div className="col-md-9">
+                    <OrdersTable />
+                </div>
+            </div>
         </div>
     );
 }

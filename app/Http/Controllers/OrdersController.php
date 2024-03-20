@@ -42,12 +42,12 @@ class OrdersController extends Controller
 
 
     //Payment 
-    public function checkout($cartId, Request $request)
+    public function checkout($cartId, $shipping_address)
     {
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-        $shipping_address = $request->input('shipping_address');
+        // $shipping_address = $request->input('shipping_address');
         // dd($request->all());
-        return $this->returnData('req', $request, 'Success');
+        // return $this->returnData('req', $shipping_address, 'Success');
         //Get Order by its id
         $products = Cart::find($cartId)->products;
         // return response()->json($products);
@@ -71,10 +71,6 @@ class OrdersController extends Controller
             'mode' => 'payment',
             'success_url' => route('checkout.success', [], true) . "?session_id={CHECKOUT_SESSION_ID}",
             'cancel_url' => route('checkout.cancel', [], true),
-            'shipping_address_collection' => [
-                'allowed_countries' => ['EG'],
-            ],
-            'shipping_address' => $shipping_address,
         ]);
 
         $order = new Order();
@@ -85,7 +81,7 @@ class OrdersController extends Controller
         $order->session_id = $session->id;
         //TODO :set user ID dynamically
 
-        $order->user_id = 8;
+        $order->user_id = 1;
         $order->shop_id = 1;
         $order->save();
 

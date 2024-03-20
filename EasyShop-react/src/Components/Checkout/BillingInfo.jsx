@@ -1,32 +1,31 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import { OrderSummery } from "./Order Summery";
 import { PaymentContext } from "../../Context/paymentContext";
 
 export const Checkout = () => {
-    const { CardPayment, cartId } = useContext(PaymentContext);
+    const { cartId } = useContext(PaymentContext);
 
-    const initialValues = {
-        shipping_address: "",
+    const [shippingAddress, setShippingAddress] = useState("");
+    const handleChange = (event) => {
+        setShippingAddress(event.target.value);
     };
-
-    const validationSchema = Yup.object({
-        shipping_address: Yup.string().required("Shipping address is required"),
-    });
-
-    const checkoutSubmit = async (values) => {
-        // console.log("Values:", values);
-        try {
-            const response = await CardPayment(cartId, values.shipping_address);
-            console.log(response)
-            // console.log(response?.data.session.url);
-            // window.location.href = response?.data.session.url;
-        } catch (error) {
-            console.error("Error during checkout:", error);
-        }
+    let userToken = localStorage.getItem("userToken");
+    let headers = {
+        token: userToken,
     };
-
+    const [user, setUser] = useState("");
+    async function getUser() {
+        let response = await axios.get(
+            `http://localhost:8000/api/user`,
+            // {
+            //     shipping_address: shipping_address,
+            // },
+            { headers }
+        );
+    }
+    getUser();
     return (
         <div className="checkout">
             <section className="py-5">
@@ -35,11 +34,7 @@ export const Checkout = () => {
                         <OrderSummery />
                         <div className="col-md-8 order-md-1">
                             <h4 className="mb-3">Billing Information</h4>
-                            <Formik
-                                initialValues={initialValues}
-                                validationSchema={validationSchema}
-                                onSubmit={checkoutSubmit}
-                            >
+                            <Formik>
                                 {(formik) => (
                                     <form onSubmit={formik.handleSubmit}>
                                         <div className="row">
@@ -56,38 +51,16 @@ export const Checkout = () => {
                                                     id="shipping_address"
                                                     name="shipping_address"
                                                     placeholder="1234 Main St"
-                                                    value={
-                                                        formik.values
-                                                            .shipping_address
-                                                    }
-                                                    onChange={
-                                                        formik.handleChange
-                                                    }
-                                                    onBlur={formik.handleBlur}
+                                                    value={shippingAddress}
+                                                    onChange={handleChange}
                                                     required
                                                 />
-                                                {formik.touched
-                                                    .shipping_address &&
-                                                    formik.errors
-                                                        .shipping_address && (
-                                                        <div className="invalid-feedback">
-                                                            {
-                                                                formik.errors
-                                                                    .shipping_address
-                                                            }
-                                                        </div>
-                                                    )}
                                             </div>
                                         </div>
                                         <a
-                                            href={`http://localhost:8000/checkout?${cartId}`}
+                                            href={`http://localhost:8000/checkout/${cartId}/${shippingAddress}`}
                                         >
-                                            <button
-                                                className="btn px-4 rounded-pill greencart text-white fw-medium"
-                                                type="submit"
-                                            >
-                                                Place Order
-                                            </button>
+                                            Place order
                                         </a>
                                     </form>
                                 )}

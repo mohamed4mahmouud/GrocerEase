@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import Style from "./Products.module.css";
 
+
 export function getProducts() {
     return axios.get(`http://127.0.0.1:8000/api/products`);
 }
@@ -27,6 +28,7 @@ export const Products = () => {
                         <span className="visually-hidden">Loading...</span>
                     </div>
                 </div>
+              
             ) : (
                 <div className="container py-2">
                     <div className="row row-cols-5 g-3">

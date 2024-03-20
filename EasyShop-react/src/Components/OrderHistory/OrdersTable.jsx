@@ -2,20 +2,36 @@ import React, { useState } from "react";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import styles from "./OrdersTable.module.css";
+import axios from "axios";
+import { useQuery } from "react-query";
 
-// Define OrdersTable component
-export const OrdersTable = ({ orders }) => {
+export const OrdersTable = () => {
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 5;
+    const ordersPerPage = 3;
 
-    // Logic for displaying orders
+    const {
+        data: orders,
+        isLoading,
+        isError,
+    } = useQuery("orders", async () => {
+        const response = await axios.post(`http://localhost:8000/api/orders`);
+        console.log("Orders: ", response);
+        return response.data;
+    });
+    console.log(orders?.orders);
+
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+    const currentOrders = orders?.orders
+        ? orders?.orders.slice(indexOfFirstOrder, indexOfLastOrder)
+        : [];
 
-    // Logic for rendering page numbers
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(orders.length / ordersPerPage); i++) {
+    for (
+        let i = 1;
+        i <= Math.ceil((orders ? orders?.orders.length : 0) / ordersPerPage);
+        i++
+    ) {
         pageNumbers.push(i);
     }
 
@@ -27,11 +43,6 @@ export const OrdersTable = ({ orders }) => {
                     currentPage === number ? styles.active : ""
                 }`}
                 onClick={() => setCurrentPage(number)}
-                // style={{
-                //     color: currentPage === number ? "white" : "black",
-                //     backgroundColor:
-                //         currentPage === number ? "blue" : "transparent",
-                // }}
             >
                 {number}
             </button>
@@ -46,15 +57,28 @@ export const OrdersTable = ({ orders }) => {
     };
 
     const goToNextPage = () => {
-        if (currentPage < Math.ceil(orders.length / ordersPerPage)) {
+        if (
+            currentPage <
+            Math.ceil((orders ? orders?.orders.length : 0) / ordersPerPage)
+        ) {
             setCurrentPage(currentPage + 1);
             console.log("Current Page: ", currentPage + 1);
         }
     };
 
+    if (isLoading)
+        return (
+            <div className="d-flex justify-content-center mt-2">
+                <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        );
+    if (isError) return <div>Error fetching orders</div>;
+
     return (
         <>
-            <div className="container border rounded-2 p-0 mt-5">
+            <div className="container border rounded-2 p-0">
                 <h5 className="mt-3 mb-3 ms-3">Order History</h5>
                 <div className="table-container">
                     <Table borderless>
@@ -71,8 +95,8 @@ export const OrdersTable = ({ orders }) => {
                             {currentOrders.map((order) => (
                                 <tr key={order.id}>
                                     <td>{order.id}</td>
-                                    <td>{order.date}</td>
-                                    <td>{order.total}</td>
+                                    <td>{order.shipping_date}</td>
+                                    <td>{order.price}</td>
                                     <td>{order.status}</td>
                                     <td>
                                         <Link
@@ -108,7 +132,10 @@ export const OrdersTable = ({ orders }) => {
                                 onClick={goToNextPage}
                                 disabled={
                                     currentPage ===
-                                    Math.ceil(orders.length / ordersPerPage)
+                                    Math.ceil(
+                                        (orders ? orders?.orders.length : 0) /
+                                            ordersPerPage
+                                    )
                                 }
                             >
                                 {">"}
