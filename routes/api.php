@@ -80,5 +80,5 @@ Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->group(function(){
 });
 
 Route::post('/payment', [OrdersController::class, 'processPayment']);
-
-Route::get('/trackme',[TrackingController::class,'index']);
+Route::get('/deliveries/{delivery}',[TrackingController::class,'getDeliveryLocation']);
+Route::put('/deliveries/{delivery}',[TrackingController::class,'updateLocation']);
