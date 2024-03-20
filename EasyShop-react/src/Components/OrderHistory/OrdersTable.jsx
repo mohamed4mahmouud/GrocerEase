@@ -20,10 +20,12 @@ export const OrdersTable = ({ orders }) => {
     }
 
     const renderPageNumbers = pageNumbers.map((number) => (
-        <li key={number} className="page-item">
-            <a
+        <li key={number} className={styles.pageItem}>
+            <button
                 href="#!"
-                className={`page-link ${styles.circle}`}
+                className={`${styles.pageLink} ${
+                    currentPage === number ? styles.active : ""
+                }`}
                 onClick={() => setCurrentPage(number)}
                 // style={{
                 //     color: currentPage === number ? "white" : "black",
@@ -32,7 +34,7 @@ export const OrdersTable = ({ orders }) => {
                 // }}
             >
                 {number}
-            </a>
+            </button>
         </li>
     ));
 
@@ -74,6 +76,7 @@ export const OrdersTable = ({ orders }) => {
                                         <Link
                                             className="text-decoration-none"
                                             to="#"
+                                            style={{ color: '#3BB77E' }}
                                         >
                                             View Details
                                         </Link>
@@ -84,25 +87,30 @@ export const OrdersTable = ({ orders }) => {
                     </Table>
                 </div>
                 <nav>
-                    <ul className="pagination justify-content-center">
-                        <li className="page-item">
-                            <a
-                                href="#!"
-                                className={`page-link ${styles.paginationArrow}`}
+                    <ul
+                        className={`pagination justify-content-center ${styles.pagination}`}
+                    >
+                        <li className={styles.pageItem}>
+                            <button
+                                className={`${styles.pageLink} ${styles.paginationArrow}`}
                                 onClick={goToPrevPage}
+                                disabled={currentPage === 1}
                             >
                                 {"<"}
-                            </a>
+                            </button>
                         </li>
                         {renderPageNumbers}
-                        <li className="page-item">
-                            <a
-                                href="#!"
-                                className={`page-link ${styles.paginationArrow}`}
+                        <li className={styles.pageItem}>
+                            <button
+                                className={`${styles.pageLink} ${styles.paginationArrow}`}
                                 onClick={goToNextPage}
+                                disabled={
+                                    currentPage ===
+                                    Math.ceil(orders.length / ordersPerPage)
+                                }
                             >
                                 {">"}
-                            </a>
+                            </button>
                         </li>
                     </ul>
                 </nav>
