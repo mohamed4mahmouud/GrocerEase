@@ -3,14 +3,14 @@ import pusher from './Pusher';
 
 const LocationUpdaterComponent = ({ onUpdateLocation }) => {
     useEffect(() => {
-        const channel = pusher.subscribe('delivery-channel');
+        const channel = pusher.subscribe('deliveries');
 
-        channel.bind('LocationUpdated', (data) => {
+        channel.bind('delivery.location.updated', (data) => {
             onUpdateLocation(data); // Pass location data to parent component
         });
 
         return () => {
-            pusher.unsubscribe('delivery-channel');
+            pusher.unsubscribe('deliveries');
         };
     }, []);
 

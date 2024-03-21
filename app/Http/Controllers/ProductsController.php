@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
-use App\Models\CartProduct;
 use App\Models\Shop;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\CartProduct;
+use Illuminate\Support\Str;
 use App\Traits\GeneralTrait;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
 {
@@ -24,23 +27,29 @@ class ProductsController extends Controller
         $products = Product::find($id);
         return $this->returnData('products', $products, 'Success');
     }
-    public function create(Request $request)
+    public function create(Request $request ,Shop $shop , Category $category)
     {
         try {
             if ($request->user()) {
+
+               // save image in Cloudinary
+                $uploadedFileUrl = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
                 $products = new Product();
 
                 $products->title = $request->input('title');
                 $products->description = $request->input('description');
                 $products->price = $request->input('price');
                 $products->quantity = $request->input('quantity');
+                $products->image = $uploadedFileUrl;
                 $products->user_id = $request->user()->id;
+                $products->shop_id = $shop->id;
+                $products->category_id = $category->id;
                 $products->save();
 
                 return $this->returnData('products', $products, 'Success');
             }
         } catch (\Exception $e) {
-            return $this->returnError(500, 'Error occurred while creating the product.');
+            return $this->returnError(500, $e);
         }
     }
     public function updateById(Request $request, $id)
@@ -168,6 +177,6 @@ class ProductsController extends Controller
         $cartItem = CartProduct::where('product_id',$request->product_id)->first();
         $cartItem->update(['quantity' => $request->quantity]);
 
-        return $this->returnData('cart',$cartItem , 'success');        
+        return $this->returnData('cart',$cartItem , 'success');
     }
 }

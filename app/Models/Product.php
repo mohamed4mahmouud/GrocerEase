@@ -15,7 +15,12 @@ class Product extends Model
         'description',
         'price',
         'quantity',
-        'user_id'
+        'user_id',
+        'image',
+        'shop_id',
+        'category_id',
+        'discount',
+        'article'
     ];
 
     public function category()
@@ -32,4 +37,14 @@ class Product extends Model
     {
         return $this->belongsToMany(Cart::class);
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function averageRating()
+{
+    return $this->reviews()->avg('rating');
+}
 }
