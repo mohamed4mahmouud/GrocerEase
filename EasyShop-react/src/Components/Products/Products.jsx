@@ -3,17 +3,16 @@ import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import Style from "./Products.module.css";
 
-
 export function getProducts() {
     return axios.get(`http://127.0.0.1:8000/api/products`);
 }
 
-export async function addToCart (product){
+export async function addToCart(product) {
     let data = {
-        'product_id':product.id
-    }
-   console.log(data);
-   let res = await axios.post(`http://127.0.0.1:8000/api/add-to-cart`,data);
+        product_id: product.id,
+    };
+    console.log(data);
+    let res = await axios.post(`http://127.0.0.1:8000/api/add-to-cart`, data);
 }
 
 export const Products = () => {
@@ -28,7 +27,6 @@ export const Products = () => {
                         <span className="visually-hidden">Loading...</span>
                     </div>
                 </div>
-              
             ) : (
                 <div className="container py-2">
                     <div className="row row-cols-5 g-3">
@@ -39,7 +37,7 @@ export const Products = () => {
                                     to={`/product/${product.id}`}
                                 >
                                     <img
-                                        src={product.thumbnail}
+                                        src={product.image}
                                         alt=".."
                                         className="w-60 card-img-top"
                                     />
@@ -52,7 +50,7 @@ export const Products = () => {
                                         <p
                                             className={`card-text ${Style.text}`}
                                         >
-                                             ${product.price}
+                                            ${product.price}
                                         </p>
                                         <i
                                             className={`fa-solid fa-star ${Style.ratingstar}`}

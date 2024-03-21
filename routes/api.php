@@ -92,7 +92,8 @@ Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->group(function(){
     Route::delete('/delete-category/{category}',[CategoryController::class,  'deleteCategory']);
     Route::post('/add-categories',[CategoryController::class , 'addCategory']);
     Route::put('/update-category/{category}',[CategoryController::class,  'updateCategory']);
-    Route::post('/addproducts', [ProductsController::class, 'create']);
+    //add product route
+    Route::post('/shops/{shop}/categories/{category}/products', [ProductsController::class, 'create']);
 
 });
 
