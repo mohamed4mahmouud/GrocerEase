@@ -168,6 +168,21 @@ class ProductsController extends Controller
         $cartItem = CartProduct::where('product_id',$request->product_id)->first();
         $cartItem->update(['quantity' => $request->quantity]);
 
-        return $this->returnData('cart',$cartItem , 'success');        
+        return $this->returnData('cart',$cartItem , 'success');
     }
+
+    public function getProductWithAverageRating(string $id)
+{
+    $product = Product::find($id);
+
+    if(!$product){
+        return $this->returnError('404' , "This product don't have any reviews");
+    }
+
+    $averageRating = $product->averageRating();
+    return response()->json([
+        'product' => $product,
+        'averageRating' => $averageRating,
+    ]);
+}
 }
