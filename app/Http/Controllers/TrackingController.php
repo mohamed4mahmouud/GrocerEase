@@ -8,6 +8,7 @@ use App\Models\Delivery;
 use App\Traits\GeneralTrait;
 use Illuminate\Support\Facades\DB;
 // use GoogleMaps\Facade\GoogleMapsFacade;
+use App\Events\DeliveryLocationUpdated;
 use Illuminate\Http\Request as Request;
 
 class TrackingController extends Controller
@@ -33,6 +34,7 @@ class TrackingController extends Controller
         $delivery->update([
             'current_location' => DB::raw("POINT({$request->latitude}, {$request->longitude})")
         ]);
+        event(new DeliveryLocationUpdated($request->latitude, $request->longitude));
         return $this->returnData('delivery', $delivery, 'Delivery location updated successfully');
     }
 }
