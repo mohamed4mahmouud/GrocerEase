@@ -7,7 +7,7 @@ import { useQuery } from "react-query";
 
 export const OrdersTable = () => {
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 3;
+    const ordersPerPage = 5;
 
     const {
         data: orders,

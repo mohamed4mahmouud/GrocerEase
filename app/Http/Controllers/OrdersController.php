@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use Stripe\Stripe;
+use App\Models\Cart;
 use App\Models\Order;
 use Stripe\PaymentIntent;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\OrderValidation;
-use App\Models\Cart;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class OrdersController extends Controller
@@ -26,14 +27,27 @@ class OrdersController extends Controller
             return $this->returnData('orders', null, "success");
         }
     }
-    public function getOrderById(Request $request, $id)
-    {
-        $order = Order::find($id);
+    public function getOrderById(Request $request,$id){
+        $order=Order::find($id);
+        
+        if ($request->user()->id==$order->user_id) {
+            $delivery=$order->delivery()->select(
+                [
+                    'id','order_id','status',
+                    DB::raw("GetLatitude(current_location) as latitude"),
+                    DB::raw("GetLongitude(current_location) as longitude")
+                ]
+            )
+            ->where('order_id', $order->id)
+            ->firstOrFail();
+            return response()->json(
+                [
+                    "order"=>$order,"delivery"=>$delivery,"msg"=>"success"
+                ]
+        );
 
-        if ($request->user()->id == $order->user_id) {
-            return $this->returnData("order", $order, "success");
-        } else {
-            return $this->returnError(401, "unAuthorized");
+        }else{
+            return $this->returnError(401,"unAuthorized");
         }
     }
 

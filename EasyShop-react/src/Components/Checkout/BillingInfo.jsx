@@ -3,6 +3,7 @@ import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import { OrderSummery } from "./Order Summery";
 import { PaymentContext } from "../../Context/paymentContext";
+import axios from "axios";
 
 export const Checkout = () => {
     const { cartId } = useContext(PaymentContext);
@@ -17,13 +18,10 @@ export const Checkout = () => {
     };
     const [user, setUser] = useState("");
     async function getUser() {
-        let response = await axios.get(
-            `http://localhost:8000/api/user`,
-            // {
-            //     shipping_address: shipping_address,
-            // },
-            { headers }
-        );
+        let response = await axios.get(`http://localhost:8000/api/user`, {
+            headers,
+        });
+        setUser(response.data.id);
     }
     getUser();
     return (
@@ -43,7 +41,7 @@ export const Checkout = () => {
                                                     htmlFor="shipping_address"
                                                     className="form-label"
                                                 >
-                                                    Street Address
+                                                    Your Address
                                                 </label>
                                                 <input
                                                     type="text"
@@ -58,7 +56,8 @@ export const Checkout = () => {
                                             </div>
                                         </div>
                                         <a
-                                            href={`http://localhost:8000/checkout/${cartId}/${shippingAddress}`}
+                                            className="btn greencart text-white fw-semibold"
+                                            href={`http://localhost:8000/checkout/${cartId}/${shippingAddress}/${user}`}
                                         >
                                             Place order
                                         </a>
