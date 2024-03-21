@@ -182,7 +182,7 @@ export default function Cart() {
                                                         <td>
                                                             {cartItem.price *
                                                                 cartItem.quantity}{" "}
-                                                            EGP
+                                                            $
                                                         </td>
                                                         <td>
                                                             <button
@@ -257,11 +257,12 @@ export default function Cart() {
                                             <h5>Total:</h5>
                                             <h5>{cartSubTotal} $</h5>
                                         </div>
-                                        <button
+                                        <Link
+                                            to="/checkout"
                                             className={`${style.mainColor} btn btn-primary w-100 rounded-5 mt-3`}
                                         >
-                                            Procced to checkout
-                                        </button>
+                                            Proceed to checkout
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

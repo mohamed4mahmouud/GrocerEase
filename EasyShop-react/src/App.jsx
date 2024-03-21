@@ -18,6 +18,7 @@ import { useContext } from "react";
 import CreateShop from "./Components/Shops/CreateShop";
 import ProfileEdit from "./Components/Profile/ProfileEdit/ProfileEdit";
 import { Checkout } from "./Components/Checkout/BillingInfo";
+import OrderDetails from "./Components/Order Details/OrderDetails";
 
 let routers = createBrowserRouter([
     {
@@ -36,6 +37,10 @@ let routers = createBrowserRouter([
             { path: "shops/:category", element: <Shops /> },
             { path: "createshop", element: <CreateShop /> },
             { path: "checkout", element: <Checkout /> },
+            {
+                path: "orders/:orderId",
+                element: <OrderDetails />,
+            },
             { path: "*", element: <ErrorPage /> },
         ],
     },
