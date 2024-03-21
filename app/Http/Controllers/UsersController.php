@@ -15,16 +15,16 @@ class UsersController extends Controller
     }
     public function show(Request $request){
         $user = $request->user();
-    
+
         if($user){
             return $this->returnData('users',$user,'Success');
         }else{
             return $this->returnError(401,'Invalid');
         }
-        
+
     }
     public function edit(Request $request)
-    {  
+    {
         $user = $request->user();
 
         $user->update([
@@ -35,5 +35,5 @@ class UsersController extends Controller
 
         return response()->json(['message' => 'Profile updated successfully']);
     }
-    
+
 }

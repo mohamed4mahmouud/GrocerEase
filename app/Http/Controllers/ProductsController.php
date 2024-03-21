@@ -104,6 +104,7 @@ class ProductsController extends Controller
                     'price' => $product->price,
                     'product_name' => $product->title
                 ]);
+                // TODO: Create instance at cart-product table on each product add
                 $cartItems = CartProduct::all();
                 return $this->returnData('cart',$cartItems , 'success');
             }
