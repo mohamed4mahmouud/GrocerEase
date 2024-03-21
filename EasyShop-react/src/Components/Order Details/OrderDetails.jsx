@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useQuery } from "react-query";
-import { Container, Row, Col } from "react-bootstrap";
+// import { Container, Row, Col } from "react-bootstrap";
 import product1 from "../../assets/Green-Capsicum.png";
 
 const OrderDetails = ({ orderId }) => {
@@ -70,21 +70,12 @@ const OrderDetails = ({ orderId }) => {
     };
 
     return (
-        <Container>
-            <Row>
+        <div className="container">
+            <div className="row">
                 <h2 className="my-4">Order Details</h2>
-            </Row>
-            <Row>
-                <Col>
-                    <p>Order ID: {order.id}</p>
-                    <p>Payment Method: {order.paymentMethod}</p>
-                    <p>
-                        Billing Address: <br />
-                        {order.billingAddress.name} <br />
-                        {order.billingAddress.address} <br />
-                        {order.billingAddress.city},{" "}
-                        {order.billingAddress.zipCode}
-                    </p>
+            </div>
+            <div className="row border">
+                <div className="col-4 border mt-3 ms-3">
                     <p>
                         Shipping Address: <br />
                         {order.shippingAddress.name} <br />
@@ -94,26 +85,13 @@ const OrderDetails = ({ orderId }) => {
                     </p>
                     <p>Email: {order.email}</p>
                     <p>Phone: {order.phone}</p>
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Product</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Subtotal</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {order.products.map((product, index) => (
-                                <tr key={index}>
-                                    <td>{product.name}</td>
-                                    <td>{product.price}</td>
-                                    <td>{product.quantity}</td>
-                                    <td>{product.subtotal}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                </div>
+                <div className="col-4 align-content-center">
+                    <div className="d-flex justify-content-between mt-2">
+                        <p>Order ID: {order.id}</p>
+                        <p>Payment Method: {order.paymentMethod}</p>
+                    </div>
+                    <hr />
                     <p>
                         Subtotal: <strong>{order.subtotal}</strong>
                     </p>
@@ -127,9 +105,30 @@ const OrderDetails = ({ orderId }) => {
                         Total: <strong>{order.total}</strong>
                     </p>
                     <p>Order Status: {order.status}</p>
-                </Col>
-            </Row>
-        </Container>
+                </div>
+
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {order.products.map((product, index) => (
+                            <tr key={index}>
+                                <td>{product.name}</td>
+                                <td>{product.price}</td>
+                                <td>{product.quantity}</td>
+                                <td>{product.subtotal}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     );
 };
 

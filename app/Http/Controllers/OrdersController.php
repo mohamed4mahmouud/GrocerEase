@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Stripe\Stripe;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Delivery;
 use Stripe\PaymentIntent;
+use App\Models\CartProduct;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\OrderValidation;
-use App\Models\CartProduct;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class OrdersController extends Controller
@@ -100,6 +101,14 @@ class OrdersController extends Controller
         $order->user_id = $user;
         $order->shop_id = 1;
         $order->save();
+
+        $delivery = new Delivery();
+        $delivery->order_id = $order->id;
+        $delivery->save();
+
+        $order->delivery_id = $delivery->id;
+        $order->save();
+
         return redirect($session->url);
     }
 

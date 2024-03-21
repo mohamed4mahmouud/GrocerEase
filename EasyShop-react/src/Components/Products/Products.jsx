@@ -3,22 +3,21 @@ import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import Style from "./Products.module.css";
 
-
 export function getProducts() {
     return axios.get(`http://127.0.0.1:8000/api/products`);
 }
 
-export async function addToCart (product){
+export async function addToCart(product) {
     let data = {
-        'product_id':product.id
-    }
-   let res = await axios.post(`http://127.0.0.1:8000/api/add-to-cart`,data);
-   console.log(res);
+        product_id: product.id,
+    };
+    console.log(data);
+    let res = await axios.post(`http://127.0.0.1:8000/api/add-to-cart`, data);
 }
 
 export const Products = () => {
     let { isLoading, data } = useQuery("getProducts", getProducts);
-    // console.log(data?.data.products);
+    // console.log(data?.data);
 
     return (
         <>
@@ -28,18 +27,17 @@ export const Products = () => {
                         <span className="visually-hidden">Loading...</span>
                     </div>
                 </div>
-              
             ) : (
                 <div className="container py-2">
                     <div className="row row-cols-5 g-3">
                         {data?.data.products.map((product) => (
                             <div key={product.id} className="col-md-2">
                                 <Link
-                                    className={`cursor-pointer py-3 px-2 card  ${Style.card} h-100 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-0-hover`}
-                                    to="#"
+                                    className={`cursor-pointer py-3 px-2 card ${Style.card} h-100 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-0-hover`}
+                                    to={`/product/${product.id}`}
                                 >
                                     <img
-                                        src={product.thumbnail}
+                                        src={product.image}
                                         alt=".."
                                         className="w-60 card-img-top"
                                     />
@@ -52,7 +50,7 @@ export const Products = () => {
                                         <p
                                             className={`card-text ${Style.text}`}
                                         >
-                                            EGP {product.price}
+                                            ${product.price}
                                         </p>
                                         <i
                                             className={`fa-solid fa-star ${Style.ratingstar}`}

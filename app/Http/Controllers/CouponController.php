@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coupon;
+use App\Models\Product;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Http\Requests\CouponRequest;
 
 
 class CouponController extends Controller
@@ -27,15 +29,20 @@ class CouponController extends Controller
 
     // @desc  Create coupon
     // @access Owner
-    public function createCoupon(Request $request)
+    public function createCoupon(CouponRequest $request)
     {
         try {
+            if(!$request->validated()){
+                $errors = $request->errors();
+                return $this->returnError(422, $errors);
+            }
+
             $coupon = Coupon::create([
                 'body'=> $request->body,
                 'discount'=> $request->discount,
-                'Expiry_date'=> $request->expiry_date
+                'Expiry_date'=> Carbon::parse($request->expiry_date)
             ]);
-            return $this->returnSuccessMessage('Coupon Created');
+            return $this->returnData('Coupon' , $coupon , 'created');
         } catch (\Exception $e) {
             return $this->returnError(500, 'Error occurred while Create coupon');
         }
@@ -102,7 +109,7 @@ class CouponController extends Controller
     }
 
     // @desc  check coupon Is Valid
-    public function checkCouponIsValid(Request $request)
+    public function checkCouponIsValid(Product $product,Request $request)
     {
         try {
             $reqCoupon = $request->coupon;
@@ -112,13 +119,18 @@ class CouponController extends Controller
                 return $this->returnError(404 , 'Invalid Coupon');
             }
 
-            $expiryDate = Carbon::parse($coupon->expiry_date);
+            $expiryDate = Carbon::parse($coupon->Expiry_date);
 
             // Check if expiry date is greater than now
             if ($expiryDate->isPast()) {
                 return $this->returnError(400, 'Coupon has expired');
             }
-            return $this->returnSuccessMessage('success');
+            $discountedPrice = $product->price - $coupon->discount;
+            return response()->json([
+                'discountedPrice' => $discountedPrice,
+                'message' =>'success'
+            ]);
+
         } catch (\Exception $e) {
             return $this->returnError(500, 'Error occurred while check coupon');
         }
