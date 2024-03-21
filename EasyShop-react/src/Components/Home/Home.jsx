@@ -19,37 +19,37 @@ export default function Home() {
                 <p className="h1 mt-5">Select a service</p>
                 <div className="row d-flex  col-md-12 mt-5 mb-5">
                     <div className="col-md-4">
-                    <Link className="text-decoration-none text-dark">
+                    <Link className="text-decoration-none text-dark" to={'/shops/SuperMarkets'}>
                         <img src="../../images/superMarket.png" alt="superMarket" className={`${style.category} rounded-pill mb-3 w-50`}/>
                         <p className="h2 mb-5">Supermarkets</p>
                     </Link>
                     </div>
                     <div className="col-md-4">
-                    <Link className="text-decoration-none text-dark">
+                    <Link className="text-decoration-none text-dark" to={'/shops/Pharmacy'}>
                         <img src="../../images/pharmacy.png" alt="superMarket" className={`${style.category} rounded-pill mb-3 w-50`}/>
                         <p className="h2 mb-5">Pharmacy</p>
                     </Link>
                     </div>
                     <div className="col-md-4">
-                    <Link className="text-decoration-none text-dark">
+                    <Link className="text-decoration-none text-dark" to={'/shops/Grocery'}>
                         <img src="../../images/fruits.png" alt="superMarket" className={`${style.category} rounded-pill mb-3 w-50`}/>
-                        <p className="h2 mb-5">Fruits & Vegetables</p>
+                        <p className="h2 mb-5">Green Groceries</p>
                     </Link>
                     </div>
                     <div className="col-md-4">
-                    <Link className="text-decoration-none text-dark">
+                    <Link className="text-decoration-none text-dark" to={'/shops/Butchery'}>
                         <img src="../../images/butchery.png" alt="superMarket" className={`${style.category} rounded-pill mb-3 w-50`}/>
                         <p className="h2">Butchery & Seafood</p>
                     </Link>
                     </div>
                     <div className="col-md-4">
-                    <Link className="text-decoration-none text-dark">
+                    <Link className="text-decoration-none text-dark" to={'/shops/Bakery'}>
                         <img src="../../images/bakeries.png" alt="superMarket" className={`${style.category} rounded-pill mb-3 w-50`}/>
                         <p className="h2">Bakeries & Cakes</p>
                     </Link>
                     </div>
                     <div className="col-md-4">
-                    <Link className="text-decoration-none text-dark">
+                    <Link className="text-decoration-none text-dark" to={'/shops/PetShop'}>
                         <img src="../../images/pets.png" alt="superMarket" className={`${style.category} rounded-pill mb-3 w-50`}/>
                         <p className="h2">Pets</p>
                     </Link>
