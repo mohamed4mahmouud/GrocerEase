@@ -170,19 +170,4 @@ class ProductsController extends Controller
 
         return $this->returnData('cart',$cartItem , 'success');
     }
-
-    public function getProductWithAverageRating(string $id)
-{
-    $product = Product::find($id);
-
-    if(!$product){
-        return $this->returnError('404' , "This product don't have any reviews");
-    }
-
-    $averageRating = $product->averageRating();
-    return response()->json([
-        'product' => $product,
-        'averageRating' => $averageRating,
-    ]);
-}
 }
