@@ -5,7 +5,15 @@ import { useQuery } from "react-query";
 
 export const OrderSummery = () => {
     let { isLoading, data } = useQuery("getCart", getCart);
-    // console.log(data?.data.cart);
+
+    const calculateSubtotal = () => {
+        let subtotal = 0;
+        data?.data.cart.forEach((cartItem) => {
+            subtotal += cartItem.price * cartItem.quantity;
+        });
+        return subtotal;
+    };
+
     return (
         <>
             {isLoading ? (
@@ -19,7 +27,7 @@ export const OrderSummery = () => {
             ) : (
                 <div className="col-md-4 order-md-2 mb-4">
                     <h4 className="d-flex justify-content-between align-items-center mb-3">
-                        <span className="checkout">Order Summery</span>
+                        <span className="checkout">Order Summary</span>
                     </h4>
                     <ul className="list-group mb-3">
                         <ul className="list-group">
@@ -45,13 +53,15 @@ export const OrderSummery = () => {
                                     </div>
 
                                     <span className="text-muted mt-3">
-                                        EGP {cartItem.price}
+                                        {cartItem.price} $
                                     </span>
                                 </li>
                             ))}
                             <li className="list-group-item d-flex justify-content-between">
                                 <span>Subtotal:</span>
-                                <span className="text-muted">$20.00</span>
+                                <span className="text-muted">
+                                    {calculateSubtotal()} $
+                                </span>
                             </li>
                             <li className="list-group-item d-flex justify-content-between">
                                 <span>Shipping:</span>
@@ -59,7 +69,7 @@ export const OrderSummery = () => {
                             </li>
                             <li className="list-group-item d-flex justify-content-between">
                                 <span>Total:</span>
-                                <strong>$20</strong>
+                                <strong>{calculateSubtotal()} $</strong>
                             </li>
                         </ul>
                     </ul>

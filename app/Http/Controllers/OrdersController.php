@@ -10,6 +10,7 @@ use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\OrderValidation;
+use App\Models\CartProduct;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class OrdersController extends Controller
@@ -27,27 +28,27 @@ class OrdersController extends Controller
             return $this->returnData('orders', null, "success");
         }
     }
-    public function getOrderById(Request $request,$id){
-        $order=Order::find($id);
-        
-        if ($request->user()->id==$order->user_id) {
-            $delivery=$order->delivery()->select(
+    public function getOrderById(Request $request, $id)
+    {
+        $order = Order::find($id);
+
+        if ($request->user()->id == $order->user_id) {
+            $delivery = $order->delivery()->select(
                 [
-                    'id','order_id','status',
+                    'id', 'order_id', 'status',
                     DB::raw("GetLatitude(current_location) as latitude"),
                     DB::raw("GetLongitude(current_location) as longitude")
                 ]
             )
-            ->where('order_id', $order->id)
-            ->firstOrFail();
+                ->where('order_id', $order->id)
+                ->firstOrFail();
             return response()->json(
                 [
-                    "order"=>$order,"delivery"=>$delivery,"msg"=>"success"
+                    "order" => $order, "delivery" => $delivery, "msg" => "success"
                 ]
-        );
-
-        }else{
-            return $this->returnError(401,"unAuthorized");
+            );
+        } else {
+            return $this->returnError(401, "unAuthorized");
         }
     }
 
@@ -59,15 +60,15 @@ class OrdersController extends Controller
     public function checkout($cartId, $shipping_address, $user)
     {
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-        // $shipping_address = $request->input('shipping_address');
-        // dd($request->all());
-        // return $this->returnData('req', $shipping_address, 'Success');
         //Get Order by its id
+
         $products = Cart::find($cartId)->products;
+        $cartProducts = CartProduct::where('cart_id', $cartId)->get();
         // return response()->json($products);
         $lineItems = [];
         $totalPrice = 0;
         foreach ($products as $product) {
+            $cartProduct = $cartProducts->where('product_id', $product->id)->first();
             $totalPrice += $product->price;
             $lineItems[] = [
                 'price_data' => [
@@ -77,7 +78,7 @@ class OrdersController extends Controller
                     ],
                     'unit_amount' => $product->price * 100,
                 ],
-                'quantity' => $product->quantity,
+                'quantity' => $cartProduct->quantity,
             ];
         }
         $session = \Stripe\Checkout\Session::create([
@@ -98,7 +99,6 @@ class OrdersController extends Controller
         $order->user_id = $user;
         $order->shop_id = 1;
         $order->save();
-
         return redirect($session->url);
     }
 
