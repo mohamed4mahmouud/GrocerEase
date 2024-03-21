@@ -35,6 +35,7 @@ Route::middleware(['auth:sanctum','checkAdminToken'])->get('/users',[UsersContro
 
 Route::get('/products',[ProductsController::class,'getAllProducts']);
 Route::get('/products/{id}', [ProductsController::class, 'getProductById']);
+Route::post('/RelatedProducts', [ProductsController::class, 'getRelatedProduct']);
 
 Route::middleware(['auth:sanctum'])->group(function(){
     //Products Routes

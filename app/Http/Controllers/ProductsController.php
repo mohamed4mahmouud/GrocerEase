@@ -77,6 +77,13 @@ class ProductsController extends Controller
             return $this->returnError(500, 'Error occurred while deleting the product.');
         }
     }
+    public function getRelatedProduct(Request $request){
+        $productId = $request->id;
+        $categoryId = $request->category_id;
+        $products = Product::where('category_id',$categoryId)
+        ->where('id', '!=', $productId)->get();
+        return $this->returnData('products', $products, 'Success');
+    }
 
     public function addProductToCart(Request $request)
     {
