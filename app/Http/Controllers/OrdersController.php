@@ -69,7 +69,8 @@ class OrdersController extends Controller
         $totalPrice = 0;
         foreach ($products as $product) {
             $cartProduct = $cartProducts->where('product_id', $product->id)->first();
-            $totalPrice += $product->price;
+            $productTotalPrice = $product->price * $cartProduct->quantity;
+            $totalPrice += $productTotalPrice;
             $lineItems[] = [
                 'price_data' => [
                     'currency' => 'usd',
