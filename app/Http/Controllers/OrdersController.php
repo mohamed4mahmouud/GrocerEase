@@ -56,7 +56,7 @@ class OrdersController extends Controller
 
 
     //Payment 
-    public function checkout($cartId, $shipping_address)
+    public function checkout($cartId, $shipping_address, $user)
     {
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
         // $shipping_address = $request->input('shipping_address');
@@ -93,9 +93,9 @@ class OrdersController extends Controller
         $order->shipping_date = now();
         $order->price = $totalPrice;
         $order->session_id = $session->id;
-        //TODO :set user ID dynamically
+        //TODO: set shop ID for multiple shops
 
-        $order->user_id = 1;
+        $order->user_id = $user;
         $order->shop_id = 1;
         $order->save();
 
