@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useQuery } from 'react-query';
 import CartTotal from './CartTotal';
+import PlusMinusCounter from './PlusMinusCounter';
 
 export async function getCart(){
   return await axios.get(`http://127.0.0.1:8000/api/get-cart`);
@@ -29,48 +30,17 @@ export async function getCart(){
   
 }
 
-const  PlusMinusCounter = ({ quantity , onQuantityChange}) => {
-  const [count, setCount] = useState(quantity);
-
-  const increment = () => {
-    const newCount = count+1
-    setCount(newCount);
-  
-    // onQuantityChange(newCount);
-  };
-
-  const decrement = () => {
-    if (count > 1) {
-      const newCount = count - 1;
-      setCount(newCount);
-      // onQuantityChange(newCount);
-    }
-  };
-  return (
-    <div className="container">
-      <div>
-        <div className="col-md-5">
-          <div className="d-flex justify-content-center align-items-center border rounded-pill"  style={{height:"40px",width:"110px"}}>
-            <button onClick={decrement} className={`${style.counterButton} rounded-5`}>-</button>
-            <span className="mx-3">{count}</span>
-            <button onClick={increment} className={`${style.counterButton} rounded-5`}>+</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 
 export default function Cart() {
   let { isLoading , data } = useQuery("getCart",getCart);
-
   
-  const handleQuantityChange = (newQuantity) => {
-    console.log('New Quantity:', newQuantity);
-    // You can perform any necessary updates here
-  };
+  const [countFromChild, setCountFromChild] = useState(0);
 
+  const handleQuantityChange = (newCount) => {
+    setCountFromChild(newCount);
+  };
+// console.log(countFromChild);
   // set subtotal
 let [cartSubTotal , setCartTotal] = useState(0);
   let subtotal = 0 ;
@@ -121,12 +91,12 @@ let [cartSubTotal , setCartTotal] = useState(0);
                 <td>{cartItem.price}</td>
                 <td> 
                   <PlusMinusCounter quantity={cartItem.quantity}
-                  
-                onQuantityChange={handleQuantityChange}
+                //  onQuantityChange={(newQuantity) => handleQuantityChange(cartItem.product_id, newQuantity)}
+                onQuantityChange={()=>handleQuantityChange(cartItem.product_id)}
                  />
                 </td>
                 {/* TODO:calculate total price */}
-                <td>{cartItem.price}$</td>
+                <td>{cartItem.price*countFromChild}$</td>
                 <td>
                   <button href="" className="btn rounded-circle text-reset text-decoration-none" onClick={() => removeItem(cartItem.product_id)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-x-circle " viewBox="0 0 16 16">

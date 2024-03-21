@@ -4,7 +4,7 @@ import axios from "axios";
 export default function CreateShop() {
     const categories = {
         0: "Pharmacy",
-        1: "Supermarkets",
+        1: "SuperMarkets",
         2: "Bakery",
         3: "Gorocery",
     };
@@ -13,6 +13,18 @@ export default function CreateShop() {
         latitude: null,
         longitude: null,
     });
+    const getAddress = async (lat , lng) => {
+        let resp = await axios.get(
+            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyCI_RuGZN52I_Iteqgn0CmvzeUCVAchVNo`
+            );
+            setAddress(resp.data.results[0].formatted_address);
+            // console.log(address);
+        };
+        
+        //     useEffect(() => {
+        //      console.log('Addrress changed:', address);
+        //  }, [address]);
+         
     const [marker, setMarker] = useState(null); 
 
     useEffect(() => {
@@ -58,6 +70,13 @@ export default function CreateShop() {
             marker.setPosition(event.latLng);     
             setMarker(marker);
 
+            setPosition({
+                latitude: clickedLat,
+                longitude: clickedLng
+            })
+            
+            getAddress(clickedLat,clickedLng);
+            
             const geocoder = new google.maps.Geocoder();
             const latLng = new google.maps.LatLng(clickedLat, clickedLng);
 
@@ -73,11 +92,7 @@ export default function CreateShop() {
                 }
 
             });
-            setPosition({
-                latitude: clickedLat,
-                longitude: clickedLng
-            })
-            getAddress();
+            
         });
 
         autocomplete.addListener("place_changed", () => {
@@ -102,17 +117,9 @@ export default function CreateShop() {
           marker.setVisible(true);
           setAddress(place.formatted_address);
         });
-      
-      }
-      
-      window.initMap = initMap;
-
-    const getAddress = async () => {
-        let resp = await axios.get(
-            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=AIzaSyCI_RuGZN52I_Iteqgn0CmvzeUCVAchVNo`
-        );
-        setAddress(resp.data.results[0].formatted_address);
-    };
+    }
+    window.initMap = initMap;
+   
 
     const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -133,6 +140,7 @@ export default function CreateShop() {
                 category: selectedCategory,
                 location: address,
             };
+            console.log(data);
             await axios.post("http://localhost:8000/api/store/create", data);
         } catch (error) {
             console.error('Error while saving store:', error);
