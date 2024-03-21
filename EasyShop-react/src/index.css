@@ -82,8 +82,12 @@
     color: var(--green-color);
     font-family: var(--font-family);
 }
-
-.greenbook {
+.outofstock{
+    background-color:#fcf0ef ;
+    color:  #c06d6d;
+    font-family: var(--font-family);
+}
+.greenbook{
     color: var(--main-color);
 }
 

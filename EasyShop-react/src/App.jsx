@@ -31,7 +31,7 @@ let routers = createBrowserRouter([
             { path: "profileEdit", element: <ProfileEdit /> },
             { path: "cart", element: <Cart /> },
             { path: "myOrder", element: <OrderHistory /> },
-            { path: "product", element: <Product /> },
+            { path: "product/:product_id", element: <Product /> },
             { path: "products", element: <Products /> },
             { path: "shops/:category", element: <Shops /> },
             { path: "createshop", element: <CreateShop /> },

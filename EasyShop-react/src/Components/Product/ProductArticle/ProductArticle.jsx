@@ -3,7 +3,7 @@ import TabNavItem from './TabNavItem';
 import TabContent from './TabContent';
 import styles from './ProductArticle.module.css';
 import { RelatedProducts } from '../RelatedProducts/RelatedProducts';
-export const ProductArticle = () => {
+export const ProductArticle = ({data}) => {
 
     const [activeTab, setActiveTab] = useState(1);
 
@@ -97,7 +97,7 @@ export const ProductArticle = () => {
                     </div>
                 </div>
             </div>
-            <RelatedProducts/>
+            <RelatedProducts data={data}/>
 
         </>
     )
