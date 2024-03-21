@@ -133,4 +133,19 @@ class AuthController extends Controller
             'msg' => 'password reset success'
         ]);
     }
+
+    public function changePassword(Request $request)
+    {
+         $userId = $request->user()->id;
+         $user = User::find($userId);
+
+         if(!Hash::check($request->current_password , $user->password)){
+            return $this->returnError(401,'Your current password is wrong');
+         }
+        $user->update([
+            'password'=>$request->new_password,
+        ]);
+        $user->save();
+        return $this->returnSuccessMessage('Password Changed Successfully');
+    }
 }
