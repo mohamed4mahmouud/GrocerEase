@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 
 const Delivery = () => {
     const { data, isLoading, error } = useQuery('deliveryData', async () => {
-        const token = 'RzyOIXFLANiY2xdvQLU9ISGPgUf8HO97mCMhMeUI2b8ce326'; // Your bearer token
+        const token = 'NHcL5ZHooqFEc1IrdqCdx1yLvdoRMmDcKu6RTEt80c648843'; // Your bearer token
 
         const response = await fetch('http://localhost:8000/api/orders/1', {
             headers: {
