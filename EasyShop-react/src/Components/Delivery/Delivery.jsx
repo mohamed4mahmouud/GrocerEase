@@ -3,13 +3,13 @@ import MapContainer from './MapContainer';
 import LocationUpdaterComponent from '../Pusher/LocationUpdater';
 
 const Delivery = () => {
-    const [deliveryData, setDeliveryData] = useState(null);
+    const [delivery, setDelivery] = useState(null);
     const [location, setLocation] = useState(null);
 
     // Function to handle delivery data fetching
     const fetchDeliveryData = async () => {
         try {
-            const token = 'NHcL5ZHooqFEc1IrdqCdx1yLvdoRMmDcKu6RTEt80c648843'; // Your bearer token
+            const token = '1JMzH3saJ2JSLm5U6dQ4R3AGJfyFSTSyp2W6C4BYc302b455'; // Your bearer token
             const response = await fetch('http://localhost:8000/api/orders/1', {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -21,7 +21,7 @@ const Delivery = () => {
             }
 
             const data = await response.json();
-            setDeliveryData(data);
+            setDelivery(data.delivery);
         } catch (error) {
             console.error('Error fetching delivery data:', error);
         }
@@ -34,14 +34,13 @@ const Delivery = () => {
 
     // Function to handle location updates
     const handleLocationUpdate = (newLocation) => {
-        setLocation(newLocation);
+        setDelivery(newLocation);
     };
 
-    if (!deliveryData || !location) return <div>Loading...</div>;
-
+    if (!delivery && !location) return <div>Loading...</div>;
     // Convert latitude and longitude to numbers
-    const latitude = parseFloat(location.latitude);
-    const longitude = parseFloat(location.longitude);
+    const latitude = parseFloat(delivery.latitude);
+    const longitude = parseFloat(delivery.longitude);
 
     // Check if conversion was successful
     if (isNaN(latitude) || isNaN(longitude)) {
@@ -52,7 +51,7 @@ const Delivery = () => {
         lat: latitude,
         lng: longitude
     };
-
+    console.log(coordinates)
     return (
         <div id="map" style={{ width: "100%", height: "400px" }}>
             <MapContainer coordinates={coordinates} />

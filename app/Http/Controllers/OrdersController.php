@@ -27,27 +27,27 @@ class OrdersController extends Controller
             return $this->returnData('orders', null, "success");
         }
     }
-    public function getOrderById(Request $request,$id){
-        $order=Order::find($id);
-        
-        if ($request->user()->id==$order->user_id) {
-            $delivery=$order->delivery()->select(
+    public function getOrderById(Request $request, $id)
+    {
+        $order = Order::find($id);
+
+        if ($request->user()->id == $order->user_id) {
+            $delivery = $order->delivery()->select(
                 [
-                    'id','order_id','status',
+                    'id', 'order_id', 'status',
                     DB::raw("GetLatitude(current_location) as latitude"),
                     DB::raw("GetLongitude(current_location) as longitude")
                 ]
             )
-            ->where('order_id', $order->id)
-            ->firstOrFail();
+                ->where('order_id', $order->id)
+                ->firstOrFail();
             return response()->json(
                 [
-                    "order"=>$order,"delivery"=>$delivery,"msg"=>"success"
+                    "order" => $order, "delivery" => $delivery, "msg" => "success"
                 ]
-        );
-
-        }else{
-            return $this->returnError(401,"unAuthorized");
+            );
+        } else {
+            return $this->returnError(401, "unAuthorized");
         }
     }
 

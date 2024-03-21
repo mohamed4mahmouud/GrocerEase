@@ -1,6 +1,5 @@
 import React from "react";
 const MapContainer = ({ coordinates }) => {
-    // Use useEffect to initialize the map once the coordinates are available
     React.useEffect(() => {
         async function initMap() {
             try {
@@ -21,6 +20,7 @@ const MapContainer = ({ coordinates }) => {
             } catch (error) {
                 console.error('Error initializing map:', error);
             }
+            console.log(coordinates);
         }
 
         initMap();
