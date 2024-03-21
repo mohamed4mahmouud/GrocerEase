@@ -65,11 +65,13 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     //reviews route
     Route::post('/products/{product}/reviews',[ReviewController::class , 'addReview']);
-    Route::get('/products/{product}/reviews',[ReviewController::class , 'getAllReviews']);
     Route::put('/products/{product}/reviews/{review}',[ReviewController::class , 'updateReview']);
     Route::delete('/products/{product}/reviews/{review}',[ReviewController::class , 'deleteReview']);
 
 });
+//reviews route to get all reviews related to product with avg_rating
+Route::get('/products/{product}/reviews',[ReviewController::class , 'getAllReviews']);
+
 Route::middleware(['auth:sanctum'])->post('/update-quantity' , [ProductsController::class ,'updateQuantity']);
 //Coupon Routes
 Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->get('/coupons', [CouponController::class,  'getAllCoupons']);
@@ -94,7 +96,6 @@ Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->group(function(){
 
 });
 
-Route::get('/products-rating/{id}', [ProductsController::class, 'getProductWithAverageRating']);
 
 Route::post('/payment', [OrdersController::class, 'processPayment']);
 Route::get('/deliveries/{delivery}',[TrackingController::class,'getDeliveryLocation']);

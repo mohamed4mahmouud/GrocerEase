@@ -49,6 +49,13 @@ class ReviewController extends Controller
                 return $this->returnError(404 , 'No reviews for this product');
             }
 
+            $averageRating = $product->averageRating();
+            return response()->json([
+                'reviews' => $reviews,
+                'averageRating' => $averageRating,
+                'message' =>  'success'
+            ]);
+
             return $this->returnData('reviews' , $reviews , 'success');
         } catch (\Exception $e) {
             return $this->returnError(500, 'Error occurred while get Reviews');
