@@ -29,6 +29,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'auth'], function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
+<<<<<<< HEAD
+    Route::post('/forgot-password',[AuthController::class, 'forgotPassword']);
+    Route::post('/verify-reset-password',[AuthController::class, 'verifyResetCode']);
+    Route::post('/reset-password',[AuthController::class, 'resetPassword']);
+
+=======
+>>>>>>> ff4c8187cb9bb5c62facc86c548ce5e12a25a52f
 });
 //Get All users for admin panel
 Route::middleware(['auth:sanctum','checkAdminToken'])->get('/users',[UsersController::class,'getAllUsers']);
