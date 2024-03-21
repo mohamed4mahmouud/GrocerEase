@@ -56,11 +56,14 @@ class OrdersController extends Controller
 
 
     //Payment 
-    public function checkout()
+    public function checkout($cartId, $shipping_address, $user)
     {
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        // $shipping_address = $request->input('shipping_address');
+        // dd($request->all());
+        // return $this->returnData('req', $shipping_address, 'Success');
         //Get Order by its id
-        $products = Cart::find(13)->products;
+        $products = Cart::find($cartId)->products;
         // return response()->json($products);
         $lineItems = [];
         $totalPrice = 0;
@@ -86,13 +89,13 @@ class OrdersController extends Controller
 
         $order = new Order();
         $order->status = 'new';
-        $order->shipping_address = "ezayk 3amle eh";
+        $order->shipping_address = $shipping_address;
         $order->shipping_date = now();
         $order->price = $totalPrice;
         $order->session_id = $session->id;
-        //TODO :set user ID dynamically
+        //TODO: set shop ID for multiple shops
 
-        $order->user_id = 8;
+        $order->user_id = $user;
         $order->shop_id = 1;
         $order->save();
 
@@ -124,6 +127,7 @@ class OrdersController extends Controller
         } catch (\Exception $e) {
             throw new NotFoundHttpException();
         }
+        return redirect()->away('http://localhost:3000/');
     }
     public function webhook()
     {

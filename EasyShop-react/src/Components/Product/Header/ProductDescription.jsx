@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const ProductDescription = () => {
+export const ProductDescription = ({product}) => {
     return (
         <>
             <div className="row">
@@ -24,7 +24,7 @@ export const ProductDescription = () => {
             <div className="row">
                 <div className='mt-4'>
                     <p className='oldprice text-decoration-none'>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi exercitationem laborum eum iusto maxime inventore id omnis cupiditate vel illo unde fugit voluptatibus cumque numquam, aut iure dolore dolorem sit.
+                        {product.description}
                     </p>
                 </div>
                 <hr />
