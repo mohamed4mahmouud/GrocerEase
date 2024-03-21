@@ -46,52 +46,64 @@
     color: var(--white-color) !important;
 }
 
-.ratingstar{
+.ratingstar {
     color: var(--rating-color) !important;
 }
 
-.review{
+.review {
     color: var(--darkgray-color);
     font-family: var(--font-family);
 
 }
-.oldprice{
+
+.oldprice {
     color: var(--gray-color);
     text-decoration: line-through;
     font-family: var(--font-family);
-    
+
 }
-.discountedprice{
+
+.discountedprice {
     color: var(--green-color);
     font-family: var(--font-family);
-    
+
 }
-.discountrate{
-    
+
+.discountrate {
+
     background: #fcf0ef;
     color: #c06d6d;
     font-family: var(--font-family);
-    
+
 }
-.instock{
+
+.instock {
     background-color: var(--navbar-color);
     color: var(--green-color);
     font-family: var(--font-family);
 }
-.greenbook{
+
+.greenbook {
     color: var(--main-color);
 }
-.greencart{
+
+.greencart {
     background-color: var(--main-color) !important;
     font-family: var(--font-family) !important;
 }
-.greybackground{
+
+.greybackground {
     background-color: var(--light-color);
     color: var(--green-color);
-    border:none;
+    border: none;
 }
-.para{
+
+.para {
     font-family: var(--font-family);
     color: var(--gray-color);
-    
+
+}
+
+.checkout {
+    color: var(--darkblue-color);
 }

@@ -63,17 +63,17 @@ Route::middleware(['auth:sanctum'])->group(function(){
 });
 Route::middleware(['auth:sanctum'])->post('/update-quantity' , [ProductsController::class ,'updateQuantity']);
 //Coupon Routes
-Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->get('/coupons',[CouponController::class,  'getAllCoupons']);
-Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->get('/coupons/{id}',[CouponController::class,  'getCoupon']);
-Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->post('/coupons',[CouponController::class,  'createCoupon']);
-Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->put('/coupons/{id}',[CouponController::class,  'updateCoupon']);
-Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->delete('/coupons/{id}',[CouponController::class,  'deleteCoupon']);
-Route::middleware(['auth:sanctum'])->get('/valid-coupons',[CouponController::class,  'checkCouponIsValid']);
+Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->get('/coupons', [CouponController::class,  'getAllCoupons']);
+Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->get('/coupons/{id}', [CouponController::class,  'getCoupon']);
+Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->post('/coupons', [CouponController::class,  'createCoupon']);
+Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->put('/coupons/{id}', [CouponController::class,  'updateCoupon']);
+Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->delete('/coupons/{id}', [CouponController::class,  'deleteCoupon']);
+Route::middleware(['auth:sanctum'])->get('/valid-coupons', [CouponController::class,  'checkCouponIsValid']);
 
 
-Route::get('/shops/{shopCategory}',[ShopsController::class,'getCategorizedShops']);
-Route::get('/shops',[ShopsController::class,'getAllShops']);
-Route::post('/store/create',[ShopsController::class,'createShop'])->name('shops.create');
+Route::get('/shops/{shopCategory}', [ShopsController::class, 'getCategorizedShops']);
+Route::get('/shops', [ShopsController::class, 'getAllShops']);
+Route::post('/store/create', [ShopsController::class, 'createShop'])->name('shops.create');
 
 Route::get('/categories',[CategoryController::class , 'getAllCategories']);
 Route::get('/categories/{category}',[CategoryController::class , 'getCategory']);
