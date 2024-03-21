@@ -9,6 +9,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TrackingController;
 
 /*
@@ -58,7 +59,14 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::get('/orders/{id?}',[OrdersController::class,'getOrderById']);
 
     Route::post('/logout',[AuthController::class,'logout']);
+    //change password route
     Route::put('/changepassword',[AuthController::class,'changePassword']);
+
+    //reviews route
+    Route::post('/products/{product}/reviews',[ReviewController::class , 'addReview']);
+    Route::get('/products/{product}/reviews',[ReviewController::class , 'getAllReviews']);
+    Route::put('/products/{product}/reviews/{review}',[ReviewController::class , 'updateReview']);
+    Route::delete('/products/{product}/reviews/{review}',[ReviewController::class , 'deleteReview']);
 
 });
 Route::middleware(['auth:sanctum'])->post('/update-quantity' , [ProductsController::class ,'updateQuantity']);
