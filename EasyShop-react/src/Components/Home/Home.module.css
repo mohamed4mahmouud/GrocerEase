@@ -1,0 +1,59 @@
+.slide1{
+    background: linear-gradient(to left, #FFFFFF, #DEF9EC);
+    min-height: 50vh;
+}
+.slide2{
+    background: linear-gradient(to left, #FFFFFF, #5993BC   );
+    min-height: 50vh;
+}
+.slide3{
+    background: linear-gradient(to left, #FFFFFF, #3BB77E);
+    min-height: 50vh;
+}
+.slide4{
+    background: linear-gradient(to left, #FFFFFF, #407671);
+    min-height: 50vh;
+}
+.slide5{
+    background: linear-gradient(to left, #FFFFFF, #DAC98B);
+    min-height: 50vh;
+}
+.slide6{
+    background: linear-gradient(to left, #FFFFFF, #F1DBC0);
+    min-height: 50vh;
+}
+
+
+
+@keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-150px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .slide {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    display: none;
+  }
+  
+  .slide.active {
+    display: block;
+    opacity: 1;
+    animation: slideIn 1s ease;
+  }
+  
+  .category:hover {
+    outline: 4px solid #4ECDC4;
+    outline-offset: 10px;
+    transition: .2s;
+  }
+
+
+
+
