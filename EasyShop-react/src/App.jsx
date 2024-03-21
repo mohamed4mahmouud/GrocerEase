@@ -33,7 +33,7 @@ let routers = createBrowserRouter([
             { path: "myOrder", element: <OrderHistory /> },
             { path: "product/:product_id", element: <Product /> },
             { path: "products", element: <Products /> },
-            { path: "shops/:category", element: <Shops /> },
+            { path: "shops/:category?", element: <Shops /> },
             { path: "createshop", element: <CreateShop /> },
             { path: "checkout", element: <Checkout /> },
             { path: "*", element: <ErrorPage /> },
