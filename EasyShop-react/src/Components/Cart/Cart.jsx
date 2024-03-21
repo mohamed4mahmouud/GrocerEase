@@ -1,24 +1,15 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import style from './Cart.module.css'
+import style from './Cart.module.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useQuery } from 'react-query';
+import CartTotal from './CartTotal';
 
 export async function getCart(){
   return await axios.get(`http://127.0.0.1:8000/api/get-cart`);
 }
 
-// update quantity function
-async function updateQuantity(product_id,quantity){
-  let data ={
-    "product_id":product_id,
-    "quantity":quantity
-  }
-   await axios.post(`http://127.0.0.1:8000/api/update-quantity`,data);
-
-  
-}
 // remove item from cart
  async function removeItem(product_id){
    await axios.delete(`http://127.0.0.1:8000/api/delete-product-cart/${product_id}`)
@@ -28,24 +19,33 @@ async function updateQuantity(product_id,quantity){
  async function removeCart(){
   await axios.delete(`http://127.0.0.1:8000/api/clear-cart`);
  }
+ async function updateQuantity(product_id,quantity){
+  let data ={
+    "product_id":product_id,
+    "quantity":quantity
+  }
+   await axios.post(`http://127.0.0.1:8000/api/update-quantity`,data);
 
-const  PlusMinusCounter = ({ quantity, onQuantityChange }) => {
+  
+}
+
+const  PlusMinusCounter = ({ quantity , onQuantityChange}) => {
   const [count, setCount] = useState(quantity);
 
   const increment = () => {
     const newCount = count+1
     setCount(newCount);
-    onQuantityChange(newCount);
+  
+    // onQuantityChange(newCount);
   };
 
   const decrement = () => {
     if (count > 1) {
       const newCount = count - 1;
       setCount(newCount);
-      onQuantityChange(newCount);
+      // onQuantityChange(newCount);
     }
   };
-  
   return (
     <div className="container">
       <div>
@@ -65,9 +65,12 @@ const  PlusMinusCounter = ({ quantity, onQuantityChange }) => {
 export default function Cart() {
   let { isLoading , data } = useQuery("getCart",getCart);
 
-  const handleQuantityChange = async (productId, newQuantity) => {
-    await updateQuantity(productId, newQuantity);
+  
+  const handleQuantityChange = (newQuantity) => {
+    console.log('New Quantity:', newQuantity);
+    // You can perform any necessary updates here
   };
+
   // set subtotal
 let [cartSubTotal , setCartTotal] = useState(0);
   let subtotal = 0 ;
@@ -118,10 +121,12 @@ let [cartSubTotal , setCartTotal] = useState(0);
                 <td>{cartItem.price}</td>
                 <td> 
                   <PlusMinusCounter quantity={cartItem.quantity}
-                  onQuantityChange={(newQuantity) => handleQuantityChange(cartItem.product_id, newQuantity)}/>
+                  
+                onQuantityChange={handleQuantityChange}
+                 />
                 </td>
                 {/* TODO:calculate total price */}
-                <td>{cartItem.price*cartItem.quantity} EGP</td>
+                <td>{cartItem.price}$</td>
                 <td>
                   <button href="" className="btn rounded-circle text-reset text-decoration-none" onClick={() => removeItem(cartItem.product_id)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-x-circle " viewBox="0 0 16 16">
@@ -142,25 +147,25 @@ let [cartSubTotal , setCartTotal] = useState(0);
             </div>
           </div>
           <div className="col-md-4">
-            <div className="card">
-              <div className="card-body">
-                <h5 className='text-start mb-4'>Cart Total</h5>
-                <div className={`${style.cartText} text-start d-flex justify-content-between`}>
-                  <h6>Subtotal:</h6><h6>{cartSubTotal}EGP</h6>
-                </div>
-                <hr />
-                {/* TODO: set shipping fee dynamically */}
-                <div className={`${style.cartText} text-start d-flex justify-content-between`}>
-                  <h6>Shipping:</h6><h6>Free</h6>
-                </div>
-                <hr />
-                <div className={`${style.cartText} text-start d-flex justify-content-between`}>
-                  <h5>Total:</h5><h5>{cartSubTotal} $</h5>
-                </div>
-                <button className={`${style.mainColor} btn btn-primary w-100 rounded-5 mt-3`}>Procced to checkout</button>
-              </div>
-            </div>
-          </div>
+    <div className="card">
+      <div className="card-body">
+        <h5 className='text-start mb-4'>Cart Total</h5>
+        <div className={`${style.cartText} text-start d-flex justify-content-between`}>
+          <h6>Subtotal:</h6><h6>{cartSubTotal}$</h6>
+        </div>
+        <hr />
+        {/* TODO: set shipping fee dynamically */}
+        <div className={`${style.cartText} text-start d-flex justify-content-between`}>
+          <h6>Shipping:</h6><h6>Free</h6>
+        </div>
+        <hr />
+        <div className={`${style.cartText} text-start d-flex justify-content-between`}>
+          <h5>Total:</h5><h5>{cartSubTotal} $</h5>
+        </div>
+        <button className={`${style.mainColor} btn btn-primary w-100 rounded-5 mt-3`} onClick={()=>updateQuantity()}>Procced to checkout</button>
+      </div>
+    </div>
+  </div>
           <div className="col-md-7 mt-3">
             <div className="card">
               <div className="card-body mt-3">

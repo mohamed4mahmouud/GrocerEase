@@ -15,53 +15,57 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class OrdersController extends Controller
 {
     use GeneralTrait;
-    public function getAllOrders(Request $request){
+    public function getAllOrders(Request $request)
+    {
         //Getting Auth User-> Orders
         if ($request->user()) {
-            $orders=$request->user()->orders;
-            return $this->returnData('orders',$orders,"success");
-        }else{
+            $orders = $request->user()->orders;
+            return $this->returnData('orders', $orders, "success");
+        } else {
             // If no login for faster shopping 
             // We sending empty orders object
-            return $this->returnData('orders',null,"success");
+            return $this->returnData('orders', null, "success");
         }
     }
-    public function getOrderById(Request $request,$id){
-        $order=Order::find($id);
-        
-        if ($request->user()->id==$order->user_id) {
-            $delivery=$order->delivery()->select(
+    public function getOrderById(Request $request, $id)
+    {
+        $order = Order::find($id);
+
+        if ($request->user()->id == $order->user_id) {
+            $delivery = $order->delivery()->select(
                 [
-                    'id','order_id','status',
+                    'id', 'order_id', 'status',
                     DB::raw("GetLatitude(current_location) as latitude"),
                     DB::raw("GetLongitude(current_location) as longitude")
                 ]
             )
-            ->where('order_id', $order->id)
-            ->firstOrFail();
+                ->where('order_id', $order->id)
+                ->firstOrFail();
             return response()->json(
                 [
-                    "order"=>$order,"delivery"=>$delivery,"msg"=>"success"
+                    "order" => $order, "delivery" => $delivery, "msg" => "success"
                 ]
-        );
-
-        }else{
-            return $this->returnError(401,"unAuthorized");
+            );
+        } else {
+            return $this->returnError(401, "unAuthorized");
         }
     }
 
-    
+
 
 
 
     //Payment 
-    public function checkout()
+    public function checkout($cartId, $shipping_address, $user)
     {
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        // $shipping_address = $request->input('shipping_address');
+        // dd($request->all());
+        // return $this->returnData('req', $shipping_address, 'Success');
         //Get Order by its id
-        $products = Cart::find(13)->products;
+        $products = Cart::find($cartId)->products;
         // return response()->json($products);
-        $lineItems = [];                       
+        $lineItems = [];
         $totalPrice = 0;
         foreach ($products as $product) {
             $totalPrice += $product->price;
@@ -79,19 +83,19 @@ class OrdersController extends Controller
         $session = \Stripe\Checkout\Session::create([
             'line_items' => $lineItems,
             'mode' => 'payment',
-            'success_url' => route('checkout.success', [], true) ."?session_id={CHECKOUT_SESSION_ID}",
+            'success_url' => route('checkout.success', [], true) . "?session_id={CHECKOUT_SESSION_ID}",
             'cancel_url' => route('checkout.cancel', [], true),
         ]);
 
         $order = new Order();
         $order->status = 'new';
-        $order->shipping_address="ezayk 3amle eh";
-        $order->shipping_date=now();
+        $order->shipping_address = $shipping_address;
+        $order->shipping_date = now();
         $order->price = $totalPrice;
         $order->session_id = $session->id;
-        //TODO :set user ID dynamically
+        //TODO: set shop ID for multiple shops
 
-        $order->user_id = 8;
+        $order->user_id = $user;
         $order->shop_id = 1;
         $order->save();
 
@@ -106,13 +110,13 @@ class OrdersController extends Controller
         try {
             $session = \Stripe\Checkout\Session::retrieve($sessionId);
             if (!$session) {
-                return response()->json(["msg"=>"session not found"]);
+                return response()->json(["msg" => "session not found"]);
             }
             // $customer = \Stripe\Customer::retrieve($session->customer);
-            
+
             $order = Order::where('session_id', $session->id)->first();
             if (!$order) {
-                return response()->json(["msg"=>"order with that session not found"]);
+                return response()->json(["msg" => "order with that session not found"]);
             }
             if ($order->status === 'new') {
                 $order->status = 'payment received';
@@ -123,6 +127,7 @@ class OrdersController extends Controller
         } catch (\Exception $e) {
             throw new NotFoundHttpException();
         }
+        return redirect()->away('http://localhost:3000/');
     }
     public function webhook()
     {
