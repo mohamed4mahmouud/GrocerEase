@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserLogin;
 use App\Models\User;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
+use App\Models\PasswordReset;
+use App\Http\Requests\UserLogin;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserValidation;
+use App\Http\Requests\ResetPasswordRequest;
+use App\Http\Requests\ForgotPasswordRequest;
 
 class AuthController extends Controller
 {
@@ -55,16 +59,93 @@ class AuthController extends Controller
     }
     public function  logout(Request $request)
     {
-        $user=$request->user();
-        if(!$user){
-            return $this->returnError(401,'Unauthenticated');
+        $user = $request->user();
+        if (!$user) {
+            return $this->returnError(401, 'Unauthenticated');
         }
         try {
             $user->tokens()->delete();
-        }catch (\Exception $e){
-            return $this->returnError(500,"Couldn't retrieve tokens");
+        } catch (\Exception $e) {
+            return $this->returnError(500, "Couldn't retrieve tokens");
         }
         return $this->returnSuccessMessage("Token revoked successfully");
     }
 
+    public function forgotPassword(ForgotPasswordRequest $request)
+    {
+        $user = User::where('email' , $request->email)->first();
+
+        //check if user exist
+        if(!$user){
+            return $this->returnError(404,'There is no user with that email');
+        }
+
+        //generate a 4 digit random code
+        $resetCode = str_pad(random_int(1,9999),4,"0",STR_PAD_LEFT);
+
+        $userPassReset = PasswordReset::where('email', $user->email)->first();
+        if(!$userPassReset){
+            PasswordReset::create([
+                'email'=>$user->email,
+                'token'=>Hash::make($resetCode),
+            ]);
+        }else{
+            $userPassReset->update([
+                'email'=>$user->email,
+                'token'=>Hash::make($resetCode)
+            ]);
+        }
+        return response()->json($resetCode);
+    }
+
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        $user = User::where('email',$request->email)->first();
+
+        //check if email is right
+        if(!$user){
+            return $this->returnError(404 , 'Incorrect email');
+        }
+
+        $resetPassRequest = PasswordReset::where('email' , $user->email)->first();
+
+        //check if user made request to reset password and code is true
+        if(!$resetPassRequest || !Hash::check($request->otp , $resetPassRequest->token )){
+
+            return $this->returnError(404 , 'Invalid token or no reset password request');
+        }
+
+
+            $user->update([
+                'password' => $request->new_password
+            ]);
+            $user->save();
+
+        //delete perv tokens
+        $user->tokens()->delete();
+
+        //generate new token for auth user
+        $token = $user->createToken('Personal Access Token')->plainTextToken;
+
+        return response()->json([
+            'accessToken' => $token,
+            'token_type' => 'Bearer',
+            'msg' => 'password reset success'
+        ]);
+    }
+
+    public function changePassword(Request $request)
+    {
+         $userId = $request->user()->id;
+         $user = User::find($userId);
+
+         if(!Hash::check($request->current_password , $user->password)){
+            return $this->returnError(401,'Your current password is wrong');
+         }
+        $user->update([
+            'password'=>$request->new_password,
+        ]);
+        $user->save();
+        return $this->returnSuccessMessage('Password Changed Successfully');
+    }
 }
