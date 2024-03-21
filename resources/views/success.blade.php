@@ -7,6 +7,7 @@
         <title>Laravel</title>
 
     </head>
+    {{-- TODO: Payment success page to be good shape  --}}
     <body class="antialiased">
         Payment Done Successful.
     </body>

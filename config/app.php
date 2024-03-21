@@ -163,6 +163,9 @@ return [
         /*
          * Application Service Providers...
          */
+        
+            
+        GoogleMaps\ServiceProvider\GoogleMapsServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
@@ -183,6 +186,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'GoogleMaps' => GoogleMaps\Facade\GoogleMapsFacade::class,
     ])->toArray(),
 
 ];
