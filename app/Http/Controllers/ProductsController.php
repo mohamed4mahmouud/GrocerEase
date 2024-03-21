@@ -77,6 +77,13 @@ class ProductsController extends Controller
             return $this->returnError(500, 'Error occurred while deleting the product.');
         }
     }
+    public function getRelatedProduct(Request $request){
+        $productId = $request->id;
+        $categoryId = $request->category_id;
+        $products = Product::where('category_id',$categoryId)
+        ->where('id', '!=', $productId)->get();
+        return $this->returnData('products', $products, 'Success');
+    }
 
     public function addProductToCart(Request $request)
     {
@@ -97,6 +104,7 @@ class ProductsController extends Controller
                     'price' => $product->price,
                     'product_name' => $product->title
                 ]);
+                // TODO: Create instance at cart-product table on each product add
                 $cartItems = CartProduct::all();
                 return $this->returnData('cart',$cartItems , 'success');
             }
@@ -160,6 +168,6 @@ class ProductsController extends Controller
         $cartItem = CartProduct::where('product_id',$request->product_id)->first();
         $cartItem->update(['quantity' => $request->quantity]);
 
-        return $this->returnData('cart',$cartItem , 'success');        
+        return $this->returnData('cart',$cartItem , 'success');
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TrackingController;
 
 /*
@@ -40,6 +41,7 @@ Route::middleware(['auth:sanctum','checkAdminToken'])->get('/users',[UsersContro
 
 Route::get('/products',[ProductsController::class,'getAllProducts']);
 Route::get('/products/{id}', [ProductsController::class, 'getProductById']);
+Route::post('/RelatedProducts', [ProductsController::class, 'getRelatedProduct']);
 
 Route::middleware(['auth:sanctum'])->group(function(){
     //Products Routes
@@ -58,22 +60,31 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::get('/orders/{id?}',[OrdersController::class,'getOrderById']);
 
     Route::post('/logout',[AuthController::class,'logout']);
+    //change password route
     Route::put('/changepassword',[AuthController::class,'changePassword']);
 
+    //reviews route
+    Route::post('/products/{product}/reviews',[ReviewController::class , 'addReview']);
+    Route::put('/products/{product}/reviews/{review}',[ReviewController::class , 'updateReview']);
+    Route::delete('/products/{product}/reviews/{review}',[ReviewController::class , 'deleteReview']);
+
 });
+//reviews route to get all reviews related to product with avg_rating
+Route::get('/products/{product}/reviews',[ReviewController::class , 'getAllReviews']);
+
 Route::middleware(['auth:sanctum'])->post('/update-quantity' , [ProductsController::class ,'updateQuantity']);
 //Coupon Routes
-Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->get('/coupons',[CouponController::class,  'getAllCoupons']);
-Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->get('/coupons/{id}',[CouponController::class,  'getCoupon']);
-Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->post('/coupons',[CouponController::class,  'createCoupon']);
-Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->put('/coupons/{id}',[CouponController::class,  'updateCoupon']);
-Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->delete('/coupons/{id}',[CouponController::class,  'deleteCoupon']);
-Route::middleware(['auth:sanctum'])->get('/valid-coupons',[CouponController::class,  'checkCouponIsValid']);
+Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->get('/coupons', [CouponController::class,  'getAllCoupons']);
+Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->get('/coupons/{id}', [CouponController::class,  'getCoupon']);
+Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->post('/coupons', [CouponController::class,  'createCoupon']);
+Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->put('/coupons/{id}', [CouponController::class,  'updateCoupon']);
+Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->delete('/coupons/{id}', [CouponController::class,  'deleteCoupon']);
+Route::middleware(['auth:sanctum'])->get('/valid-coupons', [CouponController::class,  'checkCouponIsValid']);
 
 
-Route::get('/shops/{shopCategory}',[ShopsController::class,'getCategorizedShops']);
-Route::get('/shops',[ShopsController::class,'getAllShops']);
-Route::post('/store/create',[ShopsController::class,'createShop'])->name('shops.create');
+Route::get('/shops/{shopCategory}', [ShopsController::class, 'getCategorizedShops']);
+Route::get('/shops', [ShopsController::class, 'getAllShops']);
+Route::post('/store/create', [ShopsController::class, 'createShop'])->name('shops.create');
 
 Route::get('/categories',[CategoryController::class , 'getAllCategories']);
 Route::get('/categories/{category}',[CategoryController::class , 'getCategory']);
@@ -84,6 +95,7 @@ Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->group(function(){
     Route::post('/addproducts', [ProductsController::class, 'create']);
 
 });
+
 
 Route::post('/payment', [OrdersController::class, 'processPayment']);
 Route::get('/deliveries/{delivery}',[TrackingController::class,'getDeliveryLocation']);
