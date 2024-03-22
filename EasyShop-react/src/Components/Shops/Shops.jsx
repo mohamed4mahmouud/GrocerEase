@@ -5,6 +5,7 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 import Style from "../Products/Products.module.css";
 import { useParams } from "react-router-dom";
+import Location from './Location';
   
 
     export function getShops(category){
@@ -31,6 +32,11 @@ import { useParams } from "react-router-dom";
            
         };
         console.log(ratingFilter);
+        // request-> ngeeb hnb3t el category ll google api ygeeb el category deh 
+        // b3d keda hnbasi el output ll backend 3ndi 
+        // b3d keda h3ml el filter 3la el address fl backend
+        // h return el data ll frontend
+        // arosohom b2a
     return <>
         <div className="container-fluid">
             <div className="row">
@@ -49,7 +55,10 @@ import { useParams } from "react-router-dom";
                     </div>
                 ) : (
                     <div className="container py-2">
+                        <Location />
+                        <hr />
                         <div className="row row-cols-5 g-6">
+                    
                             { (ratingFilter == 1 ? filteredShops : data?.data.shops).map((shop) => (
                                 <div key={shop.id} className="col-md-2">
                                     <Link
