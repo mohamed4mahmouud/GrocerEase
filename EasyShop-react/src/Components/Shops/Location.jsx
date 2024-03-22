@@ -1,12 +1,44 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { useQuery } from 'react-query';
+const apiKey = "AIzaSyCI_RuGZN52I_Iteqgn0CmvzeUCVAchVNo";
+function getNearbyShops(category, latitude, longitude) {
+    return axios.post(`https://places.googleapis.com/v1/places:searchNearby`, {
+        "includedTypes": ["restaurant"],
+        "maxResultCount": 5,
+        "locationRestriction": {
+            "circle": {
+                "center": {
+                    "latitude": latitude,
+                    "longitude": longitude
+                },
+                "radius": 500.0
+            }
+        }
+    }, {
+        headers: {
+            "Content-Type": "application/json",
+            "X-Goog-FieldMask": "places.displayName",
+            "X-Goog-Api-Key": `${apiKey}`,
+        }
+    })
+}
+
 const Location = () => {
+
     const [address, setAddress] = useState(null);
     const [position, setPosition] = useState({
         latitude: null,
         longitude: null,
     });
     const [marker, setMarker] = useState(null);
+
+    const getAddress = async (lat, lng) => {
+        let resp = await axios.get(
+            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyCI_RuGZN52I_Iteqgn0CmvzeUCVAchVNo`
+        );
+        setAddress(resp.data.results[0].formatted_address);
+    };
 
     useEffect(() => {
         const googleMapScript = document.createElement('script');
@@ -15,6 +47,12 @@ const Location = () => {
         googleMapScript.onload = initMap;
         window.document.body.appendChild(googleMapScript);
     }, []);
+    const category = "restaurant";
+    console.log(position.latitude, position.longitude);
+    // const { isLoading, data } = useQuery("getNearbyShops", () => getNearbyShops(category, position.latitude, position.longitude));
+    // console.log(data?.data)
+
+
 
     function initMap() {
         const map = new google.maps.Map(document.getElementById("map"), {
@@ -52,6 +90,13 @@ const Location = () => {
             marker.setPosition(event.latLng);
             setMarker(marker);
 
+            setPosition({
+                latitude: clickedLat,
+                longitude: clickedLng
+            })
+
+            getAddress(clickedLat, clickedLng);
+
             const geocoder = new google.maps.Geocoder();
             const latLng = new google.maps.LatLng(clickedLat, clickedLng);
 
@@ -67,11 +112,27 @@ const Location = () => {
                 }
 
             });
-            setPosition({
-                latitude: clickedLat,
-                longitude: clickedLng
-            })
-            getAddress();
+            var request = {
+                location: latLng,
+                radius: 500,
+                type: ['restaurant'],
+                maxResults: 5
+            }
+            var service = new google.maps.places.PlacesService(map);
+            service.nearbySearch(request, callback)
+            function callback(results, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    var places = [];
+                    for (var i = 0; i < 5; i++) {
+                        var place = {
+                            name: results[i].name,
+                            address: results[i].vicinity // 'vicinity' provides the address
+                        };
+                        places.push(place);
+                    }
+                    console.log(places);
+                }
+            }
         });
 
         autocomplete.addListener("place_changed", () => {
@@ -96,17 +157,7 @@ const Location = () => {
             marker.setVisible(true);
             setAddress(place.formatted_address);
         });
-
     }
-    const getAddress = async () => {
-        let resp = await axios.get(
-            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=AIzaSyCI_RuGZN52I_Iteqgn0CmvzeUCVAchVNo`
-        );
-        setAddress(resp.data.results[0].formatted_address);
-        console.log(resp.data.results[0].formatted_address);
-    };
-
-
     window.initMap = initMap;
 
     return (
