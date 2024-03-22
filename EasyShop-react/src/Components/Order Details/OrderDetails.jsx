@@ -55,8 +55,8 @@ const OrderDetails = ({ orderId }) => {
     );
 
     return (
-        <div className="container mt-5">
-            <div className="row border d-flex justify-content-center">
+        <div className="container">
+            <div className="row border rounded-3 d-flex justify-content-center">
                 <div className="d-flex justify-content-between border-bottom">
                     <div className="d-flex">
                         <h2 className="mt-3 ms-5">Order Details</h2>
@@ -77,7 +77,10 @@ const OrderDetails = ({ orderId }) => {
 
                 {orderData ? (
                     <>
-                        <div className="col-5 border mt-3 ms-3 p-4">
+                        <div
+                            className="col-5 border rounded-3 mt-3 p-4"
+                            style={{ textAlign: "left" }}
+                        >
                             <p className="review">
                                 Shipping Address <br />
                                 <small className="text-black">
@@ -105,7 +108,7 @@ const OrderDetails = ({ orderId }) => {
                                 </small>
                             </p>
                         </div>
-                        <div className="col-6 align-content-center border mt-3 ms-5">
+                        <div className="col-6 align-content-center border rounded-3 mt-3 ms-5">
                             <div className="d-flex justify-content-between mt-2">
                                 <div className="ms-4 mt-3">
                                     <p className="review">Order ID:</p>
