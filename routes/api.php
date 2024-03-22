@@ -81,9 +81,10 @@ Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->put('/coupons/{id}'
 Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->delete('/coupons/{id}', [CouponController::class,  'deleteCoupon']);
 Route::middleware(['auth:sanctum'])->get('/products/{product}/coupons', [CouponController::class,  'checkCouponIsValid']);
 
-
+// shops routes
 Route::get('/shops/{shopCategory}', [ShopsController::class, 'getCategorizedShops']);
 Route::get('/shops', [ShopsController::class, 'getAllShops']);
+Route::get('/filteredShops/{category}', [ShopsController::class, 'getFilteredShops']);
 Route::post('/store/create', [ShopsController::class, 'createShop'])->name('shops.create');
 
 Route::get('/categories',[CategoryController::class , 'getAllCategories']);
