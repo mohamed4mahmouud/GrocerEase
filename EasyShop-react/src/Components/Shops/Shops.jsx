@@ -136,5 +136,5 @@ import Location from './Location';
                 </div>
             </div>
         </div>
-    );
+    </>
 }

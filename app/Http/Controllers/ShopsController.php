@@ -13,15 +13,11 @@ class ShopsController extends Controller
 
     public function getAllShops()
     {
-
-    public function getAllShops()
-    {
         $shops = Shop::all();
         return $this->returnData('shops', $shops, 'Success');
     }
 
-    public function getCategorizedShops(string $shopCategory)
-    {
+    
     public function getCategorizedShops(string $shopCategory)
     {
 
