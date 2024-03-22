@@ -24,7 +24,7 @@ import Location from './Location';
         const handlePlacesReceived = (placesData) => {
             setPlaces(placesData); 
         };
-         console.log(places);
+        //  console.log(places);
         const onRatingChange =  (rating) => {      
             
             // TODO:FILTER FORM END POINT
@@ -45,7 +45,7 @@ import Location from './Location';
             }
            
         };
-        console.log(filteredNearBy);
+        // console.log(filteredNearBy);
         // request-> ngeeb hnb3t el category ll google api ygeeb el category deh 
         // b3d keda hnbasi el output ll backend 3ndi 
         // b3d keda h3ml el filter 3la el address fl backend
@@ -77,7 +77,7 @@ import Location from './Location';
                                 <div key={shop.id} className="col-md-2">
                                     <Link
                                         className={`cursor-pointer py-3 px-2 card  ${Style.card} h-100 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-0-hover`}
-                                        to="#"
+                                        to="/products"
                                     >
                                         {/* <img
                                             src={shop.thumbnail}
