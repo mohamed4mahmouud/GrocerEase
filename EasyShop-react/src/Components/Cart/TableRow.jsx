@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import style from "./Cart.module.css";
 import PlusMinusCounter from "./PlusMinusCounter";
 
-export default function TableRow({ cartItem, index }) {
+export default function TableRow({ cartItem, key }) {
     const [subTotal, setSubTotal] = useState(
         cartItem.quantity * cartItem.price
     );
@@ -14,11 +14,11 @@ export default function TableRow({ cartItem, index }) {
 
 
     return (
-        <tbody className="text-start" key={index}>
+        <tbody className="text-start" key={key}>
             <tr className="border">
                 <td style={{ width: "40%", paddingLeft: "20px" }}>
                     <img
-                        src={cartItem.image}
+                        src={cartItem.product_image}
                         alt=""
                         className={`${style.productImg}`}
                     />

@@ -95,7 +95,6 @@ Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->group(function(){
     Route::put('/update-category/{category}',[CategoryController::class,  'updateCategory']);
     //add product route
     Route::post('/shops/{shop}/categories/{category}/products', [ProductsController::class, 'create']);
-
 });
 
 
