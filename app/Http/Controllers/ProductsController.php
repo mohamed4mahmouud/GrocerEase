@@ -107,16 +107,19 @@ class ProductsController extends Controller
             ]);
 
 
-            if($product){
-                $cart->products()->attach($product->id, [
-                    'quantity' => 1,
-                    'price' => $product->price,
-                    'product_name' => $product->title
-                ]);
-                // TODO: Create instance at cart-product table on each product add
-                $cartItems =CartProduct::where('cart_id' , $cart->id)->get();
-                return $this->returnData('cart',$cartItems , 'success');
+            if(!$product){
+              return $this->returnError(404 , 'No product for this id');
             }
+
+            $cart->products()->attach($product->id, [
+                'quantity' => 1,
+                'price' => $product->price,
+                'product_name' => $product->title,
+                'product_image' => $product->image
+            ]);
+            // TODO: Create instance at cart-product table on each product add
+            $cartItems =CartProduct::where('cart_id' , $cart->id)->get();
+            return $this->returnData('cart',$cartItems , 'success');
         }
         // Check if the product already exists in the cart
         $currentProduct = CartProduct::where('product_id', $request->product_id)->first();

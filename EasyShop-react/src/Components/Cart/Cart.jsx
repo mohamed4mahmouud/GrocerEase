@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useQuery } from "react-query";
 import CartTotal from "./CartTotal";
+import { useFormik } from "formik";
 
 export async function getCart() {
     return await axios.get(`http://127.0.0.1:8000/api/get-cart`);
@@ -45,6 +46,7 @@ const PlusMinusCounter = ({ quantity, onQuantityChange }) => {
             // onQuantityChange(newCount);
         }
     };
+
     return (
         <div className="container">
             <div>
@@ -89,6 +91,27 @@ export default function Cart() {
             return (subtotal += item.price * item.quantity);
         });
         setCartTotal(subtotal);
+    }, [data]);
+
+    const couponSubmit = async (values) => {
+        let { data } = await axios.put(
+            `http://127.0.0.1:8000/api/coupons`,
+            values
+        );
+        console.log(data);
+        if (data.message === "success") {
+            let total = cartSubTotal + data.discountedPrice;
+            setCartTotal(total);
+            console.log(cartSubTotal);
+        }
+    };
+
+    let formik = useFormik({
+        initialValues: {
+            coupon: "",
+            total_price: cartSubTotal,
+        },
+        onSubmit: couponSubmit,
     });
     return (
         <>
@@ -152,7 +175,9 @@ export default function Cart() {
                                                             }}
                                                         >
                                                             <img
-                                                                src="../../images/productTest.png"
+                                                                src={
+                                                                    cartItem.product_image
+                                                                }
                                                                 alt="product"
                                                                 className={`${style.productImg}`}
                                                             />
@@ -265,22 +290,39 @@ export default function Cart() {
                             <div className="col-md-7 mt-3">
                                 <div className="card">
                                     <div className="card-body mt-3">
-                                        <div className="input-group mb-3">
-                                            <h5 className="mt-2">
-                                                Coupon Code
-                                            </h5>
-                                            <input
-                                                type="text"
-                                                className="form-control rounded-5 ms-2 "
-                                                placeholder="Enter coupon code"
-                                            />
-                                            <button
-                                                className={`${style.coupon} rounded-5 text-white ms-2 p-2`}
-                                                type="button"
-                                            >
-                                                Apply Coupon
-                                            </button>
-                                        </div>
+                                        <form onSubmit={formik.handleSubmit}>
+                                            <div className="input-group mb-3">
+                                                <h5 className="mt-2">
+                                                    Coupon Code
+                                                </h5>
+                                                <input
+                                                    type="text"
+                                                    className="form-control rounded-5 ms-2 "
+                                                    placeholder="Enter coupon code"
+                                                    name="coupon"
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    onBlur={formik.handleBlur}
+                                                />
+                                                <input
+                                                    type="text"
+                                                    hidden
+                                                    name="total_price"
+                                                    value={cartSubTotal}
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                />
+
+                                                <button
+                                                    className={`${style.coupon} rounded-5 text-white ms-2 p-2`}
+                                                    type="submit"
+                                                >
+                                                    Apply Coupon
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
