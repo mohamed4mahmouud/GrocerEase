@@ -114,16 +114,18 @@ class ProductsController extends Controller
                     'product_name' => $product->title
                 ]);
                 // TODO: Create instance at cart-product table on each product add
-                $cartItems = CartProduct::all();
+                $cartItems =CartProduct::where('cart_id' , $cart->id)->get();
                 return $this->returnData('cart',$cartItems , 'success');
             }
         }
         // Check if the product already exists in the cart
-        $currentProduct = $cart->products()->where('product_id', $request->product_id)->first();
+        $currentProduct = CartProduct::where('product_id', $request->product_id)->first();
 
         if($currentProduct){
-            // If the product already exists, increment its quantity
-            $currentProduct->pivot->increment('quantity');
+
+            $currentProduct->quantity++;
+            $currentProduct->price = $product->price *  $currentProduct->quantity;
+            $currentProduct->save();
         } else {
             // Otherwise, attach the product to the cart with quantity 1
             $cart->products()->attach($product->id, [
@@ -132,7 +134,7 @@ class ProductsController extends Controller
                     'product_name' => $product->title
                 ]);
         }
-        $cartItems = CartProduct::all();
+        $cartItems =CartProduct::where('cart_id' , $cart->id)->get();
         return $this->returnData('cart',$cartItems , 'success');
     }
 
@@ -142,7 +144,7 @@ class ProductsController extends Controller
 
         //check if user have cart
         if($cart){
-            $cartItems = CartProduct::all();
+            $cartItems = CartProduct::where('cart_id' , $cart->id)->get();
             return $this->returnData('cart', $cartItems , 'success') ;
         }else{
             return $this->returnError(404 , 'Cart is empty or does not exist');
