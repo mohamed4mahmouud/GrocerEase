@@ -10,6 +10,8 @@ export default function Layout() {
     const location = useLocation();
     const pathsToShowFooter = ["/register", "/login"];
     const showFooter = pathsToShowFooter.includes(location.pathname);
+    const pathesToHideNav = ["/"];
+    const hideNav = pathesToHideNav.includes(location.pathname);
 
     let { setToken } = useContext(userContext);
 
@@ -22,7 +24,7 @@ export default function Layout() {
     return (
         <>
             <div className={styles.layoutWrapper}>
-                <Navbar />
+                {hideNav ? '' :<Navbar />}
                 <div className={styles.contentWrapper}>
                     <Outlet></Outlet>
                 </div>
