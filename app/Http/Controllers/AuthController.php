@@ -142,6 +142,11 @@ class AuthController extends Controller
          if(!Hash::check($request->current_password , $user->password)){
             return $this->returnError(401,'Your current password is wrong');
          }
+
+         if($request->new_password != $request->confirm_password){
+            return $this->returnError(400,'Passwords must match');
+         }
+
         $user->update([
             'password'=>$request->new_password,
         ]);
