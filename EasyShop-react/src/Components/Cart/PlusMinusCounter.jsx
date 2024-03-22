@@ -1,21 +1,22 @@
 import React, { useState } from 'react'
 import style from './Cart.module.css';
 
-export default function PlusMinusCounter({quantity ,onQuantityChange}) {
+export default function PlusMinusCounter({quantity,countParent}) {
 
         const [count, setCount] = useState(quantity);
       
         const increment = () => {
           const newCount = count+1
           setCount(newCount);
-          onQuantityChange(newCount);
+          countParent.current = countParent.current + 1;
         };
       
         const decrement = () => {
           if (count > 1) {
             const newCount = count - 1;
             setCount(newCount);
-            onQuantityChange(newCount);
+            countParent.current = countParent.current - 1;
+
           }
         };
         return (

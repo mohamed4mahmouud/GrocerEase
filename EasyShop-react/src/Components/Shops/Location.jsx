@@ -24,7 +24,7 @@ function getNearbyShops(category, latitude, longitude) {
     })
 }
 
-const Location = () => {
+const Location = ({category , OnPlacedRecived}) => {
 
     const [address, setAddress] = useState(null);
     const [position, setPosition] = useState({
@@ -47,8 +47,8 @@ const Location = () => {
         googleMapScript.onload = initMap;
         window.document.body.appendChild(googleMapScript);
     }, []);
-    const category = "restaurant";
-    console.log(position.latitude, position.longitude);
+    // const category = "restaurant";
+    // console.log(position.latitude, position.longitude);
     // const { isLoading, data } = useQuery("getNearbyShops", () => getNearbyShops(category, position.latitude, position.longitude));
     // console.log(data?.data)
 
@@ -112,10 +112,11 @@ const Location = () => {
                 }
 
             });
+        //    TODO: category =>pharmacy / pet_store / store/supermarket/bakery/department_store
             var request = {
                 location: latLng,
                 radius: 500,
-                type: ['restaurant'],
+                type: [category],
                 maxResults: 5
             }
             var service = new google.maps.places.PlacesService(map);
@@ -126,11 +127,17 @@ const Location = () => {
                     for (var i = 0; i < 5; i++) {
                         var place = {
                             name: results[i].name,
-                            address: results[i].vicinity // 'vicinity' provides the address
+                            address: results[i].vicinity, // 'vicinity' provides the address
+                            rating: results[i].rating
                         };
                         places.push(place);
                     }
                     console.log(places);
+                }
+                if (typeof OnPlacedRecived === 'function') {
+                    OnPlacedRecived(places);
+                } else {
+                    console.error('OnPlacedRecived is not a function');
                 }
             }
         });

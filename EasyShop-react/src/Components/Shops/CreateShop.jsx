@@ -3,10 +3,11 @@ import axios from "axios";
 
 export default function CreateShop() {
     const categories = {
-        0: "Pharmacy",
-        1: "SuperMarkets",
-        2: "Bakery",
+        0: "pharmacy",
+        1: "supermarket",
+        2: "bakery",
         3: "Gorocery",
+        4: "pet_store",
     };
     const [address, setAddress] = useState(null);
     const [position, setPosition] = useState({

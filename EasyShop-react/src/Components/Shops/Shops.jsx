@@ -17,21 +17,35 @@ import Location from './Location';
         let {isLoading , data} = useQuery("getShops",() =>  getShops(category));
         const [ratingFilter, setRatingFilter] = useState(null);
         const [filteredShops , SetFilteredShops] = useState(null);
-         
+        const [places, setPlaces] = useState(null);
+        const [filteredNearBy ,setFilteredNearBy ] = useState(null)
+
+        // TODO: CHeck if the place is on the database of not
+        const handlePlacesReceived = (placesData) => {
+            setPlaces(placesData); 
+        };
+         console.log(places);
         const onRatingChange =  (rating) => {      
             
+            // TODO:FILTER FORM END POINT
             if (rating === 1) {
               const sortedShops = data?.data.shops.sort((a, b) => b.rating - a.rating);
               SetFilteredShops(sortedShops);
               setRatingFilter(1);
+            //   rating for nearbyShops
+            const sortedPlaces = places.sort((a, b) => b.rating - a.rating);
+            const filteredNearbyPlaces = sortedPlaces.filter(place => place.rating >= 2.5);
+            setFilteredNearBy(filteredNearbyPlaces);
+            setRatingFilter(1);
             }
             else{
-            setRatingFilter(null);
-            SetFilteredShops(null)
+                SetFilteredShops(null);
+                setFilteredNearBy(null);
+                setRatingFilter(null);
             }
            
         };
-        console.log(ratingFilter);
+        console.log(filteredNearBy);
         // request-> ngeeb hnb3t el category ll google api ygeeb el category deh 
         // b3d keda hnbasi el output ll backend 3ndi 
         // b3d keda h3ml el filter 3la el address fl backend
@@ -55,11 +69,11 @@ import Location from './Location';
                     </div>
                 ) : (
                     <div className="container py-2">
-                        <Location />
+                        <Location category={category} OnPlacedRecived={handlePlacesReceived}/>
                         <hr />
                         <div className="row row-cols-5 g-6">
-                    
-                            { (ratingFilter == 1 ? filteredShops : data?.data.shops).map((shop) => (
+                            {places?
+                               (filteredNearBy || (ratingFilter == 1 && filteredShops) || places).map((shop) => (
                                 <div key={shop.id} className="col-md-2">
                                     <Link
                                         className={`cursor-pointer py-3 px-2 card  ${Style.card} h-100 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-0-hover`}
@@ -81,23 +95,41 @@ import Location from './Location';
                                             {/* <i
                                                 className={`fa-solid fa-star ${Style.ratingstar}`}
                                             ></i>
-                                            <i
+                                            */}
+                                        
+                                        </div>
+                                    </Link>
+                                </div>
+                            )):
+                            (ratingFilter == 1 ? filteredShops : data?.data.shops).map((shop) => (
+                                <div key={shop.id} className="col-md-2">
+                                    <Link
+                                        className={`cursor-pointer py-3 px-2 card  ${Style.card} h-100 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-0-hover`}
+                                        to="#"
+                                    >
+                                        {/* <img
+                                            src={shop.thumbnail}
+                                            alt=".."
+                                            className="w-60 card-img-top"
+                                        /> */}
+                                        <div className="card-body">
+                                            <span
+                                                className={`text-main font-sm fw-bolder card-text`}
+                                            >
+                                                {shop.name}
+                                            </span>
+                                            <p>{shop.rating}</p>
+                                        
+                                            {/* <i
                                                 className={`fa-solid fa-star ${Style.ratingstar}`}
                                             ></i>
-                                            <i
-                                                className={`fa-solid fa-star ${Style.ratingstar}`}
-                                            ></i>
-                                            <i
-                                                className={`fa-solid fa-star ${Style.ratingstar}`}
-                                            ></i>
-                                            <i
-                                                className={`fa-solid fa-star ${Style.ratingstar}`}
-                                            ></i> */}
+                                            */}
                                         
                                         </div>
                                     </Link>
                                 </div>
                             ))}
+                            
                         </div>
                     </div>
                 )}
