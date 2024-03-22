@@ -86,6 +86,7 @@ Route::get('/shops/{shopCategory}', [ShopsController::class, 'getCategorizedShop
 Route::get('/shops', [ShopsController::class, 'getAllShops']);
 Route::get('/filteredShops/{category}', [ShopsController::class, 'getFilteredShops']);
 Route::post('/store/create', [ShopsController::class, 'createShop'])->name('shops.create');
+Route::post('/checkPlaces/{category}', [ShopsController::class, 'checkPlaces']);
 
 Route::get('/categories',[CategoryController::class , 'getAllCategories']);
 Route::get('/categories/{category}',[CategoryController::class , 'getCategory']);
