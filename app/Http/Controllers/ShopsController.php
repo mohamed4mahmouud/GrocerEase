@@ -17,6 +17,7 @@ class ShopsController extends Controller
         return $this->returnData('shops', $shops, 'Success');
     }
 
+    
     public function getCategorizedShops(string $shopCategory)
     {
 
@@ -26,11 +27,15 @@ class ShopsController extends Controller
     }
     public function createShop(Request $request)
     {
-        $shop = Shop::create([
-            'name' => $request->input('name'),
-            'location' => $request->input('location'),
-            'category' => $request->input('category')
-        ]);
+        $shop = Shop::create(
+            [
+                'name' => $request->input('name'),
+                'location' => $request->input('location'),
+                'category' => $request->input('category'),
+                "rating" => $request->input('rating')
+            ],
+            
+        );
         return $this->returnSuccessMessage("Shop Created Successfully");
     }
 }
