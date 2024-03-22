@@ -18,7 +18,7 @@ import { useContext } from "react";
 import CreateShop from "./Components/Shops/CreateShop";
 import ProfileEdit from "./Components/Profile/ProfileEdit/ProfileEdit";
 import { Checkout } from "./Components/Checkout/BillingInfo";
-import OrderDetails from "./Components/Order Details/OrderDetails";
+import OrderDetailsWrapper from "./Components/Order Details/OrderComponent";
 
 let routers = createBrowserRouter([
     {
@@ -39,7 +39,7 @@ let routers = createBrowserRouter([
             { path: "checkout", element: <Checkout /> },
             {
                 path: "orders/:orderId",
-                element: <OrderDetails />,
+                element: <OrderDetailsWrapper />,
             },
             { path: "*", element: <ErrorPage /> },
         ],
