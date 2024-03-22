@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Table } from "react-bootstrap";
 import axios from "axios";
 import { useQuery } from "react-query";
 // import { Container, Row, Col } from "react-bootstrap";
@@ -74,8 +75,8 @@ const OrderDetails = ({ orderId }) => {
             <div className="row">
                 <h2 className="my-4">Order Details</h2>
             </div>
-            <div className="row border">
-                <div className="col-4 border mt-3 ms-3">
+            <div className="row border d-flex justify-content-center">
+                <div className="col-5 border mt-3 ms-3">
                     <p>
                         Shipping Address: <br />
                         {order.shippingAddress.name} <br />
@@ -86,47 +87,58 @@ const OrderDetails = ({ orderId }) => {
                     <p>Email: {order.email}</p>
                     <p>Phone: {order.phone}</p>
                 </div>
-                <div className="col-4 align-content-center">
-                    <div className="d-flex justify-content-between mt-2">
-                        <p>Order ID: {order.id}</p>
-                        <p>Payment Method: {order.paymentMethod}</p>
+                <div className="col-6 align-content-center border mt-3 ms-5">
+                    <div className="d-flex mt-2">
+                        <div className="me-5 ms-2">
+                            <p className="review">Order ID:</p>
+                            <p>{order.id}</p>
+                        </div>
+                        <div className="vr"></div>
+                        <div className="ms-5">
+                            <p className="review">Payment Method:</p>
+                            <p>Credit Card</p>
+                        </div>
                     </div>
                     <hr />
-                    <p>
-                        Subtotal: <strong>{order.subtotal}</strong>
-                    </p>
-                    <p>
-                        Discount: <strong>{order.discount}</strong>
-                    </p>
-                    <p>
-                        Shipping: <strong>{order.shipping}</strong>
-                    </p>
-                    <p>
-                        Total: <strong>{order.total}</strong>
-                    </p>
-                    <p>Order Status: {order.status}</p>
+                    <div className="p-3">
+                        <p className="d-flex justify-content-between review">
+                            Subtotal: <strong>{order.subtotal}</strong>
+                        </p>
+                        <p className="d-flex justify-content-between review">
+                            Discount: <strong>{order.discount}</strong>
+                        </p>
+                        <p className="d-flex justify-content-between review">
+                            Shipping: <strong>{order.shipping}</strong>
+                        </p>
+                        <p className="d-flex justify-content-between review">
+                            Total: <strong>{order.total}</strong>
+                        </p>
+                        <p className="d-flex justify-content-between review">
+                            Order Status: <strong>{order.status}</strong>
+                        </p>
+                    </div>
                 </div>
 
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Subtotal</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {order.products.map((product, index) => (
-                            <tr key={index}>
-                                <td>{product.name}</td>
-                                <td>{product.price}</td>
-                                <td>{product.quantity}</td>
-                                <td>{product.subtotal}</td>
+                <div className="table-container mt-3">
+                    <Table borderless>
+                        <thead>
+                            <tr className="table-secondary">
+                                <th className="text-uppercase">Product</th>
+                                <th className="text-uppercase">Price</th>
+                                <th className="text-uppercase">Quantity</th>
+                                <th className="text-uppercase">Suptotal</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <tr key={order.id}>
+                                <td>{order.id}</td>
+                                <td>{order.shipping_date}</td>
+                                <td>{order.price}</td>
+                                <td>{order.status}</td>
+                            </tr>
+                        </tbody>
+                    </Table>
+                </div>
             </div>
         </div>
     );

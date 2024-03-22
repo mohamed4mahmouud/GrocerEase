@@ -5,23 +5,22 @@ import { useQuery } from "react-query";
 
 // related product fetch data
 function getRelatedProduct(product) {
-    let data ={
-        "id":product.id,
-        "category_id":product.category_id
-    }
-// console.log(data);
+    let data = {
+        id: product.id,
+        category_id: product.category_id,
+    };
+    // console.log(data);
 
-    return axios.post(
-        `http://127.0.0.1:8000/api/RelatedProducts/`,data);
+    return axios.post(`http://127.0.0.1:8000/api/RelatedProducts/`, data);
 }
 
-export const RelatedProducts = ({data}) => {
+export const RelatedProducts = ({ data }) => {
     let { data: CategoryData } = useQuery("getRelatedProduct", () =>
         getRelatedProduct(data?.data.products)
     );
     console.log(CategoryData);
     return (
-        <div className="row mt-4">
+        <div className="row mt-4 mb-5">
             <div className="text-center">
                 <p className="h2">Related Products</p>
             </div>
