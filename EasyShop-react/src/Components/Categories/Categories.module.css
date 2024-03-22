@@ -1,0 +1,53 @@
+.storeDiv{
+    background-color: #DEF9F6;
+}
+
+.cardHover{
+    transition: width 0.6s ease-in-out;
+}
+
+.shampoo{
+    color: #444444;
+}
+.shampooContainer{
+    background-color: #EEEEEE;
+}
+.makeUp{
+    color:  #0A73A1;
+}
+.makeUpContainer{
+    background-color: #d4edf8;
+}
+.supplements{
+    color: #D4B100;
+}
+.supplementsContainer{
+    background-color: #FEF9C4;
+}
+.supplies{
+    color: #B18531; 
+}
+.suppliesContainer{
+    background-color: #F2E7E3;
+}
+.pain{
+    color: #25D02C;
+}
+.painContainer{
+    background-color: #E3F2E6;
+}
+.oral{
+    color: #C63D42;
+}
+.oralContainer{
+    background-color: #FAE8E8;
+}
+
+
+
+
+
+
+.cardHeader{
+    color: #4C4C4CA6;
+}
