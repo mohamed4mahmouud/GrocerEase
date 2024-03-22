@@ -6,7 +6,7 @@ import { PaymentContext } from "../../Context/paymentContext";
 import axios from "axios";
 
 export const Checkout = () => {
-    const { cartId } = useContext(PaymentContext);
+    const { cartId, shopId } = useContext(PaymentContext);
 
     const [shippingAddress, setShippingAddress] = useState("");
     const handleChange = (event) => {
@@ -58,7 +58,7 @@ export const Checkout = () => {
                                         <a
                                             className="btn greencart text-white fw-semibold"
                                             style={{ borderRadius: "20px" }}
-                                            href={`http://localhost:8000/checkout/${cartId}/${shippingAddress}/${user}`}
+                                            href={`http://localhost:8000/checkout/${cartId}/${shippingAddress}/${user}/${shopId}`}
                                         >
                                             Place order
                                         </a>
