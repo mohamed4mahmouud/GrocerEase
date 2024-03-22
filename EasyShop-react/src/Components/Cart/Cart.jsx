@@ -252,12 +252,13 @@ export default function Cart() {
                                             <h5>Total:</h5>
                                             <h5>{cartSubTotal} $</h5>
                                         </div>
-                                        <button
+                                        <Link
                                             className={`${style.mainColor} btn btn-primary w-100 rounded-5 mt-3`}
                                             onClick={() => updateQuantity()}
+                                            to="/checkout"
                                         >
-                                            Procced to checkout
-                                        </button>
+                                            Proceed to checkout
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
