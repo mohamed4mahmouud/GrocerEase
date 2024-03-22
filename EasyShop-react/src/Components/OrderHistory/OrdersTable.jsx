@@ -101,7 +101,7 @@ export const OrdersTable = () => {
                                     <td>
                                         <Link
                                             className="text-decoration-none"
-                                            to="#"
+                                            to={`/orders/${order.id}`}
                                             style={{ color: "#3BB77E" }}
                                         >
                                             View Details
