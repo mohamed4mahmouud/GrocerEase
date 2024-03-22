@@ -30,7 +30,8 @@ class UsersController extends Controller
         $user->update([
             'name'=>$request->name,
             'phone'=>$request->phone,
-            'address'=>$request->address
+            'address'=>$request->address,
+            'email'=>$request->email
         ]);
 
         return response()->json(['message' => 'Profile updated successfully']);
