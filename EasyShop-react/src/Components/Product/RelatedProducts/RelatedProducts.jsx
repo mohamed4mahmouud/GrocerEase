@@ -34,9 +34,10 @@ export const RelatedProducts = ({ data }) => {
                     <div key={index} className="col">
                         <div className={`${styles.customcard} card h-100`}>
                             <img
-                                src="..."
+                                src={CategoryItem.image}
                                 className="card-img-top"
                                 alt="..."
+                                width={30}
                             />
                             <div className="card-body">
                                 <h5 className="card-title">{CategoryItem.title}</h5>

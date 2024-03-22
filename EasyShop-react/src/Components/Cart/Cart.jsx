@@ -34,7 +34,7 @@ export async function getCart(){
 
 export default function Cart() {
   let { isLoading , data } = useQuery("getCart",getCart);
-  
+  console.log(data?.data.cart);
   const [countFromChild, setCountFromChild] = useState(0);
 
   const handleQuantityChange = (newCount) => {
@@ -85,7 +85,7 @@ let [cartSubTotal , setCartTotal] = useState(0);
             <tbody className='text-start' key={index}>
               <tr className='border'>
                 <td style={{ width: '40%',paddingLeft: '20px' }}>
-                  <img src="../../images/productTest.png" alt="product" className={`${style.productImg}`}/>
+                  <img src={cartItem.image} alt="" className={`${style.productImg}`}/>
                   <span>{cartItem.product_name}</span>
                 </td>
                 <td>{cartItem.price}</td>
