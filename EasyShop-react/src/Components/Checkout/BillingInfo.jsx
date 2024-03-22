@@ -57,6 +57,7 @@ export const Checkout = () => {
                                         </div>
                                         <a
                                             className="btn greencart text-white fw-semibold"
+                                            style={{ borderRadius: "20px" }}
                                             href={`http://localhost:8000/checkout/${cartId}/${shippingAddress}/${user}`}
                                         >
                                             Place order
