@@ -63,8 +63,8 @@ export default function CreateShop() {
         map.addListener("click", (event) => {
             const clickedLat = event.latLng.lat();
             const clickedLng = event.latLng.lng();
-           
-            marker.setPosition(event.latLng);     
+
+            marker.setPosition(event.latLng);
             setMarker(marker);
             
             setPosition({
@@ -77,15 +77,15 @@ export default function CreateShop() {
             const geocoder = new google.maps.Geocoder();
             const latLng = new google.maps.LatLng(clickedLat, clickedLng);
 
-            geocoder.geocode({ 'location': latLng }, (results, status) => {
+            geocoder.geocode({ location: latLng }, (results, status) => {
                 if (status === google.maps.GeocoderStatus.OK) {
                     if (results[0]) {
                         input.value = results[0].formatted_address;
                     } else {
-                        console.error('No results found');
+                        console.error("No results found");
                     }
                 } else {
-                    console.error('Geocoder failed due to: ' + status);
+                    console.error("Geocoder failed due to: " + status);
                 }
                 
             });
@@ -144,14 +144,13 @@ export default function CreateShop() {
             console.log(data);
             await axios.post("http://localhost:8000/api/store/create", data);
         } catch (error) {
-            console.error('Error while saving store:', error);
+            console.error("Error while saving store:", error);
         }
-
     };
-  
+
     return (
         <>
-            <div className="container">
+            <div className="container mb-3">
                 <form>
                     <div className="form-group">
                         <label htmlFor="exampleInputEmail1">Shop Name</label>
@@ -166,15 +165,19 @@ export default function CreateShop() {
                     </div>
 
                     <div className="form-group">
-                    <label htmlFor="pac-input">Location</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="pac-input"
-                        placeholder="Enter a location"
-                    />
-                </div>
-                     <div id="map" style={{ width: "100%", height: "400px" }} className="mt-2"></div>
+                        <label htmlFor="pac-input">Location</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="pac-input"
+                            placeholder="Enter a location"
+                        />
+                    </div>
+                    <div
+                        id="map"
+                        style={{ width: "100%", height: "400px" }}
+                        className="mt-2"
+                    ></div>
 
                     <select
                         className="form-select mt-4"
@@ -182,7 +185,7 @@ export default function CreateShop() {
                         onChange={handleChange}
                     >
                         <option disabled>Select Category</option>
-                        {Object.keys(categories).map((c , index) => {
+                        {Object.keys(categories).map((c, index) => {
                             return (
                                 <option value={categories[c]} key={index}>
                                     {categories[c]}

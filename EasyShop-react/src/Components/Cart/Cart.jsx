@@ -7,27 +7,26 @@ import { useQuery } from 'react-query';
 import CartTotal from './CartTotal';
 import TableRow from './TableRow';
 
-export async function getCart(){
-  return await axios.get(`http://127.0.0.1:8000/api/get-cart`);
+export async function getCart() {
+    return await axios.get(`http://127.0.0.1:8000/api/get-cart`);
 }
 
 // remove item from cart
- async function removeItem(product_id){
-   await axios.delete(`http://127.0.0.1:8000/api/delete-product-cart/${product_id}`)
-
- }
+async function removeItem(product_id) {
+    await axios.delete(
+        `http://127.0.0.1:8000/api/delete-product-cart/${product_id}`
+    );
+}
 //  remove whole cart
- async function removeCart(){
-  await axios.delete(`http://127.0.0.1:8000/api/clear-cart`);
- }
- async function updateQuantity(product_id,quantity){
-  let data ={
-    "product_id":product_id,
-    "quantity":quantity
-  }
-   await axios.post(`http://127.0.0.1:8000/api/update-quantity`,data);
-
-  
+async function removeCart() {
+    await axios.delete(`http://127.0.0.1:8000/api/clear-cart`);
+}
+async function updateQuantity(product_id, quantity) {
+    let data = {
+        product_id: product_id,
+        quantity: quantity,
+    };
+    await axios.post(`http://127.0.0.1:8000/api/update-quantity`, data);
 }
 
 export default function Cart() {

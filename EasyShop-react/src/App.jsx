@@ -19,6 +19,7 @@ import CreateShop from "./Components/Shops/CreateShop";
 import ProfileEdit from "./Components/Profile/ProfileEdit/ProfileEdit";
 import { Checkout } from "./Components/Checkout/BillingInfo";
 import Categories from "./Components/Categories/Categories";
+import OrderDetailsWrapper from "./Components/Order Details/OrderComponent";
 
 let routers = createBrowserRouter([
     {
@@ -38,6 +39,10 @@ let routers = createBrowserRouter([
             { path: "createshop", element: <CreateShop /> },
             { path: "checkout", element: <Checkout /> },
             { path: "categories", element: <Categories /> },
+            {
+                path: "orders/:orderId",
+                element: <OrderDetailsWrapper />,
+            },
             { path: "*", element: <ErrorPage /> },
         ],
     },

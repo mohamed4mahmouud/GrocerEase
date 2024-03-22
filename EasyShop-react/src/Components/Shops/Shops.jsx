@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import FilterShops from '../FilterShops/FilterShops';
+import React, { useState } from "react";
+import FilterShops from "../FilterShops/FilterShops";
 import { useQuery } from "react-query";
 import axios from "axios";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import Style from "../Products/Products.module.css";
 import { useParams } from "react-router-dom";
 import Location from './Location';
@@ -54,8 +54,8 @@ import Location from './Location';
     return <>
         <div className="container-fluid">
             <div className="row">
-            {/* Fixed Left Sidebar */}
-                <div className="col-lg-3 col-md-4 col-sm-12 bg-light p-3 position-fixed vh-100">
+                {/* Fixed Left Sidebar */}
+                <div className="col-lg-3 col-md-4 col-sm-12 p-3">
                     <FilterShops onRatingChange={onRatingChange} />
                 </div>
             
@@ -136,5 +136,5 @@ import Location from './Location';
                 </div>
             </div>
         </div>
-        </>
-    }
+    );
+}

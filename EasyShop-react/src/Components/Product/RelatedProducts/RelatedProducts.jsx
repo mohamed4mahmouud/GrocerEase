@@ -19,7 +19,7 @@ export const RelatedProducts = ({ data }) => {
     );
     // console.log(CategoryData?.data.products);
     return (
-        <div className="row mt-4">
+        <div className="row mt-4 mb-5">
             <div className="text-center">
                 <p className="h2">Related Products</p>
             </div>

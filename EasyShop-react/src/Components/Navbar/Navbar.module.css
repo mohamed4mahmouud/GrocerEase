@@ -1,16 +1,44 @@
 .form i {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-  }
-  .list{
-    background-color:#ffffff; 
-    padding-top: 20px;padding-left:20px;
-    padding-bottom: 10px;
-    display: flex;
-    align-items: center;
-  }
-  .border-bottom{
-    border-bottom: 2px solid #eee;
-  }
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.list {
+  background-color: #ffffff;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.border-bottom {
+  border-bottom: 2px solid #eee;
+}
+
+/* Navbar.module.css */
+
+.dropdownContainer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  z-index: 999;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dropdownItem {
+  display: block;
+  padding: 10px;
+  color: #333333;
+  text-decoration: none;
+}
+
+.dropdownItem:hover {
+  background-color: #f0f0f0;
+}
