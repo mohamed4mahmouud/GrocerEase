@@ -19,12 +19,14 @@ export default function Home() {
                 <p className="h1 mt-5">Select a service</p>
                 <div className="row d-flex  col-md-12 mt-5 mb-5">
                     <div className="col-md-4">
+                    {/* <Link className="text-decoration-none text-dark" to={'/shops/supermarket'}/> */}
                     <Link className="text-decoration-none text-dark" to={'/shops/supermarket'}>
                         <img src="../../images/superMarket.png" alt="superMarket" className={`${style.category} rounded-pill mb-3 w-50`}/>
                         <p className="h2 mb-5">Supermarkets</p>
                     </Link>
                     </div>
                     <div className="col-md-4">
+                    {/* <Link className="text-decoration-none text-dark" to={'/shops/pharmacy'}> */}
                     <Link className="text-decoration-none text-dark" to={'/shops/pharmacy'}>
                         <img src="../../images/pharmacy.png" alt="superMarket" className={`${style.category} rounded-pill mb-3 w-50`}/>
                         <p className="h2 mb-5">Pharmacy</p>
@@ -49,7 +51,7 @@ export default function Home() {
                     </Link>
                     </div>
                     <div className="col-md-4">
-                    <Link className="text-decoration-none text-dark" to={'/shops/petshop'}>
+                    <Link className="text-decoration-none text-dark" to={'/shops/pet_shop'}>
                         <img src="../../images/pets.png" alt="superMarket" className={`${style.category} rounded-pill mb-3 w-50`}/>
                         <p className="h2">Pets</p>
                     </Link>
