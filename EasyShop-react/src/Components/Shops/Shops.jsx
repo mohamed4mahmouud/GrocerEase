@@ -205,6 +205,9 @@ export default function Shops() {
                             </span>
                             <p className="mt-2">
                                 {shop.location.split(",")[0]}
+                            {/* </p>
+                            <p> */}
+                                {shop.location.split(",")[1]}
                             </p>
                         </div>
                         <div className="col-md-2 text-center mt-4">
