@@ -60,7 +60,6 @@ export default function Shops() {
                 setRatingFilter(1);
             }
         } else {
-            setFilteredShops(null);
             setFilteredNearBy(null);
             setRatingFilter(null);
             setPlaces(originalPlaces);
