@@ -38,35 +38,43 @@ export default function Shops() {
     const [originalPlaces, setOriginalPlaces] = useState(null);
     const [filteredNearBy, setFilteredNearBy] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [nearbyPlacesData, setNearbyPlacesData] = useState(null);
+
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
     const handlePlacesReceived = (placesData) => {
         setPlaces(placesData);
-        setOriginalPlaces(nearbyPlacesData.shops);
+        
     };
     useEffect(() => {
         if (places !== null) {
             checkPlaces(places,category)
                 .then((responseData) => {
-                    setNearbyPlacesData(responseData); 
+                    if(responseData.shops.length > 0){
+                    setNearbyPlacesData(responseData.shops); 
+                    setOriginalPlaces([...responseData.shops]);
+                    }
+                    else{
+                    setNearbyPlacesData(data?.data.shops);
+                    }
                 })
                 
                 .catch((error) => {
                     console.error('Error fetching nearby shops:', error);
+                    setNearbyPlacesData(data?.data.shops)
                 });
-    // console.log(nearbyPlacesData.shops);
-
-        }
-    }, [places , category]);
-    
+                
+            }
+        }, [places , category]);
+      
     
     const onRatingChange = (rating) => {
         if (rating === 1) {
             setRatingFilter(1);
             if (places) {
-                const sortedPlaces = nearbyPlacesData.shops.sort((a, b) => b.rating - a.rating);
+                const sortedPlaces = nearbyPlacesData.sort((a, b) => b.rating - a.rating);
                 const filteredNearbyPlaces = sortedPlaces.filter(
                     (place) => place.rating >= 2.5
                 );
@@ -74,10 +82,10 @@ export default function Shops() {
                 setRatingFilter(1);
             }
         } else {
-            setFilteredShops(null);
             setFilteredNearBy(null);
             setRatingFilter(null);
-            setPlaces(nearbyPlacesData.shops);
+            setNearbyPlacesData([...originalPlaces]);
+            // console.log(originalPlaces);
         }
     };
 
@@ -90,7 +98,7 @@ export default function Shops() {
                     </div>
 
                     {isLoading ? (
-                        <div className="d-flex justify-content-center mt-5">
+                        <div className="d-flex justify-content-center">
                             <div className="spinner-border" role="status">
                                 <span className="visually-hidden">
                                     Loading...
@@ -123,10 +131,18 @@ export default function Shops() {
             </div>
         </>
     );
-
     function renderShopItems() {
-        const shopData = places ? (ratingFilter == 1 ? filteredNearBy : places) : (ratingFilter == 1 ? filteredByRate?.data.shops : data?.data.shops);
-        return shopData.map((shop) => (
+        const shopData = nearbyPlacesData ? (ratingFilter == 1 ? filteredNearBy : nearbyPlacesData) : (ratingFilter == 1 ? filteredByRate?.data.shops : data?.data.shops);
+        // {console.log(shopData);}
+            <div className="d-flex justify-content-center mt-5">
+                            <div className="spinner-border" role="status">
+                                <span className="visually-hidden">
+                                    Loading...
+                                </span>
+                            </div>
+                        </div>
+        // }
+        return shopData.map((shop , key) => (
             <div key={shop.id} className="col-md-12 mb-3">
                 <Link className={`cursor-pointer card shadow ${Style.card} text-decoration-none rounded-5`} to="/products">
                     <div className="card-body col-md-12 d-flex p-0 " style={{ height: "150px" }}>
