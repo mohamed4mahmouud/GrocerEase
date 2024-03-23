@@ -109,7 +109,7 @@ class CouponController extends Controller
     }
 
     // @desc  check coupon Is Valid
-    public function checkCouponIsValid(Product $product,Request $request)
+    public function checkCouponIsValid(Request $request)
     {
         try {
             $reqCoupon = $request->coupon;
@@ -125,7 +125,7 @@ class CouponController extends Controller
             if ($expiryDate->isPast()) {
                 return $this->returnError(400, 'Coupon has expired');
             }
-            $discountedPrice = $product->price - $coupon->discount;
+            $discountedPrice = $request->total_price - $coupon->discount;
             return response()->json([
                 'discountedPrice' => $discountedPrice,
                 'message' =>'success'

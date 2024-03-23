@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FilterShops from "../FilterShops/FilterShops";
 import { useQuery } from "react-query";
 import axios from "axios";
@@ -8,20 +8,32 @@ import { useParams } from "react-router-dom";
 import Location from "./Location";
 import LocationModal from "./LocationModal/LocationModal";
 
-export function getShops(category) {
+function getShops(category) {
     return axios.get(`http://127.0.0.1:8000/api/shops/${category}`);
 }
 
 export function getRatingFilteredShops(category) {
     return axios.get(`http://127.0.0.1:8000/api/filteredShops/${category}`);
 }
-
+async function checkPlaces(places, category) {
+    try {
+        let data = {
+            "places": places
+        };
+        const response = await axios.post(`http://127.0.0.1:8000/api/checkPlaces/${category}`, data);
+        // const nearbyShops = response.data.shops;
+    } catch (error) {
+        console.error('Error fetching nearby shops:', error);
+        throw error; 
+    }
+}
 export default function Shops() {
     const { category } = useParams();
     const { isLoading, data } = useQuery("getShops", () => getShops(category));
     const { data: filteredByRate } = useQuery("getFilteredShops", () =>
         getRatingFilteredShops(category)
     );
+    let {  data:NearByPlaces } = useQuery("checkPlaces", () => checkPlaces(places,category));
     const [ratingFilter, setRatingFilter] = useState(null);
     const [places, setPlaces] = useState(null);
     const [originalPlaces, setOriginalPlaces] = useState(null);
@@ -33,7 +45,7 @@ export default function Shops() {
 
     const handlePlacesReceived = (placesData) => {
         setPlaces(placesData);
-        setOriginalPlaces(placesData)
+        setOriginalPlaces(placesData);
     };
 
     const onRatingChange = (rating) => {
