@@ -17,6 +17,7 @@ function getShopInfo(category, id) {
 
 export default function Categories() {
   const { category, id } = useParams();
+  console.log(category, id);
   const { isLoading, data } = useQuery("getShopInfo", () => getShopInfo(category, id));
   console.log(data?.data.shop);
   return (
@@ -55,7 +56,26 @@ export default function Categories() {
             <div className="col-md-12">
               <p className="h2 fw-bold mb-5 ms-5">Categories</p>
             </div>
-              <GreenGroceries />
+            {
+              category === 'pharmacy'? <Pharmacy /> :``
+            }
+            {
+              category === 'pet_store'? <Pets /> :``
+            }
+            {
+              category === 'supermarket'? <SuperMarkets /> :``
+            }
+            {
+              category === 'bakery'? <BakeriesCakes /> :``
+            }
+            {
+              category === 'grocery'? <GreenGroceries /> :``
+            }
+            {
+              category === 'butchery'? <ButcherySeaFood /> :``
+            }
+            
+
             </div>
           </div>
       </div>)}

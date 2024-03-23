@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import React, { useState } from 'react';
 import style from '../Categories.module.css';
+import ProductCategory from '../../Shops/ProductCategory.json';
 export default function SuperMarkets() {
     const [hoveredIndex, setHoveredIndex] = useState(1);
     const [hoveredIndex2, setHoveredIndex2] = useState(3);
@@ -12,7 +13,7 @@ export default function SuperMarkets() {
               onMouseEnter={() => setHoveredIndex(1)}
               onMouseLeave={() => setHoveredIndex(1)}
             >  
-                <Link className='text-decoration-none'> 
+                <Link className='text-decoration-none' to={ProductCategory['dairy_and_cheese']}> 
                 <p className={`${style.shampoo} mb-0 mt-1`}>Diary & Eggs</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>CHEESE</p>
                 <img src="../../../images/cheese.png" alt="" height={150} width={150} />
@@ -23,7 +24,7 @@ export default function SuperMarkets() {
               onMouseEnter={() => setHoveredIndex(2)}
               onMouseLeave={() => setHoveredIndex(1)}
             >
-                <Link className='text-decoration-none'> 
+                <Link className='text-decoration-none' to={ProductCategory['personal_care']}> 
                 <p className={`${style.makeUp} mb-0 mt-1`}>Personal Care</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>SOAP</p>
                 <img src="../../../images/soap.png" alt="" height={100} width={150} className="mt-4"/>
@@ -34,8 +35,8 @@ export default function SuperMarkets() {
               onMouseEnter={() => setHoveredIndex(3)}
               onMouseLeave={() => setHoveredIndex(1)}
             >
-                <Link className='text-decoration-none'> 
-                <p className={`${style.supplements} mb-0 mt-1`}>Snaks</p>        
+                <Link className='text-decoration-none' to={ProductCategory['snacks']}> 
+                <p className={`${style.supplements} mb-0 mt-1`}>Snacks</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>CHOCOLATE</p>
                 <img src="../../../images/chocolate.png" alt="" height={90} width={150} className="mt-4"/>
                 </Link>
@@ -47,7 +48,7 @@ export default function SuperMarkets() {
               onMouseEnter={() => setHoveredIndex2(1)}
               onMouseLeave={() => setHoveredIndex2(3)}
             >
-                <Link className='text-decoration-none'> 
+                <Link className='text-decoration-none' to={ProductCategory['beverages']}> 
                 <p className={`${style.supplies} mb-0 mt-1`}>Beverages</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>SODA</p>
                 <img src="../../../images/soda.png" alt="" height={150} width={50} />
@@ -58,7 +59,7 @@ export default function SuperMarkets() {
               onMouseEnter={() => setHoveredIndex2(2)}
               onMouseLeave={() => setHoveredIndex2(3)}
             >
-                <Link className='text-decoration-none'> 
+                <Link className='text-decoration-none' to={ProductCategory['cleaning_and_laundry']}> 
                 <p className={`${style.pain} mb-0 mt-1`}>Cleaning & Laundry</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>SOFTENER</p>
                 <img src="../../../images/softener.png" alt="" height={150} width={100} />
@@ -70,7 +71,7 @@ export default function SuperMarkets() {
               onMouseEnter={() => setHoveredIndex2(3)}
               onMouseLeave={() => setHoveredIndex2(3)}
             >
-                <Link className='text-decoration-none '> 
+                <Link className='text-decoration-none ' to={ProductCategory['frozen_food']}> 
                 <p className={`${style.oral} mb-0 mt-1`}>Frozen Food</p>        
                 <p className={`${style.cardHeader} h3 fw-bold `}>PIZZA</p>
                 <img src="../../../images/pizza.png" alt="" height={150} width={150} />
