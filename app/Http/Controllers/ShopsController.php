@@ -44,7 +44,9 @@ class ShopsController extends Controller
                 'name' => $request->input('name'),
                 'location' => $request->input('location'),
                 'category' => $request->input('category'),
-                "rating" => $request->input('rating')
+                "rating" => $request->input('rating'),
+                "latitude"=>$request->input('latitude'),
+                "longtitude"=>$request->input('longitude')
             ],
 
         );
