@@ -46,8 +46,8 @@ class UserTest extends TestCase
         ]);
 
         $loginData = [
-            'email' => 'test@example.com',
-            'password' => 'testpassword',
+            'email' => 'farah@example.com',
+            'password' => '123456789',
         ];
 
         $response = $this->postJson('/api/auth/login', $loginData);
@@ -62,10 +62,10 @@ class UserTest extends TestCase
     public function testForgotPassword()
     {
         $user = User::factory()->create([
-            'email' => 'test@example.com',
+            'email' => 'farah@example.com',
         ]);
 
-        $response = $this->postJson('/api/auth/forgot-password', ['email' => 'test@example.com']);
+        $response = $this->postJson('/api/auth/forgot-password', ['email' => 'farah@example.com']);
 
         $response->assertStatus(200);
     }
@@ -73,7 +73,7 @@ class UserTest extends TestCase
     public function testResetPassword()
     {
         $user = User::factory()->create([
-            'email' => 'test@example.com',
+            'email' => 'farah@example.com',
         ]);
 
         $resetCode = str_pad(random_int(1, 9999), 4, "0", STR_PAD_LEFT);
@@ -84,10 +84,10 @@ class UserTest extends TestCase
         ]);
 
         $resetData = [
-            'email' => 'test@example.com',
+            'email' => 'farahli@example.com',
             'otp' => $resetCode,
-            'new_password' => 'newpassword',
-            'confirm_password' => 'newpassword',
+            'new_password' => 'farah123',
+            'confirm_password' => 'farah123',
         ];
 
         $response = $this->postJson('/api/auth/reset-password', $resetData);
@@ -103,13 +103,13 @@ class UserTest extends TestCase
     public function testChangePassword()
     {
         $user = User::factory()->create([
-            'password' => bcrypt('oldpassword'),
+            'password' => bcrypt('123456789'),
         ]);
 
         $userData = [
-            'current_password' => 'oldpassword',
-            'new_password' => 'newpassword',
-            'confirm_password' => 'newpassword',
+            'current_password' => '123456789',
+            'new_password' => 'farah123',
+            'confirm_password' => 'farah123',
         ];
 
         $response = $this->actingAs($user)->postJson('/api/auth/change-password', $userData);
