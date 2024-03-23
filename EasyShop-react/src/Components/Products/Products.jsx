@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useQuery } from "react-query";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Style from "./Products.module.css";
-
 export function getProducts() {
     return axios.get(`http://127.0.0.1:8000/api/products`);
 }
 
+function getShopProductsByCategory(shopCategory, shopId, productcategory){
+  return axios.get(`http://127.0.0.1:8000/api/shops/`+shopCategory+`/${shopId}/products/${productcategory}`)
+}
 export async function addToCart(product) {
     let data = {
         product_id: product.id,
@@ -16,9 +18,11 @@ export async function addToCart(product) {
 }
 
 export const Products = () => {
-    let { isLoading, data } = useQuery("getProducts", getProducts);
     // console.log(data?.data);
-
+    const {shopCategory, shopId, productcategory}= useParams();
+    console.log(shopCategory, shopId, productcategory);
+    const { isLoading, data } = useQuery("getShopProductsByCategory",()=> getShopProductsByCategory(shopCategory, shopId, productcategory));
+  console.log(data?.data);
     return (
         <>
             {isLoading ? (

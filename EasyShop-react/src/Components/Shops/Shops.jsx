@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Style from "../Products/Products.module.css";
 import { useParams } from "react-router-dom";
 import Location from "./Location";
-
+import ProductCategories from "./ProductCategory.json"
 export function getShops(category) {
     return axios.get(`http://127.0.0.1:8000/api/shops/${category}`);
 }
@@ -82,8 +82,8 @@ export default function Shops() {
                                     OnPlacedRecived={handlePlacesReceived}
                                 />
                                 <hr />
-                                </div>
-                                </div>
+                            </div>
+                    </div>
                                 <div className="row row-cols-5 g-6">
                                     {places
                                         ? (
@@ -97,7 +97,7 @@ export default function Shops() {
                                               >
                                                   <Link
                                                       className={`cursor-pointer py-3 px-2 card  ${Style.card} h-100 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-0-hover`}
-                                                      to="/products"
+                                                      to={`shops/`+`${category}`+`/${shop.id}`+`/products`}
                                                   >
                                                       {/* <img
                                             src={shop.thumbnail}
@@ -130,7 +130,7 @@ export default function Shops() {
                                               >
                                                   <Link
                                                       className={`cursor-pointer py-3 px-2 card  ${Style.card} h-100 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-0-hover`}
-                                                      to="#"
+                                                      to={`/shops/`+`${category}`+`/${shop.id}`+`/products`}
                                                   >
                                                       {/* <img
                                             src={shop.thumbnail}
