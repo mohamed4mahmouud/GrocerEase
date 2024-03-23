@@ -114,7 +114,7 @@ export default function Shops() {
         const shopData = places ? (ratingFilter == 1 ? filteredNearBy : places) : (ratingFilter == 1 ? filteredByRate?.data.shops : data?.data.shops);
         return shopData.map((shop) => (
             <div key={shop.id} className="col-md-12 mb-3">
-                <Link className={`cursor-pointer card shadow ${Style.card} text-decoration-none rounded-5`} to="/products">
+                <Link className={`cursor-pointer card shadow ${Style.card} text-decoration-none rounded-5`} to={`${shop.id}/products`}>
                     <div className="card-body col-md-12 d-flex p-0 " style={{ height: "150px" }}>
                         <div className="col-md-4">
                             {/* fetch img here */}

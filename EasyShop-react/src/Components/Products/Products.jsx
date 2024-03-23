@@ -19,9 +19,9 @@ export async function addToCart(product) {
 
 export const Products = () => {
     // console.log(data?.data);
-    const {shopCategory, shopId, productcategory}= useParams();
-    console.log(shopCategory, shopId, productcategory);
-    const { isLoading, data } = useQuery("getShopProductsByCategory",()=> getShopProductsByCategory(shopCategory, shopId, productcategory));
+    const {category, id, productcategory}= useParams();
+    console.log(category, id, productcategory);
+    const { isLoading, data } = useQuery("getShopProductsByCategory",()=> getShopProductsByCategory(category, id, productcategory));
   console.log(data?.data);
     return (
         <>

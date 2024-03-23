@@ -99,6 +99,7 @@ Route::middleware(['auth:sanctum','checkStoreOwnerToken'])->group(function(){
 });
 
 Route::get('/shops/{category}/{id}/products/{productcategoryid?}',[ProductsController::class,'getShopProductsByCategory']);
+Route::get('/shops/{category}/{id}',[ShopsController::class,'getShopById']);
 
 Route::post('/payment', [OrdersController::class, 'processPayment']);
 Route::get('/deliveries/{delivery}',[TrackingController::class,'getDeliveryLocation']);
