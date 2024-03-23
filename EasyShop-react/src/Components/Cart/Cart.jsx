@@ -38,6 +38,39 @@ export default function Cart() {
             return (subtotal += item.price * item.quantity);
         });
         setCartTotal(subtotal);
+    }, [data]);
+
+    async function updatePriceAfterDiscount(discountedPrice) {
+        let val = {
+            discount: discountedPrice,
+        };
+        let { data } = await axios.put(
+            `http://127.0.0.1:8000/api/Discount`,
+            val
+        );
+    }
+
+    let couponSubmit = async (val) => {
+        let values = {
+            ...val,
+            sub_total: cartSubTotal,
+        };
+        let { data } = await axios.put(
+            `http://127.0.0.1:8000/api/coupons`,
+            values
+        );
+        console.log(data);
+        if (data.message === "success") {
+            let total = cartSubTotal + data.discountedPrice;
+            await updatePriceAfterDiscount(total);
+        }
+    };
+
+    let formik = useFormik({
+        initialValues: {
+            coupon: "",
+        },
+        onSubmit: couponSubmit,
     });
 
     return (
@@ -50,7 +83,7 @@ export default function Cart() {
                 </div>
             ) : !data?.data.cart ? (
                 <div>
-                    <img src="" alt="shoping cart is empty"></img>
+                    <img src="" alt="shopping cart is empty"></img>
                     <Link
                         to="/products"
                         className={`${style.cartButton} rounded-5`}
@@ -124,7 +157,13 @@ export default function Cart() {
                                             className={`${style.cartText} text-start d-flex justify-content-between`}
                                         >
                                             <h6>Subtotal:</h6>
-                                            <h6>{cartSubTotal}$</h6>
+                                            <h6>
+                                                {" "}
+                                                {data?.data.discount
+                                                    ? data?.data.discount
+                                                    : cartSubTotal}{" "}
+                                                $
+                                            </h6>
                                         </div>
                                         <hr />
                                         {/* TODO: set shipping fee dynamically */}
@@ -139,13 +178,18 @@ export default function Cart() {
                                             className={`${style.cartText} text-start d-flex justify-content-between`}
                                         >
                                             <h5>Total:</h5>
-                                            <h5>{cartSubTotal} $</h5>
+                                            <h5>
+                                                {data?.data.discount
+                                                    ? data?.data.discount
+                                                    : cartSubTotal}{" "}
+                                                $
+                                            </h5>
                                         </div>
                                         <button
                                             className={`${style.mainColor} btn btn-primary w-100 rounded-5 mt-3`}
                                             onClick={() => updateQuantity()}
                                         >
-                                            Procced to checkout
+                                            Proceed to checkout
                                         </button>
                                     </div>
                                 </div>
@@ -153,7 +197,7 @@ export default function Cart() {
                             <div className="col-md-7 mt-3">
                                 <div className="card">
                                     <div className="card-body mt-3">
-                                        <form>
+                                        <form onSubmit={formik.handleSubmit}>
                                             <div className="input-group mb-3">
                                                 <h5 className="mt-2">
                                                     Coupon Code
@@ -162,10 +206,20 @@ export default function Cart() {
                                                     type="text"
                                                     className="form-control rounded-5 ms-2 "
                                                     placeholder="Enter coupon code"
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    onBlur={formik.handleBlur}
+                                                    name="coupon"
+                                                />
+                                                <input
+                                                    type="text"
+                                                    hidden
+                                                    name="total_price"
                                                 />
                                                 <button
                                                     className={`${style.coupon} rounded-5 text-white`}
-                                                    type="button"
+                                                    type="submit"
                                                 >
                                                     Apply Coupon
                                                 </button>

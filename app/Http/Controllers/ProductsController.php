@@ -108,6 +108,10 @@ class ProductsController extends Controller
 
 
             if($product){
+                $cart->update([
+                    'sub_total'=>$product->price
+                ]);
+
                 $cart->products()->attach($product->id, [
                     'quantity' => 1,
                     'price' => $product->price,
@@ -125,6 +129,9 @@ class ProductsController extends Controller
 
             $currentProduct->pivot->increment('quantity');
         } else {
+            $cart->update([
+                'sub_total'=>$product->price
+            ]);
             // Otherwise, attach the product to the cart with quantity 1
             $cart->products()->attach($product->id, [
                     'quantity' => 1,
@@ -144,7 +151,7 @@ class ProductsController extends Controller
         //check if user have cart
         if($cart){
             $cartItems = CartProduct::where('cart_id' , $cart->id)->get();
-            return $this->returnData('cart', $cartItems , 'success') ;
+            return response()->json(['cart' =>$cartItems , 'message' =>'success', "discount" => $cart->price_after_discount],200) ;
         }else{
             return $this->returnError(404 , 'Cart is empty or does not exist');
         }

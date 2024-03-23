@@ -80,6 +80,7 @@ Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->post('/coupons', [C
 Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->put('/coupons/{id}', [CouponController::class,  'updateCoupon']);
 Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->delete('/coupons/{id}', [CouponController::class,  'deleteCoupon']);
 Route::middleware(['auth:sanctum'])->put('/coupons', [CouponController::class,  'checkCouponIsValid']);
+Route::middleware(['auth:sanctum'])->put('/Discount', [CouponController::class,  'updateDiscount']);
 
 // shops routes
 Route::get('/shops/{shopCategory}', [ShopsController::class, 'getCategorizedShops']);

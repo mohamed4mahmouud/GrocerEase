@@ -22,7 +22,7 @@ async function checkPlaces(places, category) {
         // const nearbyShops = response.data.shops;
     } catch (error) {
         console.error('Error fetching nearby shops:', error);
-        throw error; 
+        throw error;
     }
 }
 export default function Shops() {
@@ -37,7 +37,7 @@ export default function Shops() {
     const [places, setPlaces] = useState(null);
     const [originalPlaces, setOriginalPlaces] = useState(null);
     const [filteredNearBy, setFilteredNearBy] = useState(null);
-    
+
 
     const handlePlacesReceived = (placesData) => {
         setPlaces(placesData);
