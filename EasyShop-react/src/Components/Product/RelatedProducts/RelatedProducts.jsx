@@ -2,6 +2,7 @@ import React from "react";
 import styles from "../ProductArticle/ProductArticle.module.css";
 import axios from "axios";
 import { useQuery } from "react-query";
+import { Link } from "react-router-dom";
 
 // related product fetch data
 function getRelatedProduct(product) {
@@ -32,23 +33,25 @@ export const RelatedProducts = ({ data }) => {
             ) : (
                 CategoryData?.data.products.map((CategoryItem, index) => (
                     <div key={index} className="col">
-                        <div className={`${styles.customcard} card h-100`}>
-                            <img
-                                src={CategoryItem.image}
-                                className="card-img-top"
-                                alt="..."
-                                width={30}
-                            />
-                            <div className="card-body">
-                                <h5 className="card-title">{CategoryItem.title}</h5>
-                                <p className="card-text">
-                                    {CategoryItem.description}
-                                </p>
+                        <Link to={`/products/${CategoryItem.id}`}>
+                            <div className={`${styles.customcard} card h-100`}>
+                                <img
+                                    src={CategoryItem.image}
+                                    className="card-img-top"
+                                    alt="..."
+                                    width={30}
+                                />
+                                <div className="card-body">
+                                    <h5 className="card-title">{CategoryItem.title}</h5>
+                                    <p className="card-text">
+                                        {CategoryItem.description}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
+                        </Link>
                     </div>
                 ))
-                
+
             )}
         </div>
     );
