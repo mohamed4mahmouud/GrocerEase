@@ -15,3 +15,12 @@
     border-top-left-radius: 31px;
     border-bottom-left-radius: 31px;
 }
+
+.locationBtn{
+    border: 2px solid #77e3b1 !important;
+}
+.locationBtn:hover{
+    box-shadow: 10px 10px 10px #adf1d2 !important;
+    scale: 1.01;
+    transition: .3s ease-in-out;
+}
