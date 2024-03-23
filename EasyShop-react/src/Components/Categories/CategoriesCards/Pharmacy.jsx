@@ -15,7 +15,7 @@ export default function Pharmacy() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.shampoo} mb-0 mt-1`}>Hair Care</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>SHAMPOO</p>
-                <img src="../../images/shampoo.png" alt="" height={150} width={150} />
+                <img src="../../../images/shampoo.png" alt="" height={150} width={150} />
                 </Link>
             </div>
             <div
@@ -26,7 +26,7 @@ export default function Pharmacy() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.makeUp} mb-0 mt-1`}>Beauty & Cosmetics</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>MAKEUP</p>
-                <img src="../../images/makeUp.png" alt="" height={150} width={150} />
+                <img src="../../../images/makeUp.png" alt="" height={150} width={150} />
                 </Link>
             </div>
             <div
@@ -37,7 +37,7 @@ export default function Pharmacy() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.supplements} mb-0 mt-1`}>Beauty & Cosmetics</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>VITAMINS</p>
-                <img src="../../images/vitamin.png" alt="" height={150} width={150} />
+                <img src="../../../images/vitamin.png" alt="" height={150} width={150} />
                 </Link>
             </div>
           </div>
@@ -50,7 +50,7 @@ export default function Pharmacy() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.supplies} mb-0 mt-1`}>Supplies</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>FIRST AID</p>
-                <img src="../../images/firstAid.png" alt="" height={150} width={150} />
+                <img src="../../../images/firstAid.png" alt="" height={150} width={150} />
                 </Link>
             </div>
             <div
@@ -61,7 +61,7 @@ export default function Pharmacy() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.pain} mb-0 mt-1`}>Headache & Fever</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>PAIN RELIEF</p>
-                <img src="../../images/pain.png" alt="" height={150} width={150} />
+                <img src="../../../images/pain.png" alt="" height={150} width={150} />
                 </Link>
             </div>
             
@@ -73,7 +73,7 @@ export default function Pharmacy() {
                 <Link className='text-decoration-none '> 
                 <p className={`${style.oral} mb-0 mt-1`}>Oral Care</p>        
                 <p className={`${style.cardHeader} h3 fw-bold `}>TOOTH PASTE</p>
-                <img src="../../images/oral.png" alt="" height={150} width={150} />
+                <img src="../../../images/oral.png" alt="" height={150} width={150} />
                 </Link>
             </div>
           </div>

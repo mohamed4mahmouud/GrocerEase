@@ -15,7 +15,7 @@ export default function ButcherySeaFood() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.shampoo} mb-0 mt-1`}>Meat</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>BEEF</p>
-                <img src="../../images/beef.png" alt="" height={130} width={150} />
+                <img src="../../../images/beef.png" alt="" height={130} width={150} />
                 </Link>
             </div>
             <div
@@ -26,7 +26,7 @@ export default function ButcherySeaFood() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.makeUp} mb-0 mt-1`}>Chicken</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>BREASTS</p>
-                <img src="../../images/chicken.png" alt="" height={150} width={150} />
+                <img src="../../../images/chicken.png" alt="" height={150} width={150} />
                 </Link>
             </div>
             <div
@@ -37,7 +37,7 @@ export default function ButcherySeaFood() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.supplements} mb-0 mt-1`}>Sausages</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>SODOK</p>
-                <img src="../../images/sodok.png" alt="" height={130} width={150} />
+                <img src="../../../images/sodok.png" alt="" height={130} width={150} />
                 </Link>
             </div>
           </div>
@@ -50,7 +50,7 @@ export default function ButcherySeaFood() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.supplies} mb-0 mt-1`}>Smoked Meats</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>TURKEY</p>
-                <img src="../../images/turkey.png" alt="" height={150} width={150} />
+                <img src="../../../images/turkey.png" alt="" height={150} width={150} />
                 </Link>
             </div>
             <div
@@ -61,7 +61,7 @@ export default function ButcherySeaFood() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.pain} mb-0 mt-1`}>Meat For Grilling</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>STEAK</p>
-                <img src="../../images/steak.png" alt="" height={150} width={150} />
+                <img src="../../../images/steak.png" alt="" height={150} width={150} />
                 </Link>
             </div>
             
@@ -73,7 +73,7 @@ export default function ButcherySeaFood() {
                 <Link className='text-decoration-none '> 
                 <p className={`${style.oral} mb-0 mt-1`}>Seafood Selection</p>        
                 <p className={`${style.cardHeader} h3 fw-bold `}>SHRIMPS</p>
-                <img src="../../images/shrimp.png" alt="" height={150} width={150} />
+                <img src="../../../images/shrimp.png" alt="" height={150} width={150} />
                 </Link>
             </div>
           </div>

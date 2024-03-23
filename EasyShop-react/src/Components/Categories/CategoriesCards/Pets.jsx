@@ -15,7 +15,7 @@ export default function Pets() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.shampoo} mb-0 mt-1`}>Pet Food</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>DRY FOOD</p>
-                <img src="../../images/dry.png" alt="" height={150} width={100} />
+                <img src="../../../images/dry.png" alt="" height={150} width={100} />
                 </Link>
             </div>
             <div
@@ -26,7 +26,7 @@ export default function Pets() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.makeUp} mb-0 mt-1`}>Treats and Chews</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>COOKIES</p>
-                <img src="../../images/petCookie.png" alt="" height={150} width={150} />
+                <img src="../../../images/petCookie.png" alt="" height={150} width={150} />
                 </Link>
             </div>
             <div
@@ -37,7 +37,7 @@ export default function Pets() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.supplements} mb-0 mt-1`}>Toys and Accessories</p>        
                 <p className={`${style.cardHeader} h3 fw-bold`}>INTERACTIVE</p>
-                <img src="../../images/toy.png" alt="" height={150} width={150} />
+                <img src="../../../images/toy.png" alt="" height={150} width={150} />
                 </Link>
             </div>
           </div>
@@ -50,7 +50,7 @@ export default function Pets() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.supplies} mb-0 mt-1`}>Pet Health and Wellness</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>FLEA</p>
-                <img src="../../images/flea.png" alt="" height={150} width={100} />
+                <img src="../../../images/flea.png" alt="" height={150} width={100} />
                 </Link>
             </div>
             <div
@@ -61,7 +61,7 @@ export default function Pets() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.pain} mb-0 mt-1`}>Pet Accessories</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>ID TAGS</p>
-                <img src="../../images/tags.png" alt="" height={150} width={150} />
+                <img src="../../../images/tags.png" alt="" height={150} width={150} />
                 </Link>
             </div>
             
@@ -73,7 +73,7 @@ export default function Pets() {
                 <Link className='text-decoration-none '> 
                 <p className={`${style.oral} mb-0 mt-1`}>Pet Beds and Furniture</p>        
                 <p className={`${style.cardHeader} h3 fw-bold `}>BEDS</p>
-                <img src="../../images/bed.png" alt="" height={200} width={200} />
+                <img src="../../../images/bed.png" alt="" height={200} width={200} />
                 </Link>
             </div>
           </div>

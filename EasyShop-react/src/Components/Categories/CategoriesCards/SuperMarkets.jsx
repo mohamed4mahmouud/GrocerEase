@@ -15,7 +15,7 @@ export default function SuperMarkets() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.shampoo} mb-0 mt-1`}>Diary & Eggs</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>CHEESE</p>
-                <img src="../../images/cheese.png" alt="" height={150} width={150} />
+                <img src="../../../images/cheese.png" alt="" height={150} width={150} />
                 </Link>
             </div>
             <div
@@ -26,7 +26,7 @@ export default function SuperMarkets() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.makeUp} mb-0 mt-1`}>Personal Care</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>SOAP</p>
-                <img src="../../images/soap.png" alt="" height={100} width={150} className="mt-4"/>
+                <img src="../../../images/soap.png" alt="" height={100} width={150} className="mt-4"/>
                 </Link>
             </div>
             <div
@@ -37,7 +37,7 @@ export default function SuperMarkets() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.supplements} mb-0 mt-1`}>Snaks</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>CHOCOLATE</p>
-                <img src="../../images/chocolate.png" alt="" height={90} width={150} className="mt-4"/>
+                <img src="../../../images/chocolate.png" alt="" height={90} width={150} className="mt-4"/>
                 </Link>
             </div>
           </div>
@@ -50,7 +50,7 @@ export default function SuperMarkets() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.supplies} mb-0 mt-1`}>Beverages</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>SODA</p>
-                <img src="../../images/soda.png" alt="" height={150} width={50} />
+                <img src="../../../images/soda.png" alt="" height={150} width={50} />
                 </Link>
             </div>
             <div
@@ -61,7 +61,7 @@ export default function SuperMarkets() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.pain} mb-0 mt-1`}>Cleaning & Laundry</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>SOFTENER</p>
-                <img src="../../images/softener.png" alt="" height={150} width={100} />
+                <img src="../../../images/softener.png" alt="" height={150} width={100} />
                 </Link>
             </div>
             
@@ -73,7 +73,7 @@ export default function SuperMarkets() {
                 <Link className='text-decoration-none '> 
                 <p className={`${style.oral} mb-0 mt-1`}>Frozen Food</p>        
                 <p className={`${style.cardHeader} h3 fw-bold `}>PIZZA</p>
-                <img src="../../images/pizza.png" alt="" height={150} width={150} />
+                <img src="../../../images/pizza.png" alt="" height={150} width={150} />
                 </Link>
             </div>
           </div>

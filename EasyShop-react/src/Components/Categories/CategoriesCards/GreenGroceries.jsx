@@ -15,7 +15,7 @@ export default function GreenGroceries() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.shampoo} mb-0 mt-1`}>Fruits</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>APPLES</p>
-                <img src="../../images/apple.png" alt="" height={150} width={180} />
+                <img src="../../../images/apple.png" alt="" height={150} width={180} />
                 </Link>
             </div>
             <div
@@ -26,7 +26,7 @@ export default function GreenGroceries() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.makeUp} mb-0 mt-1`}>Vegtables</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>TOMATOES</p>
-                <img src="../../images/tomato.png" alt="" height={150} width={150} />
+                <img src="../../../images/tomato.png" alt="" height={150} width={150} />
                 </Link>
             </div>
             <div
@@ -37,7 +37,7 @@ export default function GreenGroceries() {
                 <Link className='text-decoration-none'> 
                 <p className={`${style.supplements} mb-0 mt-1`}>LEAFY PRODUCTS</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>SPANICH</p>
-                <img src="../../images/spanich.png" alt="" height={150} width={150} />
+                <img src="../../../images/spanich.png" alt="" height={150} width={150} />
                 </Link>
             </div>
           </div>
