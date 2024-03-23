@@ -163,6 +163,14 @@ export default function Navbar() {
                             {token !== null ? (
                                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                                     <li className="nav-item">
+                                        <Link
+                                            className="nav-link bgnavbar cursor-pointer"
+                                            to="/profile"
+                                        >
+                                            Profile
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item">
                                         <span
                                             className="nav-link bgnavbar cursor-pointer"
                                             onClick={logOut}

@@ -10,3 +10,8 @@
 .ratingstar{
     color: var(--rating-color) !important;
 }
+
+.borderLeft{
+    border-top-left-radius: 31px;
+    border-bottom-left-radius: 31px;
+}
