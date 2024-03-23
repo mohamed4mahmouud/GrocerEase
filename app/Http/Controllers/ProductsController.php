@@ -138,4 +138,17 @@ class ProductsController extends Controller
 
         return $this->returnData('cart',$cartItem , 'success');
     }
+    public function getShopProductsByCategory(string $category, string $id, string $productcategoryid = null)
+    {
+        $shop = Shop::find($id);
+        if($productcategoryid){
+            $products = Product::where('shop_id', $shop->id)
+            ->where('category_id', $productcategoryid)->get();
+        } else {
+            $products = Product::where('shop_id', $shop->id)
+            ->where('category_id', $productcategoryid)->get();
+        }
+        return $this->returnData('products', $products, 'Success');
+
+    }
 }

@@ -15,7 +15,7 @@ export default function Home() {
     return (
         <>  
             <HomeSlider components={slides} intervalTime={3000} />
-            <div className="container text-center ">
+            <div className="container text-center" id="services">
                 <p className="h1 mt-5">Select a service</p>
                 <div className="row d-flex  col-md-12 mt-5 mb-5">
                     <div className="col-md-4">

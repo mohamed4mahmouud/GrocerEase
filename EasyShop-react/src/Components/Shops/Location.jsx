@@ -133,7 +133,6 @@ const Location = ({category , OnPlacedRecived}) => {
                         };
                         places.push(place);
                     }
-                    // console.log(places[0].location.lat());
                 }
                 if (typeof OnPlacedRecived === 'function') {
                     OnPlacedRecived(places);
@@ -153,7 +152,6 @@ const Location = ({category , OnPlacedRecived}) => {
                 window.alert("No details available for input: '" + place.name + "'");
                 return;
             }
-
             // If the place has a geometry, then present it on a map.
             if (place.geometry.viewport) {
                 map.fitBounds(place.geometry.viewport);
@@ -164,8 +162,43 @@ const Location = ({category , OnPlacedRecived}) => {
             marker.setPosition(place.geometry.location);
             marker.setVisible(true);
             setAddress(place.formatted_address);
+            setPosition({
+                latitude:place.geometry.location.lat(),
+                longitude:place.geometry.location.lng()
+              })
+              var request = {
+                location: place.geometry.location,
+                radius: 500,
+                type: [category],
+                maxResults: 5
+            }
+            var service = new google.maps.places.PlacesService(map);
+            service.nearbySearch(request, callback)
+            function callback(results, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    var places = [];
+                    for (var i = 0; i < 5; i++) {
+                        var place = {
+                            name: results[i].name,
+                            address: results[i].vicinity, // 'vicinity' provides the address
+                            location: results[i].geometry.location,
+                            rating: results[i].rating
+                        };
+                        places.push(place);
+                        // console.log(places);
+                    }
+                }
+                if (typeof OnPlacedRecived === 'function') {
+                    OnPlacedRecived(places);
+                } else {
+                    console.error('OnPlacedRecived is not a function');
+                }
+            }
         });
     }
+    // useEffect(()=>{
+    //     console.log(address);
+    // }),[address]
     window.initMap = initMap;
 
     return (
