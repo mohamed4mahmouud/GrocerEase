@@ -51,7 +51,7 @@ export default function Home() {
                     </Link>
                     </div>
                     <div className="col-md-4">
-                    <Link className="text-decoration-none text-dark" to={'/shops/pet_shop'}>
+                    <Link className="text-decoration-none text-dark" to={'/shops/pet_store'}>
                         <img src="../../images/pets.png" alt="superMarket" className={`${style.category} rounded-pill mb-3 w-50`}/>
                         <p className="h2">Pets</p>
                     </Link>
