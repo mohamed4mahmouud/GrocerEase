@@ -21,10 +21,10 @@ async function checkPlaces(places, category) {
             "places": places
         };
         const response = await axios.post(`http://127.0.0.1:8000/api/checkPlaces/${category}`, data);
-        // const nearbyShops = response.data.shops;
+        return response.data;
     } catch (error) {
         console.error('Error fetching nearby shops:', error);
-        throw error; 
+        throw error;
     }
 }
 export default function Shops() {
@@ -33,26 +33,48 @@ export default function Shops() {
     const { data: filteredByRate } = useQuery("getFilteredShops", () =>
         getRatingFilteredShops(category)
     );
-    let {  data:NearByPlaces } = useQuery("checkPlaces", () => checkPlaces(places,category));
     const [ratingFilter, setRatingFilter] = useState(null);
     const [places, setPlaces] = useState(null);
     const [originalPlaces, setOriginalPlaces] = useState(null);
     const [filteredNearBy, setFilteredNearBy] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [nearbyPlacesData, setNearbyPlacesData] = useState(null);
+
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
     const handlePlacesReceived = (placesData) => {
         setPlaces(placesData);
-        setOriginalPlaces(placesData);
+        
     };
-
+    useEffect(() => {
+        if (places !== null) {
+            checkPlaces(places,category)
+                .then((responseData) => {
+                    if(responseData.shops.length > 0){
+                    setNearbyPlacesData(responseData.shops); 
+                    setOriginalPlaces([...responseData.shops]);
+                    }
+                    else{
+                    setNearbyPlacesData(data?.data.shops);
+                    }
+                })
+                
+                .catch((error) => {
+                    console.error('Error fetching nearby shops:', error);
+                    setNearbyPlacesData(data?.data.shops)
+                });
+                
+            }
+        }, [places , category]);
+      
+    
     const onRatingChange = (rating) => {
         if (rating === 1) {
             setRatingFilter(1);
             if (places) {
-                const sortedPlaces = places.sort((a, b) => b.rating - a.rating);
+                const sortedPlaces = nearbyPlacesData.sort((a, b) => b.rating - a.rating);
                 const filteredNearbyPlaces = sortedPlaces.filter(
                     (place) => place.rating >= 2.5
                 );
@@ -62,7 +84,8 @@ export default function Shops() {
         } else {
             setFilteredNearBy(null);
             setRatingFilter(null);
-            setPlaces(originalPlaces);
+            setNearbyPlacesData([...originalPlaces]);
+            // console.log(originalPlaces);
         }
     };
 
@@ -75,7 +98,7 @@ export default function Shops() {
                     </div>
 
                     {isLoading ? (
-                        <div className="d-flex justify-content-center mt-5">
+                        <div className="d-flex justify-content-center">
                             <div className="spinner-border" role="status">
                                 <span className="visually-hidden">
                                     Loading...
@@ -99,7 +122,7 @@ export default function Shops() {
                                     </LocationModal>
                                     <div className="col-md-12">
                                     {renderShopItems()}
-                                    </div>  
+                                    </div>
                                 </div>
                             </div>
                         </>
@@ -108,12 +131,20 @@ export default function Shops() {
             </div>
         </>
     );
-
     function renderShopItems() {
-        const shopData = places ? (ratingFilter == 1 ? filteredNearBy : places) : (ratingFilter == 1 ? filteredByRate?.data.shops : data?.data.shops);
-        return shopData.map((shop) => (
+        const shopData = nearbyPlacesData ? (ratingFilter == 1 ? filteredNearBy : nearbyPlacesData) : (ratingFilter == 1 ? filteredByRate?.data.shops : data?.data.shops);
+        // {console.log(shopData);}
+            <div className="d-flex justify-content-center mt-5">
+                            <div className="spinner-border" role="status">
+                                <span className="visually-hidden">
+                                    Loading...
+                                </span>
+                            </div>
+                        </div>
+        // }
+        return shopData.map((shop , key) => (
             <div key={shop.id} className="col-md-12 mb-3">
-                <Link className={`cursor-pointer card shadow ${Style.card} text-decoration-none rounded-5`} to="/products">
+                <Link className={`cursor-pointer card shadow ${Style.card} text-decoration-none rounded-5`} to={`${shop.id}/products`}>
                     <div className="card-body col-md-12 d-flex p-0 " style={{ height: "150px" }}>
                         <div className="col-md-4">
                             {/* fetch img here */}

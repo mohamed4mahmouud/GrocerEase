@@ -21,6 +21,7 @@ import { Checkout } from "./Components/Checkout/BillingInfo";
 import Categories from "./Components/Categories/Categories";
 import OrderDetailsWrapper from "./Components/Order Details/OrderComponent";
 
+
 let routers = createBrowserRouter([
     {
         path: "",
@@ -34,7 +35,8 @@ let routers = createBrowserRouter([
             { path: "cart", element: <Cart /> },
             { path: "myOrder", element: <OrderHistory /> },
             { path: "product/:product_id", element: <Product /> },
-            { path: "products", element: <Products /> },
+            { path: "/shops/:category?/:id?/products", element: <Categories /> },
+            { path: "/shops/:category?/:id?/products/:productcategory?", element: <Products /> },
             { path: "shops/:category?", element: <Shops /> },
             { path: "createshop", element: <CreateShop /> },
             { path: "checkout", element: <Checkout /> },

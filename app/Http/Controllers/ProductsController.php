@@ -94,49 +94,7 @@ class ProductsController extends Controller
         return $this->returnData('products', $products, 'Success');
     }
 
-    public function addProductToCart(Request $request)
-    {
-        $userId  = $request->user()->id;
-        $cart = Cart::where('user_id' ,$userId)->first();
-        $product = Product::find($request->product_id);
-
-        if(!$cart){
-            //create cart for logged user
-            $cart = Cart::create([
-                'user_id'=> $userId,
-            ]);
-
-
-            if($product){
-                $cart->products()->attach($product->id, [
-                    'quantity' => 1,
-                    'price' => $product->price,
-                    'product_name' => $product->title,
-                    'product_image' => $product->image
-                ]);
-                $cartItems =CartProduct::where('cart_id' , $cart->id)->get();
-            return $this->returnData('cart',$cartItems , 'success');
-            }
-        }
-        // Check if the product already exists in the cart
-        $currentProduct = $cart->products()->where('product_id', $request->product_id)->first();
-
-        if($currentProduct){
-
-            $currentProduct->pivot->increment('quantity');
-        } else {
-            // Otherwise, attach the product to the cart with quantity 1
-            $cart->products()->attach($product->id, [
-                    'quantity' => 1,
-                    'price' => $product->price,
-                    'product_name' => $product->title,
-                    'product_image' => $product->image
-                ]);
-        }
-        $cartItems =CartProduct::where('cart_id' , $cart->id)->get();
-        return $this->returnData('cart',$cartItems , 'success');
-    }
-
+   
     public function getLoggedUserCart(Request $request)
     {
         $cart = Cart::where('user_id' , $request->user()->id)->first();
@@ -144,7 +102,7 @@ class ProductsController extends Controller
         //check if user have cart
         if($cart){
             $cartItems = CartProduct::where('cart_id' , $cart->id)->get();
-            return $this->returnData('cart', $cartItems , 'success') ;
+            return response()->json(['cart' =>$cartItems , 'message' =>'success', "discount" => $cart->price_after_discount],200) ;
         }else{
             return $this->returnError(404 , 'Cart is empty or does not exist');
         }
@@ -179,5 +137,18 @@ class ProductsController extends Controller
         $cartItem->update(['quantity' => $request->quantity]);
 
         return $this->returnData('cart',$cartItem , 'success');
+    }
+    public function getShopProductsByCategory(string $category, string $id, string $productcategoryid = null)
+    {
+        $shop = Shop::find($id);
+        if($productcategoryid){
+            $products = Product::where('shop_id', $shop->id)
+            ->where('category_id', $productcategoryid)->get();
+        } else {
+            $products = Product::where('shop_id', $shop->id)
+            ->where('category_id', $productcategoryid)->get();
+        }
+        return $this->returnData('products', $products, 'Success');
+
     }
 }

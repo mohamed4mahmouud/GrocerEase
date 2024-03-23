@@ -1,36 +1,29 @@
-import React, { useState } from "react";
-import { addToCart } from "../../Products/Products";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    addToCart,
+    increaseQuantity,
+    decreaseQuantity,
+} from "../../../redux/Actions/action";
+import { useState } from "react";
 
 export const AddToCartComponent = ({ product }) => {
-    const [state, setState] = useState({
-        count: 1,
-    });
-    const incrementCount = () => {
-        setState((prevState) => ({
-            count: prevState.count + 1,
-        }));
-        updateQuantity(product.id,state.count);
+    const dispatch = useDispatch();
+
+    // Fetching cart state from Redux store
+    const cartItems = useSelector((state) => state.cartItems); // Access cartItems from Redux store
+
+    // Find the quantity of the product in the cart
+    const productInCart = cartItems.find((item) => item.id === product.id);
+    const quantityInCart = productInCart ? productInCart.quantity : 0;
+
+    const handleAddToCart = () => {
+        dispatch(addToCart(product));
     };
 
-    const decrementCount = () => {
-        setState((prevState) => ({
-            count: prevState.count - 1,
-        }));
-        updateQuantity(product.id,state.count);
+    const handleDescrease = () => {
+        dispatch(decreaseQuantity(product.id));
     };
-    // update quantity function
-    async function updateQuantity(product_id, quantity) {
-        let data = {
-            product_id: product_id,
-            quantity: quantity,
-        };
-        let res = await axios.post(
-            `http://127.0.0.1:8000/api/update-quantity`,
-            data
-        );
-        console.log(res);
-    }
+
     return (
         <>
             <div className="row">
@@ -39,26 +32,26 @@ export const AddToCartComponent = ({ product }) => {
                     style={{ height: "60px" }}
                 >
                     <button
-                        onClick={decrementCount}
                         className="btn greenbook col-4 border rounded-circle"
+                        onClick={handleDescrease}
                     >
-                        <i class="fa fa-1x fa-minus"></i>
+                        <i className="fa fa-1x fa-minus"></i>
                     </button>
                     <div className="d-flex justify-content-center align-items-center col-4">
-                        {state.count}
+                        {quantityInCart}
                     </div>
                     <button
-                        onClick={incrementCount}
+                        onClick={handleAddToCart}
                         className="btn greenbook border col-4 rounded-circle"
                     >
-                        <i class="fa-solid fa-plus"></i>
+                        <i className="fa-solid fa-plus"></i>
                     </button>
                 </div>
                 <div className="col-md-7 mt-2 rounded-pill h-25">
                     <button
                         className="btn greencart col-md-12 rounded-pill "
                         style={{ height: "60px" }}
-                        onClick={() => addToCart(product)}
+                        onClick={handleAddToCart}
                     >
                         <strong className="text-white">
                             Add to Cart{" "}
@@ -85,7 +78,7 @@ export const AddToCartComponent = ({ product }) => {
                             width="25"
                             height="25"
                             fill="currentColor"
-                            class="bi bi-heart"
+                            className="bi bi-heart"
                             viewBox="0 0 16 16"
                         >
                             <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />

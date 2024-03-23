@@ -12,7 +12,9 @@ class Cart extends Model
         'user_id',
         'product_id',
         'quantity',
-        'shipping_address'
+        'shipping_address',
+        'sub_total',
+        'price_after_discount'
     ];
 
     protected $table = 'cart';

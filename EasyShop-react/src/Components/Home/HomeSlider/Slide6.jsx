@@ -11,7 +11,7 @@ const Slide6 = () => (
             <p className="h2">Shop pet essentials with just a few clicks</p>
             <p className="h4">delivered straight to your doorstep!</p>
             <p className="h3 fw-bold">Try it out today!</p>
-            <button className="btn btn-outline-primary btn-lg mt-3">Shop Now</button>
+            <a className="btn btn-outline-primary btn-lg mt-3" href="#services">Shop Now</a>
           </div>
         </div>
         <div className="col-md-4 d-flex align-items-center">

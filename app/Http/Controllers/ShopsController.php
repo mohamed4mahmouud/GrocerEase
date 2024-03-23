@@ -44,7 +44,9 @@ class ShopsController extends Controller
                 'name' => $request->input('name'),
                 'location' => $request->input('location'),
                 'category' => $request->input('category'),
-                "rating" => $request->input('rating')
+                "rating" => $request->input('rating'),
+                "latitude"=>$request->input('latitude'),
+                "longtitude"=>$request->input('longitude')
             ],
 
         );
@@ -97,5 +99,10 @@ class ShopsController extends Controller
         $distance = $distance * 60 * 1.1515;
         $distance = $distance * 1.609344; 
         return $distance;
+    }
+    public function getShopById(string $cat,string $id)
+    {
+        $shop = Shop::find($id);
+        return $this->returnData('shop', $shop, 'Success');
     }
 }
