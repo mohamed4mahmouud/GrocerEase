@@ -128,11 +128,12 @@ const Location = ({category , OnPlacedRecived}) => {
                         var place = {
                             name: results[i].name,
                             address: results[i].vicinity, // 'vicinity' provides the address
+                            location: results[i].geometry.location,
                             rating: results[i].rating
                         };
                         places.push(place);
                     }
-                    console.log(places);
+                    // console.log(places[0].location.lat());
                 }
                 if (typeof OnPlacedRecived === 'function') {
                     OnPlacedRecived(places);
