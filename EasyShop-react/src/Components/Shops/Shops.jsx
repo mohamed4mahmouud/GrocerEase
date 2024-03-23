@@ -24,7 +24,7 @@ async function checkPlaces(places, category) {
         return response.data;
     } catch (error) {
         console.error('Error fetching nearby shops:', error);
-        throw error; 
+        throw error;
     }
 }
 export default function Shops() {
@@ -122,7 +122,7 @@ export default function Shops() {
                                     </LocationModal>
                                     <div className="col-md-12">
                                     {renderShopItems()}
-                                    </div>  
+                                    </div>
                                 </div>
                             </div>
                         </>
