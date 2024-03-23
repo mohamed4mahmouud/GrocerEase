@@ -94,56 +94,7 @@ class ProductsController extends Controller
         return $this->returnData('products', $products, 'Success');
     }
 
-    public function addProductToCart(Request $request)
-    {
-        $userId  = $request->user()->id;
-        $cart = Cart::where('user_id' ,$userId)->first();
-        $product = Product::find($request->product_id);
-
-        if(!$cart){
-            //create cart for logged user
-            $cart = Cart::create([
-                'user_id'=> $userId,
-            ]);
-
-
-            if($product){
-                $cart->update([
-                    'sub_total'=>$product->price
-                ]);
-
-                $cart->products()->attach($product->id, [
-                    'quantity' => 1,
-                    'price' => $product->price,
-                    'product_name' => $product->title,
-                    'product_image' => $product->image
-                ]);
-                $cartItems =CartProduct::where('cart_id' , $cart->id)->get();
-            return $this->returnData('cart',$cartItems , 'success');
-            }
-        }
-        // Check if the product already exists in the cart
-        $currentProduct = $cart->products()->where('product_id', $request->product_id)->first();
-
-        if($currentProduct){
-
-            $currentProduct->pivot->increment('quantity');
-        } else {
-            $cart->update([
-                'sub_total'=>$product->price
-            ]);
-            // Otherwise, attach the product to the cart with quantity 1
-            $cart->products()->attach($product->id, [
-                    'quantity' => 1,
-                    'price' => $product->price,
-                    'product_name' => $product->title,
-                    'product_image' => $product->image
-                ]);
-        }
-        $cartItems =CartProduct::where('cart_id' , $cart->id)->get();
-        return $this->returnData('cart',$cartItems , 'success');
-    }
-
+   
     public function getLoggedUserCart(Request $request)
     {
         $cart = Cart::where('user_id' , $request->user()->id)->first();
