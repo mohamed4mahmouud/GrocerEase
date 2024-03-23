@@ -205,7 +205,7 @@ export default function Navbar() {
             </div>
             {/* TODO: Handle search result appearnace */}
             <div
-                className="position-absolute mt-5 z-2"
+                className="position-absolute mt-5 z-2" width={300}
                 style={{ marginLeft: "850px" }}
             >
                 {wordEntered && isLoading ? (
