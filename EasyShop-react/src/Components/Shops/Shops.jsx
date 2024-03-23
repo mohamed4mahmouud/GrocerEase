@@ -19,7 +19,7 @@ async function checkPlaces(places, category) {
             "places": places
         };
         const response = await axios.post(`http://127.0.0.1:8000/api/checkPlaces/${category}`, data);
-        // const nearbyShops = response.data.shops;
+        return response.data;
     } catch (error) {
         console.error('Error fetching nearby shops:', error);
         throw error; 
@@ -31,28 +31,39 @@ export default function Shops() {
     let { data: filteredByRate } = useQuery("getFilteredShops", () =>
         getRatigFilteredShops(category)
     );
-    let {  data:NearByPlaces } = useQuery("checkPlaces", () => checkPlaces(places,category));
     const [ratingFilter, setRatingFilter] = useState(null);
     const [filteredShops, SetFilteredShops] = useState(null);
     const [places, setPlaces] = useState(null);
     const [originalPlaces, setOriginalPlaces] = useState(null);
     const [filteredNearBy, setFilteredNearBy] = useState(null);
+    // let {  data:NearByPlaces } = useQuery("checkPlaces", () => checkPlaces(places,category));
+    const [nearbyPlacesData, setNearbyPlacesData] = useState(null); // State variable to store the nearby places data
     
-
     const handlePlacesReceived = (placesData) => {
         setPlaces(placesData);
-        setOriginalPlaces(placesData);
+        setOriginalPlaces(nearbyPlacesData.shops);
     };
     useEffect(() => {
         if (places !== null) {
-            checkPlaces(places,category);
+            checkPlaces(places,category)
+                .then((responseData) => {
+                    setNearbyPlacesData(responseData); 
+                })
+                
+                .catch((error) => {
+                    console.error('Error fetching nearby shops:', error);
+                });
+    // console.log(nearbyPlacesData.shops);
+
         }
-    }, [places]);
+    }, [places , category]);
+    
+    
     const onRatingChange = (rating) => {
         if (rating === 1) {
             setRatingFilter(1);
             if (places) {
-                const sortedPlaces = places.sort((a, b) => b.rating - a.rating);
+                const sortedPlaces = nearbyPlacesData.shops.sort((a, b) => b.rating - a.rating);
                 const filteredNearbyPlaces = sortedPlaces.filter(
                     (place) => place.rating >= 2.5
                 );
@@ -63,7 +74,7 @@ export default function Shops() {
             SetFilteredShops(null);
             setFilteredNearBy(null);
             setRatingFilter(null);
-            setPlaces(originalPlaces);
+            setPlaces(nearbyPlacesData.shops);
         }
     };
     return (
@@ -96,10 +107,10 @@ export default function Shops() {
                                 </div>
                             </div>
                             <div className="row row-cols-5 g-6">
-                                {NearByPlaces?.data.shops
+                                {places
                                     ? (ratingFilter == 1
                                           ? filteredNearBy
-                                          : places
+                                          : nearbyPlacesData.shops
                                       ).map((shop,index) => (
                                           <div
                                               key={index}
@@ -151,7 +162,7 @@ export default function Shops() {
                                     : (ratingFilter == 1
                                           ? filteredByRate?.data.shops
                                           : data?.data.shops
-                                      ).map((shop,index) => (
+                                      ).map((shop,key) => (
                                           <div
                                               key={shop.id}
                                               className="col-md-2 mt-4"

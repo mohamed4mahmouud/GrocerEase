@@ -133,7 +133,6 @@ const Location = ({category , OnPlacedRecived}) => {
                         };
                         places.push(place);
                     }
-                    // console.log(places[0].location.lat());
                 }
                 if (typeof OnPlacedRecived === 'function') {
                     OnPlacedRecived(places);
@@ -164,6 +163,10 @@ const Location = ({category , OnPlacedRecived}) => {
             marker.setPosition(place.geometry.location);
             marker.setVisible(true);
             setAddress(place.formatted_address);
+            setPosition({
+                latitude:place.geometry.location.lat(),
+                longitude:place.geometry.location.lng()
+              })
         });
     }
     window.initMap = initMap;
