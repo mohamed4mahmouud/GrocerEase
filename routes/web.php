@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/checkout/{cartId?}/{shipping_address?}/{user?}', [OrdersController::class, 'checkout'])->name('checkout');
+Route::get('/checkout/{cartId?}/{shipping_address?}/{user?}/{shopId?}', [OrdersController::class, 'checkout'])->name('checkout');
 
 Route::get('/success', [OrdersController::class, 'success'])->name('checkout.success');
 Route::get('/cancel', [OrdersController::class, 'cancel'])->name('checkout.cancel');
