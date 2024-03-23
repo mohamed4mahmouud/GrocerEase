@@ -15,6 +15,8 @@ class Shop extends Model
         'location',
         'category',
         'rating',
+        'latitude',
+        'longtitude'
     ];
     
     public function orders(){

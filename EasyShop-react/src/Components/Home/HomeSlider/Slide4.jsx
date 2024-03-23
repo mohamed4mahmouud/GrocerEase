@@ -1,6 +1,6 @@
 import React from 'react';
 import style from "../Home.module.css"
-
+import { Link } from 'react-router-dom';
 const Slide4 = () => (
     <div className="container-fluid">
       <div className={`${style.slide4} row`}>
@@ -11,7 +11,7 @@ const Slide4 = () => (
             <p className="h2">Shop top quality meat in a few clicks</p>
                                 <p className="h4">delivered by the best butcheries in town!</p>
             <p className="h3 fw-bold">Try it out today!</p>
-            <button className="btn btn-outline-primary btn-lg mt-3">Shop Now</button>
+            <a className="btn btn-outline-primary btn-lg mt-3" href="#services">Shop Now</a>
           </div>
         </div>
         <div className="col-md-4 d-flex align-items-center">

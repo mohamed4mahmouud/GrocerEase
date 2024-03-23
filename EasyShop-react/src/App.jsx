@@ -21,6 +21,7 @@ import { Checkout } from "./Components/Checkout/BillingInfo";
 import Categories from "./Components/Categories/Categories";
 import OrderDetailsWrapper from "./Components/Order Details/OrderComponent";
 
+
 let routers = createBrowserRouter([
     {
         path: "",

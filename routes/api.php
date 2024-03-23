@@ -48,7 +48,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::put('/updateproducts/{id}', [ProductsController::class, 'updateById']);
     Route::delete('/deleteproduct/{id}', [ProductsController::class, 'deleteproduct']);
     //Cart Routes
-    Route::post('/add-to-cart' , [ProductsController::class ,'addProductToCart']);
+    Route::post('/add-to-cart/{id}' , [ProductsController::class ,'addToCart']);
     Route::get('/get-cart' , [ProductsController::class ,'getLoggedUserCart']);
     Route::delete('/delete-product-cart/{id}' , [ProductsController::class ,'deleteCartItem']);
     Route::delete('/clear-cart' , [ProductsController::class ,'clearCart']);
@@ -80,6 +80,7 @@ Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->post('/coupons', [C
 Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->put('/coupons/{id}', [CouponController::class,  'updateCoupon']);
 Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->delete('/coupons/{id}', [CouponController::class,  'deleteCoupon']);
 Route::middleware(['auth:sanctum'])->put('/coupons', [CouponController::class,  'checkCouponIsValid']);
+Route::middleware(['auth:sanctum'])->put('/Discount', [CouponController::class,  'updateDiscount']);
 
 // shops routes
 Route::get('/shops/{shopCategory}', [ShopsController::class, 'getCategorizedShops']);

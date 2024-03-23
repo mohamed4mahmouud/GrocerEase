@@ -113,6 +113,10 @@ export default function CreateShop() {
           marker.setPosition(place.geometry.location);
           marker.setVisible(true);
           setAddress(place.formatted_address);
+          setPosition({
+            latitude:place.geometry.location.lat(),
+            longitude:place.geometry.location.lng()
+          })
         });
     }
     window.initMap = initMap;
@@ -132,14 +136,21 @@ export default function CreateShop() {
     const handleNameChange = (e) => {
         setSelectedName(e.target.value);
     };
+    const [selectedRate, setSelectedRate] = useState("");
 
-    // console.log(address);
+    const handleRateChange = (e) => {
+        setSelectedRate(e.target.value);
+    };
+
     const saveStore = async () => {
         try {
             let data = {
                 name: selectedName,
                 category: selectedCategory,
+                rating:selectedRate,
                 location: address,
+                latitude:position.latitude,
+                longitude:position.longitude
             };
             console.log(data);
             await axios.post("http://localhost:8000/api/store/create", data);
@@ -161,6 +172,17 @@ export default function CreateShop() {
                             aria-describedby="emailHelp"
                             placeholder=""
                             onChange={handleNameChange}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="exampleInputEmail1">Shop Rate</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="exampleInputEmail1"
+                            aria-describedby="emailHelp"
+                            placeholder=""
+                            onChange={handleRateChange}
                         />
                     </div>
 

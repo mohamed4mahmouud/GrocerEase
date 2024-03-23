@@ -1,31 +1,34 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import { useQuery } from 'react-query';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useQuery } from "react-query";
 const apiKey = "AIzaSyCI_RuGZN52I_Iteqgn0CmvzeUCVAchVNo";
 function getNearbyShops(category, latitude, longitude) {
-    return axios.post(`https://places.googleapis.com/v1/places:searchNearby`, {
-        "includedTypes": ["restaurant"],
-        "maxResultCount": 5,
-        "locationRestriction": {
-            "circle": {
-                "center": {
-                    "latitude": latitude,
-                    "longitude": longitude
+    return axios.post(
+        `https://places.googleapis.com/v1/places:searchNearby`,
+        {
+            includedTypes: ["restaurant"],
+            maxResultCount: 5,
+            locationRestriction: {
+                circle: {
+                    center: {
+                        latitude: latitude,
+                        longitude: longitude,
+                    },
+                    radius: 500.0,
                 },
-                "radius": 500.0
-            }
+            },
+        },
+        {
+            headers: {
+                "Content-Type": "application/json",
+                "X-Goog-FieldMask": "places.displayName",
+                "X-Goog-Api-Key": `${apiKey}`,
+            },
         }
-    }, {
-        headers: {
-            "Content-Type": "application/json",
-            "X-Goog-FieldMask": "places.displayName",
-            "X-Goog-Api-Key": `${apiKey}`,
-        }
-    })
+    );
 }
 
-const Location = ({category , OnPlacedRecived}) => {
-
+const Location = ({ category, OnPlacedRecived, OnChoosenPlace }) => {
     const [address, setAddress] = useState(null);
     const [position, setPosition] = useState({
         latitude: null,
@@ -41,7 +44,7 @@ const Location = ({category , OnPlacedRecived}) => {
     };
 
     useEffect(() => {
-        const googleMapScript = document.createElement('script');
+        const googleMapScript = document.createElement("script");
         googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCI_RuGZN52I_Iteqgn0CmvzeUCVAchVNo&libraries=places`;
         googleMapScript.async = true;
         googleMapScript.onload = initMap;
@@ -51,8 +54,6 @@ const Location = ({category , OnPlacedRecived}) => {
     // console.log(position.latitude, position.longitude);
     // const { isLoading, data } = useQuery("getNearbyShops", () => getNearbyShops(category, position.latitude, position.longitude));
     // console.log(data?.data)
-
-
 
     function initMap() {
         const map = new google.maps.Map(document.getElementById("map"), {
@@ -69,7 +70,10 @@ const Location = ({category , OnPlacedRecived}) => {
 
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(card);
 
-        const autocomplete = new google.maps.places.Autocomplete(input, options);
+        const autocomplete = new google.maps.places.Autocomplete(
+            input,
+            options
+        );
 
         autocomplete.bindTo("bounds", map);
 
@@ -92,35 +96,37 @@ const Location = ({category , OnPlacedRecived}) => {
 
             setPosition({
                 latitude: clickedLat,
-                longitude: clickedLng
-            })
+                longitude: clickedLng,
+            });
 
             getAddress(clickedLat, clickedLng);
 
             const geocoder = new google.maps.Geocoder();
             const latLng = new google.maps.LatLng(clickedLat, clickedLng);
 
-            geocoder.geocode({ 'location': latLng }, (results, status) => {
+            geocoder.geocode({ location: latLng }, (results, status) => {
                 if (status === google.maps.GeocoderStatus.OK) {
                     if (results[0]) {
                         input.value = results[0].formatted_address;
+                        if (typeof OnChoosenPlace === "function") {
+                            OnChoosenPlace(input.value);
+                        } 
                     } else {
-                        console.error('No results found');
+                        console.error("No results found");
                     }
                 } else {
-                    console.error('Geocoder failed due to: ' + status);
+                    console.error("Geocoder failed due to: " + status);
                 }
-
             });
-        //    TODO: category =>pharmacy / pet_store / store/supermarket/bakery/department_store
+            //    TODO: category =>pharmacy / pet_store / store/supermarket/bakery/department_store
             var request = {
                 location: latLng,
                 radius: 500,
                 type: [category],
-                maxResults: 5
-            }
+                maxResults: 5,
+            };
             var service = new google.maps.places.PlacesService(map);
-            service.nearbySearch(request, callback)
+            service.nearbySearch(request, callback);
             function callback(results, status) {
                 if (status === google.maps.places.PlacesServiceStatus.OK) {
                     var places = [];
@@ -129,18 +135,18 @@ const Location = ({category , OnPlacedRecived}) => {
                             name: results[i].name,
                             address: results[i].vicinity, // 'vicinity' provides the address
                             location: results[i].geometry.location,
-                            rating: results[i].rating
+                            rating: results[i].rating,
                         };
                         places.push(place);
                     }
-                    // console.log(places[0].location.lat());
                 }
-                if (typeof OnPlacedRecived === 'function') {
+                if (typeof OnPlacedRecived === "function") {
                     OnPlacedRecived(places);
                 } else {
-                    console.error('OnPlacedRecived is not a function');
+                    console.error("OnPlacedRecived is not a function");
                 }
             }
+            
         });
 
         autocomplete.addListener("place_changed", () => {
@@ -149,11 +155,11 @@ const Location = ({category , OnPlacedRecived}) => {
 
             const place = autocomplete.getPlace();
             if (!place.geometry || !place.geometry.location) {
-
-                window.alert("No details available for input: '" + place.name + "'");
+                window.alert(
+                    "No details available for input: '" + place.name + "'"
+                );
                 return;
             }
-
             // If the place has a geometry, then present it on a map.
             if (place.geometry.viewport) {
                 map.fitBounds(place.geometry.viewport);
@@ -164,24 +170,68 @@ const Location = ({category , OnPlacedRecived}) => {
             marker.setPosition(place.geometry.location);
             marker.setVisible(true);
             setAddress(place.formatted_address);
+            setPosition({
+                latitude: place.geometry.location.lat(),
+                longitude: place.geometry.location.lng(),
+            });
+            var request = {
+                location: place.geometry.location,
+                radius: 500,
+                type: [category],
+                maxResults: 5,
+            };
+            var service = new google.maps.places.PlacesService(map);
+            service.nearbySearch(request, callback);
+            function callback(results, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    var places = [];
+                    for (var i = 0; i < 5; i++) {
+                        var place = {
+                            name: results[i].name,
+                            address: results[i].vicinity, // 'vicinity' provides the address
+                            location: results[i].geometry.location,
+                            rating: results[i].rating,
+                        };
+                        places.push(place);
+                    }
+                }
+                if (typeof OnPlacedRecived === "function") {
+                    OnPlacedRecived(places);
+                } else {
+                    console.error("OnPlacedRecived is not a function");
+                }
+            }
+            if (typeof OnChoosenPlace === "function") {
+                OnChoosenPlace(place.formatted_address);
+            } else {
+                console.error("OnPlacedRecived is not a function");
+            }
         });
     }
+    // useEffect(()=>{
+    //     console.log(address);
+    // }),[address]
     window.initMap = initMap;
 
     return (
-        <div> <div className="form-group">
-            <label htmlFor="pac-input">Location</label>
-            <input
-                type="text"
-                className="form-control"
-                id="pac-input"
-                placeholder="Enter a location"
-            />
+        <div>
+            {" "}
+            <div className="form-group">
+                <label htmlFor="pac-input">Location</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    id="pac-input"
+                    placeholder="Enter a location"
+                />
+            </div>
+            <div
+                id="map"
+                style={{ width: "100%", height: "400px" }}
+                className="mt-2"
+            ></div>
         </div>
-            <div id="map" style={{ width: "100%", height: "400px" }} className="mt-2"></div>
-        </div>
-    )
-}
+    );
+};
 
-
-export default Location
+export default Location;
