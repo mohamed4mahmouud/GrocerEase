@@ -98,4 +98,9 @@ class ShopsController extends Controller
         $distance = $distance * 1.609344; 
         return $distance;
     }
+    public function getShopById(string $cat,string $id)
+    {
+        $shop = Shop::find($id);
+        return $this->returnData('shop', $shop, 'Success');
+    }
 }
