@@ -133,7 +133,6 @@ export default function Shops() {
     );
     function renderShopItems() {
         const shopData = nearbyPlacesData ? (ratingFilter == 1 ? filteredNearBy : nearbyPlacesData) : (ratingFilter == 1 ? filteredByRate?.data.shops : data?.data.shops);
-        // {console.log(shopData);}
             <div className="d-flex justify-content-center mt-5">
                             <div className="spinner-border" role="status">
                                 <span className="visually-hidden">
@@ -147,13 +146,14 @@ export default function Shops() {
                 <Link className={`cursor-pointer card shadow ${Style.card} text-decoration-none rounded-5`} to={`${shop.id}/products`}>
                     <div className="card-body col-md-12 d-flex p-0 " style={{ height: "150px" }}>
                         <div className="col-md-4">
-                            {/* fetch img here */}
+                            {/* TODO:/* fetch img here */ }
                             <img src="../../images/ezaby.png" alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} className={`${Style.borderLeft}`}/>
                         </div>
                         <div className="col-md-6 ms-4 mt-4">
                             <span className={`text-main font-sm fw-bolder card-text h4`}>
                                 {shop.name}
                             </span>
+                        <p className="mt-2">{shop.location.split(',')[0]}</p>
                         </div>
                         <div className="col-md-2 text-center mt-4">
                             <p className="fw-bold"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#FF8A00" className="bi bi-star-fill mb-1" viewBox="0 0 16 16">
