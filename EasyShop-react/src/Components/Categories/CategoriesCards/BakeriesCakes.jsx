@@ -12,7 +12,7 @@ export default function BakeriesCakes() {
               onMouseEnter={() => setHoveredIndex(1)}
               onMouseLeave={() => setHoveredIndex(1)}
             >  
-                <Link className='text-decoration-none' to={ProductCategory['pastries_and_croissant']}> 
+                <Link className='text-decoration-none' to={`${ProductCategory['bread']}`}> 
                 <p className={`${style.shampoo} mb-0 mt-1`}>Pastries and Croissants</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>CROISSANT</p>
                 <img src="../../../images/croissant.png" alt="" height={120} width={150} />
