@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserValidation;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\ForgotPasswordRequest;
+use App\Notifications\ResetPasswordVerificationNotification;
+use Ichtrojan\Otp\Otp;
 
 class AuthController extends Controller
 {
@@ -80,42 +82,26 @@ class AuthController extends Controller
             return $this->returnError(404,'There is no user with that email');
         }
 
-        //generate a 4 digit random code
-        $resetCode = str_pad(random_int(1,9999),4,"0",STR_PAD_LEFT);
+        $user->notify(new ResetPasswordVerificationNotification());
 
-        $userPassReset = PasswordReset::where('email', $user->email)->first();
-        if(!$userPassReset){
-            PasswordReset::create([
-                'email'=>$user->email,
-                'token'=>Hash::make($resetCode),
-            ]);
-        }else{
-            $userPassReset->update([
-                'email'=>$user->email,
-                'token'=>Hash::make($resetCode)
-            ]);
-        }
-        return response()->json($resetCode);
+
+        return $this->returnSuccessMessage('Emil sent with OTP');
     }
 
     public function resetPassword(ResetPasswordRequest $request)
     {
+        $otp = new Otp;
+        $code = $otp->validate($request->email,$request->otp);
+
+        if(!$code->status){
+            return $this->returnError(401 ,'Incorrect Otp');
+        }
         $user = User::where('email',$request->email)->first();
 
         //check if email is right
         if(!$user){
             return $this->returnError(404 , 'Incorrect email');
         }
-
-        $resetPassRequest = PasswordReset::where('email' , $user->email)->first();
-
-        //check if user made request to reset password and code is true
-        if(!$resetPassRequest || !Hash::check($request->otp , $resetPassRequest->token )){
-
-            return $this->returnError(404 , 'Invalid token or no reset password request');
-        }
-
-
             $user->update([
                 'password' => $request->new_password
             ]);
