@@ -16,24 +16,33 @@ export async function getCart() {
 
 export default function Cart() {
     const cartItems = useSelector((state) => state.cartItems); // Accessing cart items from Redux store
+    const [subtotal, setSubtotal] = useState(0);
+    const priceAfterDiscount = useSelector((state) => state.priceAfterDiscount);
 
-    let subtotal = 0;
-    // Calculate subtotal
-    cartItems.forEach((item) => {
-        subtotal += item.price * item.quantity;
-    });
-    const [cartProduct, setCartProduct] = useState([]);
     const dispatch = useDispatch();
 
     useEffect(() => {
         const storedCart = JSON.parse(sessionStorage.getItem("cartState"));
         if (storedCart) {
-            setCartProduct(storedCart.cartItems);
+            setSubtotal(calculateSubtotal(storedCart.cartItems));
         }
     }, []);
 
+    // useEffect(() => {
+    //     setPriceAfterDiscount(sessionStorage.getItem("priceAfterDiscount"));
+    // }, [priceAfterDiscount]);
+
+    const calculateSubtotal = (items) => {
+        let total = 0;
+        items.forEach((item) => {
+            total += item.price * item.quantity;
+        });
+        return total;
+    };
+
     const handleRemoveAll = () => {
         dispatch(removeAllFromCart());
+        setSubtotal(0);
     };
 
     return (
@@ -75,6 +84,9 @@ export default function Cart() {
                                         <TableRow
                                             cartItem={cartItem}
                                             key={index}
+                                            calculateSubtotal={
+                                                calculateSubtotal
+                                            }
                                         />
                                     ))}
                                 </table>
@@ -106,7 +118,12 @@ export default function Cart() {
                                         className={`${style.cartText} text-start d-flex justify-content-between`}
                                     >
                                         <h6>Subtotal:</h6>
-                                        <h6>{subtotal}$</h6>
+                                        <h6>
+                                            {priceAfterDiscount > 0
+                                                ? priceAfterDiscount
+                                                : subtotal}
+                                            $
+                                        </h6>
                                     </div>
                                     <hr />
                                     {/* TODO: set shipping fee dynamically */}
@@ -121,7 +138,12 @@ export default function Cart() {
                                         className={`${style.cartText} text-start d-flex justify-content-between`}
                                     >
                                         <h5>Total:</h5>
-                                        <h5>{subtotal}$</h5>
+                                        <h5>
+                                            {priceAfterDiscount > 0
+                                                ? priceAfterDiscount
+                                                : subtotal}
+                                            $
+                                        </h5>
                                     </div>
                                     <button
                                         className={`${style.mainColor} btn btn-primary w-100 rounded-5 mt-3`}
@@ -134,7 +156,8 @@ export default function Cart() {
                         <div className="col-md-7 mt-3">
                             <div className="card">
                                 <div className="card-body mt-3">
-                                   <Coupon data={subtotal}/>
+                                    {/* Pass the callback function to the Coupon component */}
+                                    <Coupon data={subtotal} />
                                 </div>
                             </div>
                         </div>

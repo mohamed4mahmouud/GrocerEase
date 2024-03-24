@@ -125,11 +125,15 @@ class CouponController extends Controller
             if ($expiryDate->isPast()) {
                 return $this->returnError(400, 'Coupon has expired');
             }
+
+            if(!$coupon->Status){
+                return $this->returnError(400, 'Invalid Coupon');
+            }
+
             $discountedPrice = $request->total_price - $coupon->discount;
-            $cart = Cart::where('user_id' , $request->user()->id);
-            $cart->update([
-                'sub_total' => $request->sub_total,
-                'price_after_discount' => $request->discount
+
+            $coupon->update([
+                'Status' => false
             ]);
 
             return response()->json([

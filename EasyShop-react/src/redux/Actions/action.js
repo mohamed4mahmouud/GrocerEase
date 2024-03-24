@@ -5,6 +5,7 @@ import {
     DECREASE_QUANTITY,
     GET_PRODUCT_QUANTITY,
     REMOVE_ALL_FROM_CART,
+    UPDATE_PRICE_AFTER_COUPON,
 } from "./actionTypes";
 
 export const addToCart = (product) => ({
@@ -37,5 +38,12 @@ export const getProductQuantity = (productId) => {
 export const removeAllFromCart = () => {
     return {
         type: REMOVE_ALL_FROM_CART,
+    };
+};
+
+export const updatePriceAfterCoupon = (updatedPrice) => {
+    return {
+        type: UPDATE_PRICE_AFTER_COUPON,
+        payload: updatedPrice,
     };
 };
