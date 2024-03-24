@@ -58,7 +58,7 @@ class OrdersController extends Controller
 
 
     //Payment 
-    public function checkout($cartId, $shipping_address, $user)
+    public function checkout($cartId, $shipping_address, $user, $shopId)
     {
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
         //Get Order by its id
@@ -99,7 +99,7 @@ class OrdersController extends Controller
         //TODO: set shop ID for multiple shops
 
         $order->user_id = $user;
-        $order->shop_id = 1;
+        $order->shop_id = $shopId;
         $order->save();
 
         $delivery = new Delivery();
