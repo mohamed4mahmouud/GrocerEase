@@ -66,7 +66,7 @@ const OrderDetails = ({ orderId }) => {
             <div className="row border rounded-3 d-flex justify-content-center">
                 <div className="d-flex justify-content-between border-bottom">
                     <div className="d-flex">
-                        <h2 className="mt-3 ms-5">Order Details</h2>
+                        <h2 className="mt-3 ms-3">Order Details</h2>
                         <p className="mt-4 ms-4">
                             {formatDate(orderData?.order?.shipping_date)}
                         </p>
@@ -136,6 +136,9 @@ const OrderDetails = ({ orderId }) => {
                                 </p>
                             </div>
                         </div>
+                        <h2 className="mt-3 mb-2 ms-3 text-start">
+                            Order Tracking
+                        </h2>
                         <div className="mt-4">
                             <Delivery />
                         </div>
