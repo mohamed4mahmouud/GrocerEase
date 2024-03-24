@@ -73,7 +73,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
 Route::get('/products/{product}/reviews',[ReviewController::class , 'getAllReviews']);
 
 Route::middleware(['auth:sanctum'])->post('/update-quantity' , [ProductsController::class ,'updateQuantity']);
-//Coupon Routes
+//Coupon Routesdeliveries
 Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->get('/coupons', [CouponController::class,  'getAllCoupons']);
 Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->get('/coupons/{id}', [CouponController::class,  'getCoupon']);
 Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->post('/coupons', [CouponController::class,  'createCoupon']);
