@@ -20,6 +20,7 @@ import ProfileEdit from "./Components/Profile/ProfileEdit/ProfileEdit";
 import { Checkout } from "./Components/Checkout/BillingInfo";
 import Categories from "./Components/Categories/Categories";
 import OrderDetailsWrapper from "./Components/Order Details/OrderComponent";
+import ForgetPasswordForm from "./Components/ForgetPassword/ForgetPassword";
 
 
 let routers = createBrowserRouter([
@@ -41,6 +42,7 @@ let routers = createBrowserRouter([
             { path: "createshop", element: <CreateShop /> },
             { path: "checkout", element: <Checkout /> },
             { path: "categories", element: <Categories /> },
+            { path: "forgetPassword", element: <ForgetPasswordForm /> },
             {
                 path: "orders/:orderId",
                 element: <OrderDetailsWrapper />,
