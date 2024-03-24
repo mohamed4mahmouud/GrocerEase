@@ -4,11 +4,13 @@ import {
     INCREASE_QUANTITY,
     DECREASE_QUANTITY,
     GET_PRODUCT_QUANTITY,
-    REMOVE_ALL_FROM_CART
+    REMOVE_ALL_FROM_CART,
 } from "./Actions/actionTypes.js";
 
 const initialState = {
     cartItems: [],
+    priceAfterDiscount: 0,
+    subtotal: 0,
 };
 
 const shoppingCartReducer = (state = initialState, action) => {
@@ -38,13 +40,36 @@ const shoppingCartReducer = (state = initialState, action) => {
                 };
             }
         }
-        case REMOVE_FROM_CART:
+        case REMOVE_FROM_CART: {
+            // Remove the item from the cart
+            const updatedCartItems = state.cartItems.filter(
+                (item) => item.id !== action.payload
+            );
+
+            // Recalculate subtotal after removing the item
+            const updatedSubtotal =
+                updatedCartItems.length > 0
+                    ? updatedCartItems.reduce(
+                          (total, item) => total + item.price * item.quantity,
+                          0
+                      )
+                    : 0;
+
+            // Update the price after discount
+            let updatedPriceAfterDiscount = state.priceAfterDiscount;
+            if (updatedPriceAfterDiscount > 0) {
+                updatedPriceAfterDiscount =
+                    updatedSubtotal - updatedPriceAfterDiscount;
+            }
+
             return {
                 ...state,
-                cartItems: state.cartItems.filter(
-                    (item) => item.id !== action.payload
-                ),
+                cartItems: updatedCartItems,
+                subtotal: updatedSubtotal,
+                priceAfterDiscount: updatedPriceAfterDiscount,
             };
+        }
+
         case INCREASE_QUANTITY:
             return {
                 ...state,
@@ -72,8 +97,15 @@ const shoppingCartReducer = (state = initialState, action) => {
         }
         case REMOVE_ALL_FROM_CART:
             return {
-              ...state,
-              cartItems: [],
+                ...state,
+                cartItems: [],
+                subtotal: 0,
+                priceAfterDiscount: 0,
+            };
+        case "UPDATE_PRICE_AFTER_COUPON":
+            return {
+                ...state,
+                priceAfterDiscount: action.payload,
             };
         default:
             return state;

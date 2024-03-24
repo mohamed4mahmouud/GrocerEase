@@ -115,3 +115,7 @@
     background-color: var(--icon-color) !important;
     color: var(--white-color) !important;
 }
+
+.font{
+    font-family: var(--font-family);
+}

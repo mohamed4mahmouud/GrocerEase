@@ -14,7 +14,8 @@ class Coupon extends Model
     protected $fillable = [
         'body',
         'Expiry_date',
-        'discount'
+        'discount',
+        'Status'
     ];
 
 }
