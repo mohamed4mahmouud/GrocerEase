@@ -13,7 +13,7 @@ export default function GreenGroceries() {
               onMouseEnter={() => setHoveredIndex(1)}
               onMouseLeave={() => setHoveredIndex(1)}
             >  
-                <Link className='text-decoration-none' to={ProductCategory['fruits']}> 
+                <Link className='text-decoration-none' to={`${ProductCategory['fruits']}`}> 
                 <p className={`${style.shampoo} mb-0 mt-1`}>Fruits</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>APPLES</p>
                 <img src="../../../images/apple.png" alt="" height={150} width={180} />
@@ -24,7 +24,7 @@ export default function GreenGroceries() {
               onMouseEnter={() => setHoveredIndex(2)}
               onMouseLeave={() => setHoveredIndex(1)}
             >
-                <Link className='text-decoration-none' to={ProductCategory['vegetables']}> 
+                <Link className='text-decoration-none' to={`${ProductCategory['vegetables']}`}> 
                 <p className={`${style.makeUp} mb-0 mt-1`}>Vegtables</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>TOMATOES</p>
                 <img src="../../../images/tomato.png" alt="" height={150} width={150} />
@@ -35,7 +35,7 @@ export default function GreenGroceries() {
               onMouseEnter={() => setHoveredIndex(3)}
               onMouseLeave={() => setHoveredIndex(1)}
             >
-                <Link className='text-decoration-none' to={ProductCategory['leafy_products']}> 
+                <Link className='text-decoration-none' to={`${ProductCategory['leafy_products']}`}> 
                 <p className={`${style.supplements} mb-0 mt-1`}>LEAFY PRODUCTS</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>SPANICH</p>
                 <img src="../../../images/spanich.png" alt="" height={150} width={150} />
