@@ -1,18 +1,26 @@
 import axios from "axios";
 import style from "./Cart.module.css";
 import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
+import { updatePriceAfterCoupon } from "../../redux/Actions/action";
+import { useState } from "react";
 
-export const Coupon = ({ subtotal }) => {
+export const Coupon = (props) => {
+    const dispatch = useDispatch();
+    let [message, setMessage] = useState(null);
+    let [error, setError] = useState(null);
+
     const couponSubmit = async (values) => {
         let { data } = await axios.put(
             `http://127.0.0.1:8000/api/coupons`,
             values
         );
         if (data.message === "success") {
-            let priceAfterDiscount = subtotal + data.discountedPrice;
-            console.log(subtotal);
+            let priceAfterDiscount = props.data + data.discountedPrice;
+            dispatch(updatePriceAfterCoupon(priceAfterDiscount));
+            setMessage("Coupon Applied");
         }
-        console.log(data);
+        //console.log(data);
     };
     let formik = useFormik({
         initialValues: {
@@ -39,6 +47,12 @@ export const Coupon = ({ subtotal }) => {
                         Apply coupon
                     </button>
                 </div>
+                {message ? (
+                    <div className="alert alert-success">{message}</div>
+                ) : null}
+                {error ? (
+                    <div className="alert alert-danger">{error}</div>
+                ) : null}
             </form>
         </>
     );

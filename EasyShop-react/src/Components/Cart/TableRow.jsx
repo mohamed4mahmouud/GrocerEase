@@ -1,13 +1,13 @@
 import React from "react";
 import style from "./Cart.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { removeFromCart } from "../../redux/Actions/action";
 
 export default function TableRow({ cartItem }) {
     const dispatch = useDispatch();
-
-    const handleRemove = (productId) => {
-        dispatch(removeFromCart(productId)); // Dispatch action to remove item
+    //const priceAfterDiscount = useSelector((state) => state.priceAfterDiscount);
+    const handleRemoveItem = (itemId) => {
+        dispatch(removeFromCart(itemId));
     };
 
     return (
@@ -27,7 +27,7 @@ export default function TableRow({ cartItem }) {
                     href=""
                     className="btn rounded-circle text-reset text-decoration-none"
                     onClick={() => {
-                        handleRemove(cartItem.id);
+                        handleRemoveItem(cartItem.id); // Corrected function name
                     }}
                 >
                     <svg
