@@ -48,121 +48,138 @@ export default function Cart() {
     return (
         <>
             <Fragment>
-                <div className="container text-center">
-                    <h1 className="mt-5 mb-5">My Shopping Cart</h1>
-                    <div className="row">
-                        <div className="col-md-7">
-                            <div className="card">
-                                <table>
-                                    <thead className="text-start border">
-                                        <tr>
-                                            <th
-                                                style={{
-                                                    width: "40%",
-                                                    paddingLeft: "100px",
-                                                }}
-                                            >
-                                                PRODUCT
-                                            </th>
-                                            <th
-                                                style={{
-                                                    paddingLeft: "70px",
-                                                }}
-                                            >
-                                                PRICE
-                                            </th>
-                                            <th
-                                                style={{
-                                                    paddingLeft: "50px",
-                                                }}
-                                            >
-                                                QUANTITY
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    {cartItems.map((cartItem, index) => (
-                                        <TableRow
-                                            cartItem={cartItem}
-                                            key={index}
-                                            calculateSubtotal={
-                                                calculateSubtotal
-                                            }
-                                        />
-                                    ))}
-                                </table>
-                                <div
-                                    className={`${style.cartFooter} card-footer d-flex justify-content-between`}
-                                >
-                                    <Link
-                                        to="/products"
-                                        className={`${style.cartButton} rounded-5`}
+                {cartItems.length != 0 ? (
+                    <div className="container text-center">
+                        <h1 className="mt-5 mb-5">My Shopping Cart</h1>
+                        <div className="row">
+                            <div className="col-md-7">
+                                <div className="card">
+                                    <table>
+                                        <thead className="text-start border">
+                                            <tr>
+                                                <th
+                                                    style={{
+                                                        width: "40%",
+                                                        paddingLeft: "100px",
+                                                    }}
+                                                >
+                                                    PRODUCT
+                                                </th>
+                                                <th
+                                                    style={{
+                                                        paddingLeft: "70px",
+                                                    }}
+                                                >
+                                                    PRICE
+                                                </th>
+                                                <th
+                                                    style={{
+                                                        paddingLeft: "50px",
+                                                    }}
+                                                >
+                                                    QUANTITY
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        {cartItems.map((cartItem, index) => (
+                                            <TableRow
+                                                cartItem={cartItem}
+                                                key={index}
+                                                calculateSubtotal={
+                                                    calculateSubtotal
+                                                }
+                                            />
+                                        ))}
+                                    </table>
+                                    <div
+                                        className={`${style.cartFooter} card-footer d-flex justify-content-between`}
                                     >
-                                        Return to shop
-                                    </Link>
-                                    <button
-                                        className={`${style.cartButton} rounded-5`}
-                                        onClick={handleRemoveAll}
-                                    >
-                                        Clear Cart
-                                    </button>
+                                        <Link
+                                            to="/products"
+                                            className={`${style.cartButton} rounded-5`}
+                                        >
+                                            Return to shop
+                                        </Link>
+                                        <button
+                                            className={`${style.cartButton} rounded-5`}
+                                            onClick={handleRemoveAll}
+                                        >
+                                            Clear Cart
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="col-md-4">
-                            <div className="card">
-                                <div className="card-body">
-                                    <h5 className="text-start mb-4">
-                                        Cart Total
-                                    </h5>
-                                    <div
-                                        className={`${style.cartText} text-start d-flex justify-content-between`}
-                                    >
-                                        <h6>Subtotal:</h6>
-                                        <h6>
-                                            {priceAfterDiscount > 0
-                                                ? priceAfterDiscount
-                                                : subtotal}
-                                            $
-                                        </h6>
-                                    </div>
-                                    <hr />
-                                    {/* TODO: set shipping fee dynamically */}
-                                    <div
-                                        className={`${style.cartText} text-start d-flex justify-content-between`}
-                                    >
-                                        <h6>Shipping:</h6>
-                                        <h6>Free</h6>
-                                    </div>
-                                    <hr />
-                                    <div
-                                        className={`${style.cartText} text-start d-flex justify-content-between`}
-                                    >
-                                        <h5>Total:</h5>
-                                        <h5>
-                                            {priceAfterDiscount > 0
-                                                ? priceAfterDiscount
-                                                : subtotal}
-                                            $
+                            <div className="col-md-4">
+                                <div className="card">
+                                    <div className="card-body">
+                                        <h5 className="text-start mb-4">
+                                            Cart Total
                                         </h5>
+                                        <div
+                                            className={`${style.cartText} text-start d-flex justify-content-between`}
+                                        >
+                                            <h6>Subtotal:</h6>
+                                            <h6>
+                                                {priceAfterDiscount > 0
+                                                    ? priceAfterDiscount
+                                                    : subtotal}
+                                                $
+                                            </h6>
+                                        </div>
+                                        <hr />
+                                        {/* TODO: set shipping fee dynamically */}
+                                        <div
+                                            className={`${style.cartText} text-start d-flex justify-content-between`}
+                                        >
+                                            <h6>Shipping:</h6>
+                                            <h6>Free</h6>
+                                        </div>
+                                        <hr />
+                                        <div
+                                            className={`${style.cartText} text-start d-flex justify-content-between`}
+                                        >
+                                            <h5>Total:</h5>
+                                            <h5>
+                                                {priceAfterDiscount > 0
+                                                    ? priceAfterDiscount
+                                                    : subtotal}
+                                                $
+                                            </h5>
+                                        </div>
+                                        <button
+                                            className={`${style.mainColor} btn btn-primary w-100 rounded-5 mt-3`}
+                                        >
+                                            Proceed to checkout
+                                        </button>
                                     </div>
-                                    <button
-                                        className={`${style.mainColor} btn btn-primary w-100 rounded-5 mt-3`}
-                                    >
-                                        Proceed to checkout
-                                    </button>
                                 </div>
                             </div>
-                        </div>
-                        <div className="col-md-7 mt-3">
-                            <div className="card">
-                                <div className="card-body mt-3">
-                                    {/* Pass the callback function to the Coupon component */}
-                                    <Coupon data={subtotal} />
+                            <div className="col-md-7 mt-3">
+                                <div className="card">
+                                    <div className="card-body mt-3">
+                                        {/* Pass the callback function to the Coupon component */}
+                                        <Coupon data={subtotal} />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                ) : (
+                    // when cart is empty
+                    <div className="container">
+                        <div
+                            className="text-center"
+                        >
+                            <img
+                                src="../../images/emptyCart.jpg"
+                                alt="empty cart"
+                                width={500}
+                            />
+                            <h2 className="font text-center"> Your Cart is Empty</h2>
+                            <Link className="btn greencart rounded-3 text-white fw-semibold mt-3 font" to="/">Go Shopping</Link>
+                        </div>
+                    </div>
+                )}
             </Fragment>
         </>
     );

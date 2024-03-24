@@ -17,11 +17,9 @@ function getShopInfo(category, id) {
 
 export default function Categories() {
     const { category, id } = useParams();
-    console.log(category, id);
     const { isLoading, data } = useQuery("getShopInfo", () =>
         getShopInfo(category, id)
     );
-    console.log(data?.data.shop);
     return (
         <Fragment>
             {isLoading ? (
@@ -63,15 +61,15 @@ export default function Categories() {
                                     {data?.data.shop.rating}
                                 </p>
                                 <div className="mt-4">
-                                    <button className="btn btn-primary rounded-pill">
+                                    <div className="btn btn-primary rounded-pill">
                                         EGP 10 Service fee
-                                    </button>
-                                    <button className="btn btn-primary rounded-pill ms-4">
+                                    </div>
+                                    <div className="btn btn-primary rounded-pill ms-4">
                                         25 min
-                                    </button>
-                                    <button className="btn btn-primary rounded-pill ms-4">
-                                        Minimum order: 30 EGP
-                                    </button>
+                                    </div>
+                                    <div className="btn btn-primary rounded-pill ms-4">
+                                        Minimum order: {data?.data.shop.min_order} EGP
+                                    </div>
                                 </div>
                             </div>
                         </div>
