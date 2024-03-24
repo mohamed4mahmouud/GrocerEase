@@ -16,9 +16,10 @@ class Shop extends Model
         'category',
         'rating',
         'latitude',
-        'longtitude'
+        'longtitude',
+        'image'
     ];
-    
+
     public function orders(){
         return $this->hasMany(Order::class);
     }

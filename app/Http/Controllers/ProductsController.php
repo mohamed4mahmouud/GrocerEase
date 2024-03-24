@@ -33,7 +33,7 @@ class ProductsController extends Controller
             if ($request->user()) {
 
                // save image in Cloudinary
-                $uploadedFileUrl = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
+                $uploadedFileUrl = Cloudinary::upload($request->file('image')->getRealPath(),['folder' => 'products'])->getSecurePath();
                 $products = new Product();
 
                 $products->title = $request->input('title');
@@ -94,7 +94,7 @@ class ProductsController extends Controller
         return $this->returnData('products', $products, 'Success');
     }
 
-   
+
     public function getLoggedUserCart(Request $request)
     {
         $cart = Cart::where('user_id' , $request->user()->id)->first();

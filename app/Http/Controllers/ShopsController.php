@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Shop;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 
 class ShopsController extends Controller
@@ -39,19 +40,64 @@ class ShopsController extends Controller
 
     public function createShop(Request $request)
     {
-        $shop = Shop::create(
-            [
-                'name' => $request->input('name'),
-                'location' => $request->input('location'),
-                'category' => $request->input('category'),
-                "rating" => $request->input('rating'),
-                "latitude"=>$request->input('latitude'),
-                "longtitude"=>$request->input('longitude')
-            ],
+        try {
+            $uploadedFileUrl = Cloudinary::upload($request->file('image')->getRealPath(), ['folder' => 'shops'])->getSecurePath();
+            $shop = Shop::create(
+                [
+                    'name' => $request->input('name'),
+                    'location' => $request->input('location'),
+                    'category' => $request->input('category'),
+                    "rating" => $request->input('rating'),
+                    "latitude"=>$request->input('latitude'),
+                    "longtitude"=>$request->input('longitude'),
+                    'image' => $uploadedFileUrl
+                ],
+            );
+            return $this->returnSuccessMessage("Shop Created Successfully");
+        } catch (\Exception $e) {
+            return $this->returnError(500 , 'Failed to create shop');
+        }
 
-        );
-        return $this->returnSuccessMessage("Shop Created Successfully");
     }
+
+    public function updateShop(Request $request , string $id)
+{
+    try {
+        $shop = Shop::find($id);
+
+        if (!$shop) {
+            return $this->returnError(404 , 'Shop not found');
+        }
+
+        // Check if the image file is provided in the request
+        if ($request->hasFile('image')) {
+
+                // Specify the folder where you want to upload the image
+                $folder = 'shops';
+                // Upload the image to Cloudinary with the specified folder
+                $uploadedFileUrl = Cloudinary::upload($request->file('image')->getRealPath(), ['folder' => $folder])->getSecurePath();
+
+        } else {
+            // If no image file is provided, retain the existing image URL
+            $uploadedFileUrl = $shop->image;
+        }
+
+        $shop->update([
+            'name' => $request->name,
+            'location' => $request->location,
+            'category' => $request->category,
+            'rating' => $request->rating,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'image' => $uploadedFileUrl
+        ]);
+        return $this->returnData('shop' , $shop , 'updated');
+
+    } catch (\Exception $e) {
+    return $this->returnError(500 , 'Failed to update shop');
+    }
+}
+
 
     public function checkPlaces(Request $request , string $category)
     {
@@ -77,7 +123,7 @@ class ShopsController extends Controller
                 $shopLongitude = (float) $shop->longtitude;
                 $distance = $this->calculateDistance($placeLatitude, $placeLongitude, $shopLatitude, $shopLongitude);
 
-               
+
                 if ($distance <= 1.0 && !in_array($shop->id, $addedShopIds)) {
                     $nearbyShops[] = $shop;
                     $addedShopIds[] = $shop->id;
@@ -97,7 +143,7 @@ class ShopsController extends Controller
         $distance = acos($distance);
         $distance = rad2deg($distance);
         $distance = $distance * 60 * 1.1515;
-        $distance = $distance * 1.609344; 
+        $distance = $distance * 1.609344;
         return $distance;
     }
     public function getShopById(string $cat,string $id)
