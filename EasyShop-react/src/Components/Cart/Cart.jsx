@@ -7,6 +7,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import TableRow from "./TableRow";
 import { removeAllFromCart } from "../../redux/Actions/action";
+import { Coupon } from "./Coupon";
 
 export async function getCart() {
     const response = await axios.get(`http://127.0.0.1:8000/api/get-cart`);
@@ -134,30 +135,7 @@ export default function Cart() {
                         <div className="col-md-7 mt-3">
                             <div className="card">
                                 <div className="card-body mt-3">
-                                    <form>
-                                        <div className="input-group mb-3">
-                                            <h5 className="mt-2">
-                                                Coupon Code
-                                            </h5>
-                                            <input
-                                                type="text"
-                                                className="form-control rounded-5 ms-2 "
-                                                placeholder="Enter coupon code"
-                                                name="coupon"
-                                            />
-                                            <input
-                                                type="text"
-                                                hidden
-                                                name="total_price"
-                                            />
-                                            <button
-                                                className={`${style.coupon} rounded-5 text-white ms-2 p-2`}
-                                                type="submit"
-                                            >
-                                                Apply coupon
-                                            </button>
-                                        </div>
-                                    </form>
+                                   <Coupon data={subtotal}/>
                                 </div>
                             </div>
                         </div>
