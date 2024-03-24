@@ -1,29 +1,47 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import { OrderSummery } from "./Order Summery";
-import { PaymentContext } from "../../Context/paymentContext";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 export const Checkout = () => {
-    const { cartId } = useContext(PaymentContext);
-
-    const [shippingAddress, setShippingAddress] = useState("");
+    const [shipping_address, setShippingAddress] = useState("");
     const handleChange = (event) => {
         setShippingAddress(event.target.value);
     };
-    let userToken = localStorage.getItem("userToken");
-    let headers = {
-        token: userToken,
-    };
     const [user, setUser] = useState("");
-    async function getUser() {
-        let response = await axios.get(`http://localhost:8000/api/user`, {
-            headers,
-        });
-        setUser(response.data.id);
-    }
-    getUser();
+    useEffect(() => {
+        async function getUser() {
+            try {
+                const response = await axios.get(
+                    `http://localhost:8000/api/user`,
+                    {
+                        headers: {
+                            token: localStorage.getItem("userToken"),
+                        },
+                    }
+                );
+                setUser(response.data.id);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        }
+        getUser();
+    }, []);
+    const cartItems = useSelector((state) => state.cartItems);
+    const serializedCartItems = JSON.stringify(cartItems);
+
+    const [cartProduct, setCartProduct] = useState([]);
+    const shopId = cartItems.map((item) => item.shop_id);
+    const cartId = cartItems.map((item) => item.id);
+    useEffect(() => {
+        const storedCart = JSON.parse(sessionStorage.getItem("cartState"));
+        if (storedCart) {
+            setCartProduct(storedCart.cartItems);
+        }
+    }, []);
+
     return (
         <div className="checkout">
             <section className="py-5">
@@ -49,7 +67,7 @@ export const Checkout = () => {
                                                     id="shipping_address"
                                                     name="shipping_address"
                                                     placeholder="1234 Main St"
-                                                    value={shippingAddress}
+                                                    value={shipping_address}
                                                     onChange={handleChange}
                                                     required
                                                 />
@@ -58,7 +76,7 @@ export const Checkout = () => {
                                         <a
                                             className="btn greencart text-white fw-semibold"
                                             style={{ borderRadius: "20px" }}
-                                            href={`http://localhost:8000/checkout/${cartId}/${shippingAddress}/${user}`}
+                                            href={`http://localhost:8000/checkout?cartItems=${serializedCartItems}&shipping_address=${shipping_address}&user=${user}&shopId=${shopId}`}
                                         >
                                             Place order
                                         </a>

@@ -11,24 +11,29 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable=[
+    protected $fillable = [
         'shipping_address',
         'shipping_date',
         'price',
         'status',
         'user_id',
-        'shop_id'
+        'shop_id',
+        'delivery_id'
     ];
-    public function shop(): BelongsTo{
+    public function shop(): BelongsTo
+    {
         return $this->belongsTo(Shop::class);
     }
-    public function user() : BelongsTo{
+    public function user(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
-    public function cart(): BelongsTo{
+    public function cart(): BelongsTo
+    {
         return $this->belongsTo(Cart::class);
     }
-    public function delivery(): BelongsTo{
+    public function delivery(): BelongsTo
+    {
         return $this->belongsTo(Delivery::class);
     }
 }

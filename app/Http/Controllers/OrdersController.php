@@ -58,59 +58,72 @@ class OrdersController extends Controller
 
 
     //Payment 
-    public function checkout($cartId, $shipping_address, $user)
+    public function checkout(Request $request)
     {
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-        //Get Order by its id
 
-        $products = Cart::find($cartId)->products;
-        $cartProducts = CartProduct::where('cart_id', $cartId)->get();
-        // return response()->json($products);
+        $cartItems = json_decode($request->query('cartItems'));
+        $shipping_address = $request->query('shipping_address');
+        $user = $request->query('user');
+        $shopIds = array_unique(explode(',', $request->query('shopId')));
+
+        $shopTotalPrices = [];
+
+        // Collect total prices for each shop
+        foreach ($cartItems as $item) {
+            $shopTotalPrices[$item->shop_id] = ($shopTotalPrices[$item->shop_id] ?? 0) + ($item->price * $item->quantity);
+        }
+
+        $totalPrice = array_sum($shopTotalPrices);
+
         $lineItems = [];
-        $totalPrice = 0;
-        foreach ($products as $product) {
-            $cartProduct = $cartProducts->where('product_id', $product->id)->first();
-            $productTotalPrice = $product->price * $cartProduct->quantity;
-            $totalPrice += $productTotalPrice;
+
+        foreach ($cartItems as $item) {
             $lineItems[] = [
                 'price_data' => [
                     'currency' => 'usd',
                     'product_data' => [
-                        'name' => $product->title,
+                        'name' => $item->title,
                     ],
-                    'unit_amount' => $product->price * 100,
+                    'unit_amount' => $item->price * 100,
                 ],
-                'quantity' => $cartProduct->quantity,
+                'quantity' => $item->quantity,
             ];
         }
+
         $session = \Stripe\Checkout\Session::create([
+            'payment_method_types' => ['card'],
             'line_items' => $lineItems,
             'mode' => 'payment',
             'success_url' => route('checkout.success', [], true) . "?session_id={CHECKOUT_SESSION_ID}",
             'cancel_url' => route('checkout.cancel', [], true),
         ]);
 
-        $order = new Order();
-        $order->status = 'new';
-        $order->shipping_address = $shipping_address;
-        $order->shipping_date = now();
-        $order->price = $totalPrice;
-        $order->session_id = $session->id;
-        //TODO: set shop ID for multiple shops
+        // Create orders for each shop and associate them with the Stripe session
+        foreach ($shopIds as $shopId) {
+            $shopTotalPrice = $shopTotalPrices[$shopId];
 
-        $order->user_id = $user;
-        $order->shop_id = 1;
-        $order->save();
+            $order = new Order();
+            $order->status = 'new';
+            $order->shipping_address = $shipping_address;
+            $order->shipping_date = now();
+            $order->price = $shopTotalPrice;
+            $order->session_id = $session->id;
+            $order->shop_id = $shopId;
+            $order->user_id = $user;
+            $order->save();
 
-        $delivery = new Delivery();
-        $delivery->order_id = $order->id;
-        $delivery->save();
+            $delivery = new Delivery();
+            $delivery->order_id = $order->id;
+            $delivery->save();
 
-        $order->delivery_id = $delivery->id;
-        $order->save();
+            $order->delivery_id = $delivery->id;
+            $order->save();
+        }
 
         return redirect($session->url);
     }
+
 
     public function success(Request $request)
     {

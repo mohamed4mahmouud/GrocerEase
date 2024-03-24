@@ -7,14 +7,16 @@ import axios from "axios";
 import { useFormik } from "formik";
 import TableRow from "./TableRow";
 import { removeAllFromCart } from "../../redux/Actions/action";
+import { Coupon } from "./Coupon";
 
 export async function getCart() {
-    return await axios.get(`http://127.0.0.1:8000/api/get-cart`);
+    const response = await axios.get(`http://127.0.0.1:8000/api/get-cart`);
+    return response.data;
 }
 
 export default function Cart() {
     const cartItems = useSelector((state) => state.cartItems); // Accessing cart items from Redux store
-    
+
     let subtotal = 0;
     // Calculate subtotal
     cartItems.forEach((item) => {
@@ -49,20 +51,25 @@ export default function Cart() {
                                             <th
                                                 style={{
                                                     width: "40%",
-                                                    paddingLeft: "20px",
+                                                    paddingLeft: "100px",
                                                 }}
                                             >
                                                 PRODUCT
                                             </th>
-                                            <th>PRICE</th>
                                             <th
                                                 style={{
-                                                    paddingLeft: "15px",
+                                                    paddingLeft: "70px",
+                                                }}
+                                            >
+                                                PRICE
+                                            </th>
+                                            <th
+                                                style={{
+                                                    paddingLeft: "50px",
                                                 }}
                                             >
                                                 QUANTITY
                                             </th>
-                                            <th>SUBTOTAL</th>
                                         </tr>
                                     </thead>
                                     {cartItems.map((cartItem, index) => (
@@ -128,30 +135,7 @@ export default function Cart() {
                         <div className="col-md-7 mt-3">
                             <div className="card">
                                 <div className="card-body mt-3">
-                                    <form>
-                                        <div className="input-group mb-3">
-                                            <h5 className="mt-2">
-                                                Coupon Code
-                                            </h5>
-                                            <input
-                                                type="text"
-                                                className="form-control rounded-5 ms-2 "
-                                                placeholder="Enter coupon code"
-                                                name="coupon"
-                                            />
-                                            <input
-                                                type="text"
-                                                hidden
-                                                name="total_price"
-                                            />
-                                            <button
-                                                className={`${style.coupon} rounded-5 text-white`}
-                                                type="submit"
-                                            >
-                                                Apply coupon
-                                            </button>
-                                        </div>
-                                    </form>
+                                   <Coupon data={subtotal}/>
                                 </div>
                             </div>
                         </div>

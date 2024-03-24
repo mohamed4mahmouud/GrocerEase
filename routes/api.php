@@ -80,7 +80,7 @@ Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->post('/coupons', [C
 Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->put('/coupons/{id}', [CouponController::class,  'updateCoupon']);
 Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->delete('/coupons/{id}', [CouponController::class,  'deleteCoupon']);
 Route::middleware(['auth:sanctum'])->put('/coupons', [CouponController::class,  'checkCouponIsValid']);
-Route::middleware(['auth:sanctum'])->put('/Discount', [CouponController::class,  'updateDiscount']);
+
 
 // shops routes
 Route::get('/shops/{shopCategory}', [ShopsController::class, 'getCategorizedShops']);
@@ -88,6 +88,8 @@ Route::get('/shops', [ShopsController::class, 'getAllShops']);
 Route::get('/filteredShops/{category}', [ShopsController::class, 'getFilteredShops']);
 Route::post('/store/create', [ShopsController::class, 'createShop'])->name('shops.create');
 Route::post('/checkPlaces/{category}', [ShopsController::class, 'checkPlaces']);
+//update shop route
+Route::middleware(['auth:sanctum', 'checkStoreOwnerToken'])->put('/shops/{id}', [ShopsController::class,  'updateShop']);
 
 Route::get('/categories',[CategoryController::class , 'getAllCategories']);
 Route::get('/categories/{category}',[CategoryController::class , 'getCategory']);

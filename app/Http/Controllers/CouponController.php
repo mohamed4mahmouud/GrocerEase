@@ -142,22 +142,4 @@ class CouponController extends Controller
             return $this->returnError(500, 'Error occurred while check coupon');
         }
     }
-
-    public function updateDiscount(Request $request)
-    {
-        try {
-            // Fetch the cart based on the authenticated user's ID
-            $cart = Cart::where('user_id', $request->user()->id)->firstOrFail();
-
-            // Update the price_after_discount field
-            $cart->update([
-                'price_after_discount' => $request->discount
-            ]);
-
-            return response()->json(['message' => 'Discount updated successfully','discount' =>$request->discount ], 200);
-        } catch (\Exception $e) {
-            // Handle any exceptions, such as if the cart is not found
-            return response()->json(['message' => 'Failed to update discount'], 500);
-        }
-    }
 }
