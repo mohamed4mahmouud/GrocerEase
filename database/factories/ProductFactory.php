@@ -22,11 +22,9 @@ class ProductFactory extends Factory
 
     public function definition(): array
     {
-       $category= Category::all()->random();
-       $user= User::all()->random();
-       $shop=Shop::all()->random();
-       $category=Category::all()->random();
-     
+        $category = Category::whereBetween('id', [19, 24])->inRandomOrder()->first();
+        $user = User::all()->random();
+        $shop = Shop::where('category', 'butchery')->inRandomOrder()->first();
 
         return [
             'title' => fake()->sentence(3),
