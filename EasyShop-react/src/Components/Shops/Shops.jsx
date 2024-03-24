@@ -239,8 +239,8 @@ export default function Shops() {
                         </Link>
                     </div>
                 ))}
+                    {pageNumbers.length>1?
                 <div className="d-flex justify-content-center">
-                    {/* {console.log(pageNumbers)} */}
                     <ul className="pagination text-black">
                         {pageNumbers.map((number) => (
                             <li key={number} className="page-item">
@@ -253,7 +253,8 @@ export default function Shops() {
                             </li>
                         ))}
                     </ul>
-                </div>
+                </div>:''
+    }
             </>
         );
     }
