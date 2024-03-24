@@ -18,7 +18,7 @@ export const ProductHeader = ({ data, isLoading }) => {
                 ) : (
                     <>
                         <div className="col-md-6">
-                            <img src={data?.data.products.image} alt="..." />
+                            <img src={data?.data.products.image} height={400} alt="..." />
                         </div>
                         <div className="col-md-6">
                             <div className="row">
