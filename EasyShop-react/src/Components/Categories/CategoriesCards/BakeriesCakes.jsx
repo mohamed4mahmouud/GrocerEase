@@ -12,7 +12,7 @@ export default function BakeriesCakes() {
               onMouseEnter={() => setHoveredIndex(1)}
               onMouseLeave={() => setHoveredIndex(1)}
             >  
-                <Link className='text-decoration-none'> 
+                <Link className='text-decoration-none' to={`${ProductCategory['bread']}`}> 
                 <p className={`${style.shampoo} mb-0 mt-1`}>Pastries and Croissants</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>CROISSANT</p>
                 <img src="../../../images/croissant.png" alt="" height={120} width={150} />
@@ -23,7 +23,7 @@ export default function BakeriesCakes() {
               onMouseEnter={() => setHoveredIndex(2)}
               onMouseLeave={() => setHoveredIndex(1)}
             >
-                <Link className='text-decoration-none'> 
+                <Link className='text-decoration-none' to={`${ProductCategory['bread']}`}> 
                 <p className={`${style.makeUp} mb-0 mt-1`}>Bread</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>BROWN</p>
                 <img src="../../../images/brown.png" alt="" height={150} width={150} />
@@ -34,7 +34,7 @@ export default function BakeriesCakes() {
               onMouseEnter={() => setHoveredIndex(3)}
               onMouseLeave={() => setHoveredIndex(1)}
             >
-                <Link className='text-decoration-none'> 
+                <Link className='text-decoration-none' to={`${ProductCategory['cakes_and_cupcakes']}`}> 
                 <p className={`${style.supplements} mb-0 mt-1`}>Cakes and Cupcakes</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>CUPCAKE</p>
                 <img src="../../../images/cupCake.png" alt="" height={150} width={150} />
@@ -47,7 +47,7 @@ export default function BakeriesCakes() {
               onMouseEnter={() => setHoveredIndex2(1)}
               onMouseLeave={() => setHoveredIndex2(3)}
             >
-                <Link className='text-decoration-none'> 
+                <Link className='text-decoration-none' to={`${ProductCategory['cookies_and_brownies']}`}> 
                 <p className={`${style.supplies} mb-0 mt-1`}>Cookies and Brownies</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>BROWNIES</p>
                 <img src="../../../images/brownie.png" alt="" height={150} width={150} />
@@ -58,7 +58,7 @@ export default function BakeriesCakes() {
               onMouseEnter={() => setHoveredIndex2(2)}
               onMouseLeave={() => setHoveredIndex2(3)}
             >
-                <Link className='text-decoration-none'> 
+                <Link className='text-decoration-none' to={`${ProductCategory['tarts_and_pies']}`}> 
                 <p className={`${style.pain} mb-0 mt-1`}>Tarts and Pies</p>        
                 <p className={`${style.cardHeader} h2 fw-bold`}>TARTS</p>
                 <img src="../../../images/tart.png" alt="" height={150} width={150} />
@@ -70,7 +70,7 @@ export default function BakeriesCakes() {
               onMouseEnter={() => setHoveredIndex2(3)}
               onMouseLeave={() => setHoveredIndex2(3)}
             >
-                <Link className='text-decoration-none '> 
+                <Link className='text-decoration-none ' to={`${ProductCategory['rolls']}`}> 
                 <p className={`${style.oral} mb-0 mt-1`}>rolls</p>        
                 <p className={`${style.cardHeader} h3 fw-bold `}>SWISS ROLL</p>
                 <img src="../../../images/swiss.png" alt="" height={150} width={150} />

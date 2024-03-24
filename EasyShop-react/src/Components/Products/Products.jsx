@@ -56,21 +56,7 @@ export const Products = () => {
                                         >
                                             ${product.price}
                                         </p>
-                                        <i
-                                            className={`fa-solid fa-star ${Style.ratingstar}`}
-                                        ></i>
-                                        <i
-                                            className={`fa-solid fa-star ${Style.ratingstar}`}
-                                        ></i>
-                                        <i
-                                            className={`fa-solid fa-star ${Style.ratingstar}`}
-                                        ></i>
-                                        <i
-                                            className={`fa-solid fa-star ${Style.ratingstar}`}
-                                        ></i>
-                                        <i
-                                            className={`fa-solid fa-star ${Style.ratingstar}`}
-                                        ></i>
+                                        
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="16"
