@@ -173,7 +173,7 @@ export default function Shops() {
             indexOfFirstShop,
             indexOfLastShop
         );
-        
+
 
         <div className="d-flex justify-content-center mt-5">
             <div className="spinner-border" role="status">
@@ -197,7 +197,7 @@ export default function Shops() {
                                 <div className="col-md-4">
                                     {/* TODO:/* fetch img here */}
                                     <img
-                                        src="../../images/ezaby.png"
+                                        src={shop.image}
                                         alt=""
                                         style={{
                                             width: "100%",
