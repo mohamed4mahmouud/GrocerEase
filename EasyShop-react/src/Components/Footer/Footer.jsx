@@ -10,12 +10,11 @@ export default function Footer() {
                         <div className="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
                             <h6 className="fw-bold mb-4">
                                 <img src={logo} width={40} className="mb-2" />{" "}
-                                Talabatk Eh
+                                GrocerEase
                             </h6>
                             <p>
-                                Here you can use rows and columns to organize
-                                your footer content. Lorem ipsum dolor sit amet,
-                                consectetur adipisicing elit.
+                            In today's society, accessing essential medications and pet supplies is crucial for maintaining the health and well-being of both individuals and their beloved pets. 
+                            However, traditional methods of acquiring these items often present significant challenges and limitations, leading to inefficiencies and frustrations for consumers.
                             </p>
                         </div>
 
