@@ -1,11 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import axios from "axios";
 import { useQuery } from "react-query";
-import { getCart } from "../Cart/Cart";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import Delivery from "../Delivery/Delivery";
 
 const OrderDetails = ({ orderId }) => {
+    const cartItems = useSelector((state) => state.cartItems);
+    let subtotal = 0;
+    // Calculate subtotal
+    cartItems.forEach((item) => {
+        subtotal += item.price * item.quantity;
+    });
+    const [cartProduct, setCartProduct] = useState([]);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const storedCart = JSON.parse(sessionStorage.getItem("cartState"));
+        if (storedCart) {
+            setCartProduct(storedCart.cartItems);
+        }
+    }, []);
     const {
         isLoading: orderLoading,
         data: orderData,
@@ -25,12 +42,7 @@ const OrderDetails = ({ orderId }) => {
         return response.data;
     });
 
-    const { isLoading: cartLoading, data: cartData } = useQuery(
-        "getCart",
-        getCart
-    );
-
-    if (orderLoading || cartLoading) {
+    if (orderLoading) {
         return (
             <div className="d-flex justify-content-center mt-2">
                 <div className="spinner-border" role="status">
@@ -48,11 +60,6 @@ const OrderDetails = ({ orderId }) => {
         const options = { month: "long", day: "numeric", year: "numeric" };
         return new Date(dateString).toLocaleDateString("en-US", options);
     };
-
-    const totalProducts = cartData?.data.cart.reduce(
-        (accumulator, currentValue) => accumulator + currentValue.quantity,
-        0
-    );
 
     return (
         <div className="container">
@@ -96,12 +103,6 @@ const OrderDetails = ({ orderId }) => {
                                 </small>
                             </p>
                             <p className="review">
-                                Products <br />
-                                <small className="text-black">
-                                    {totalProducts}
-                                </small>
-                            </p>
-                            <p className="review">
                                 Order Status <br />
                                 <small className="text-black">
                                     {orderData?.order?.status}
@@ -135,8 +136,11 @@ const OrderDetails = ({ orderId }) => {
                                 </p>
                             </div>
                         </div>
+                        <div className="mt-4">
+                            <Delivery />
+                        </div>
 
-                        <div className="table-container mt-3 p-0">
+                        {/* <div className="table-container mt-3 p-0">
                             <Table borderless>
                                 <thead>
                                     <tr className="table-secondary">
@@ -155,17 +159,23 @@ const OrderDetails = ({ orderId }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {cartData?.data.cart.map((cartItem) => (
-                                        <tr key={cartItem.id}>
-                                            <td>{cartItem.id}</td>
-                                            <td>{cartItem.product_name}</td>
+                                    {cartItems.map((cartItem, index) => (
+                                        <tr cartItem={cartItem} key={index}>
+                                            <td>
+                                                <img
+                                                    src={cartItem.image}
+                                                    alt=""
+                                                    width={40}
+                                                />
+                                            </td>
+                                            <td>{cartItem.price}</td>
                                             <td>x {cartItem.quantity}</td>
                                             <td>$ {cartItem.price}</td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </Table>
-                        </div>
+                        </div> */}
                     </>
                 ) : (
                     <div>Error fetching order details</div>
