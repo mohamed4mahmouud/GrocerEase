@@ -8,12 +8,12 @@ import { useParams } from "react-router-dom";
 import Location from "./Location";
 import LocationModal from "./LocationModal/LocationModal";
 
-function getShops(category) {
-    return axios.get(`http://127.0.0.1:8000/api/shops/${category}`);
+async function getShops(category) {
+    return await axios.get(`http://127.0.0.1:8000/api/shops/${category}`);
 }
 
-export function getRatingFilteredShops(category) {
-    return axios.get(`http://127.0.0.1:8000/api/filteredShops/${category}`);
+export async function getRatingFilteredShops(category) {
+    return await axios.get(`http://127.0.0.1:8000/api/filteredShops/${category}`);
 }
 async function checkPlaces(places, category) {
     try {
@@ -187,7 +187,7 @@ export default function Shops() {
                         <div className="col-md-4">
                             {/* TODO:/* fetch img here */}
                             <img
-                                src="../../images/ezaby.png"
+                                src={shop.image}
                                 alt=""
                                 style={{
                                     width: "100%",
