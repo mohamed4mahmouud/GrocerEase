@@ -59,70 +59,70 @@ class OrdersController extends Controller
 
     //Payment 
     public function checkout(Request $request)
-{
-    Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+    {
+        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
 
-    $cartItems = json_decode($request->query('cartItems'));
-    $shipping_address = $request->query('shipping_address');
-    $user = $request->query('user');
-    $shopIds = array_unique(explode(',', $request->query('shopId')));
+        $cartItems = json_decode($request->query('cartItems'));
+        $shipping_address = $request->query('shipping_address');
+        $user = $request->query('user');
+        $shopIds = array_unique(explode(',', $request->query('shopId')));
 
-    $shopTotalPrices = [];
+        $shopTotalPrices = [];
 
-    // Collect total prices for each shop
-    foreach ($cartItems as $item) {
-        $shopTotalPrices[$item->shop_id] = ($shopTotalPrices[$item->shop_id] ?? 0) + ($item->price * $item->quantity);
-    }
+        // Collect total prices for each shop
+        foreach ($cartItems as $item) {
+            $shopTotalPrices[$item->shop_id] = ($shopTotalPrices[$item->shop_id] ?? 0) + ($item->price * $item->quantity);
+        }
 
-    $totalPrice = array_sum($shopTotalPrices);
+        $totalPrice = array_sum($shopTotalPrices);
 
-    $lineItems = [];
+        $lineItems = [];
 
-    foreach ($cartItems as $item) {
-        $lineItems[] = [
-            'price_data' => [
-                'currency' => 'usd',
-                'product_data' => [
-                    'name' => $item->title,
+        foreach ($cartItems as $item) {
+            $lineItems[] = [
+                'price_data' => [
+                    'currency' => 'usd',
+                    'product_data' => [
+                        'name' => $item->title,
+                    ],
+                    'unit_amount' => $item->price * 100,
                 ],
-                'unit_amount' => $item->price * 100,
-            ],
-            'quantity' => $item->quantity,
-        ];
+                'quantity' => $item->quantity,
+            ];
+        }
+
+        $session = \Stripe\Checkout\Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => $lineItems,
+            'mode' => 'payment',
+            'success_url' => route('checkout.success', [], true) . "?session_id={CHECKOUT_SESSION_ID}",
+            'cancel_url' => route('checkout.cancel', [], true),
+        ]);
+
+        // Create orders for each shop and associate them with the Stripe session
+        foreach ($shopIds as $shopId) {
+            $shopTotalPrice = $shopTotalPrices[$shopId];
+
+            $order = new Order();
+            $order->status = 'new';
+            $order->shipping_address = $shipping_address;
+            $order->shipping_date = now();
+            $order->price = $shopTotalPrice;
+            $order->session_id = $session->id;
+            $order->shop_id = $shopId;
+            $order->user_id = $user;
+            $order->save();
+
+            $delivery = new Delivery();
+            $delivery->order_id = $order->id;
+            $delivery->save();
+
+            $order->delivery_id = $delivery->id;
+            $order->save();
+        }
+
+        return redirect($session->url);
     }
-
-    $session = \Stripe\Checkout\Session::create([
-        'payment_method_types' => ['card'],
-        'line_items' => $lineItems, 
-        'mode' => 'payment',
-        'success_url' => route('checkout.success', [], true) . "?session_id={CHECKOUT_SESSION_ID}",
-        'cancel_url' => route('checkout.cancel', [], true),
-    ]);
-
-    // Create orders for each shop and associate them with the Stripe session
-    foreach ($shopIds as $shopId) {
-        $shopTotalPrice = $shopTotalPrices[$shopId];
-
-        $order = new Order();
-        $order->status = 'new';
-        $order->shipping_address = $shipping_address;
-        $order->shipping_date = now();
-        $order->price = $shopTotalPrice;
-        $order->session_id = $session->id;
-        $order->shop_id = $shopId;
-        $order->user_id = $user;
-        $order->save();
-
-        $delivery = new Delivery();
-        $delivery->order_id = $order->id;
-        $delivery->save();
-
-        $order->delivery_id = $delivery->id;
-        $order->save();
-    }
-
-    return redirect($session->url);
-}
 
 
     public function success(Request $request)
