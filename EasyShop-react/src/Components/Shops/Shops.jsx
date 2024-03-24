@@ -43,6 +43,8 @@ export default function Shops() {
     const [filteredNearBy, setFilteredNearBy] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [nearbyPlacesData, setNearbyPlacesData] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [shopsPerPage] = useState(4);
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -93,7 +95,6 @@ export default function Shops() {
             // console.log(originalPlaces);
         }
     };
-    // console.log(choosenPlace);
 
     return (
         <>
@@ -115,7 +116,10 @@ export default function Shops() {
                         <>
                             <div className="col-lg-6 col-md-4 col-sm-6">
                                 <div className="container py-2 mt-3">
-                                    <button onClick={openModal} className="btn mb-5">
+                                    <button
+                                        onClick={openModal}
+                                        className="btn mb-5"
+                                    >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="30"
@@ -168,66 +172,98 @@ export default function Shops() {
             : ratingFilter == 1
             ? filteredByRate?.data.shops
             : data?.data.shops;
+            const pageNumbers = [];
+        for (let i = 1; i <= Math.ceil(shopData.length / shopsPerPage); i++) {
+            pageNumbers.push(i);
+        }
+        const indexOfLastShop = currentPage * shopsPerPage;
+        const indexOfFirstShop = indexOfLastShop - shopsPerPage;
+        const currentShops = shopData.slice(
+            indexOfFirstShop,
+            indexOfLastShop
+        );
+        
+
         <div className="d-flex justify-content-center mt-5">
             <div className="spinner-border" role="status">
                 <span className="visually-hidden">Loading...</span>
             </div>
         </div>;
         // }
-        return shopData.map((shop, key) => (
-            <div key={shop.id} className="col-md-12 mb-3">
-                <Link
-                    className={`cursor-pointer card shadow ${Style.card} text-decoration-none rounded-5`}
-                    to={`${shop.id}/products`}
-                >
-                    <div
-                        className="card-body col-md-12 d-flex p-0 "
-                        style={{ height: "150px" }}
-                    >
-                        <div className="col-md-4">
-                            {/* TODO:/* fetch img here */}
-                            <img
-                                src="../../images/ezaby.png"
-                                alt=""
-                                style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    objectFit: "cover",
-                                }}
-                                className={`${Style.borderLeft}`}
-                            />
-                        </div>
-                        <div className="col-md-6 ms-4 mt-4">
-                            <span
-                                className={`text-main font-sm fw-bolder card-text h4`}
+
+        return (
+            <>
+                {currentShops.map((shop, key) => (
+                    <div key={shop.id} className="col-md-12 mb-3">
+                        <Link
+                            className={`cursor-pointer card shadow ${Style.card} text-decoration-none rounded-5`}
+                            to={`${shop.id}/products`}
+                        >
+                            <div
+                                className="card-body col-md-12 d-flex p-0 "
+                                style={{ height: "150px" }}
                             >
-                                {shop.name}
-                            </span>
-                            <p className="mt-2">
-                                {shop.location.split(",")[0]}
-                            {/* </p>
+                                <div className="col-md-4">
+                                    {/* TODO:/* fetch img here */}
+                                    <img
+                                        src="../../images/ezaby.png"
+                                        alt=""
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                            objectFit: "cover",
+                                        }}
+                                        className={`${Style.borderLeft}`}
+                                    />
+                                </div>
+                                <div className="col-md-6 ms-4 mt-4">
+                                    <span
+                                        className={`text-main font-sm fw-bolder card-text h4`}
+                                    >
+                                        {shop.name}
+                                    </span>
+                                    <p className="mt-2">
+                                        {shop.location.split(",")[0]}
+                                        {/* </p>
                             <p> */}
-                                {shop.location.split(",")[1]}
-                            </p>
-                        </div>
-                        <div className="col-md-2 text-center mt-4">
-                            <p className="fw-bold">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="16"
-                                    height="16"
-                                    fill="#FF8A00"
-                                    className="bi bi-star-fill mb-1"
-                                    viewBox="0 0 16 16"
-                                >
-                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                </svg>
-                                {shop.rating}
-                            </p>
-                        </div>
+                                        {shop.location.split(",")[1]}
+                                    </p>
+                                </div>
+                                <div className="col-md-2 text-center mt-4">
+                                    <p className="fw-bold">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="16"
+                                            height="16"
+                                            fill="#FF8A00"
+                                            className="bi bi-star-fill mb-1"
+                                            viewBox="0 0 16 16"
+                                        >
+                                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                        </svg>
+                                        {shop.rating}
+                                    </p>
+                                </div>
+                            </div>
+                        </Link>
                     </div>
-                </Link>
-            </div>
-        ));
+                ))}
+                <div className="d-flex justify-content-center">
+                    {/* {console.log(pageNumbers)} */}
+                    <ul className="pagination text-black">
+                        {pageNumbers.map((number) => (
+                            <li key={number} className="page-item">
+                                <button
+                                    onClick={() => setCurrentPage(number)}
+                                    className="page-link paginationBtn"
+                                >
+                                    {number}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </>
+        );
     }
 }
