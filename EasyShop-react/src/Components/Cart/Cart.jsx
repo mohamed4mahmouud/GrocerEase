@@ -9,7 +9,8 @@ import TableRow from "./TableRow";
 import { removeAllFromCart } from "../../redux/Actions/action";
 
 export async function getCart() {
-    return await axios.get(`http://127.0.0.1:8000/api/get-cart`);
+    const response = await axios.get(`http://127.0.0.1:8000/api/get-cart`);
+    return response.data;
 }
 
 export default function Cart() {
