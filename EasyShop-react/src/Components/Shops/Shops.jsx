@@ -8,12 +8,12 @@ import { useParams } from "react-router-dom";
 import Location from "./Location";
 import LocationModal from "./LocationModal/LocationModal";
 
-function getShops(category) {
-    return axios.get(`http://127.0.0.1:8000/api/shops/${category}`);
+async function getShops(category) {
+    return await axios.get(`http://127.0.0.1:8000/api/shops/${category}`);
 }
 
-export function getRatingFilteredShops(category) {
-    return axios.get(`http://127.0.0.1:8000/api/filteredShops/${category}`);
+export async function getRatingFilteredShops(category) {
+    return await axios.get(`http://127.0.0.1:8000/api/filteredShops/${category}`);
 }
 async function checkPlaces(places, category) {
     try {
@@ -116,10 +116,7 @@ export default function Shops() {
                         <>
                             <div className="col-lg-6 col-md-4 col-sm-6">
                                 <div className="container py-2 mt-3">
-                                    <button
-                                        onClick={openModal}
-                                        className="btn mb-5"
-                                    >
+                                    <button onClick={openModal} className={`${Style.locationBtn} btn mb-5 text-start rounded-5 col-md-12 p-3 pt-4`}>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="30"
@@ -130,17 +127,11 @@ export default function Shops() {
                                         >
                                             <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
                                         </svg>
-                                        <p className="h4 d-inline-block">
+                                        <p className="h4 d-inline-block text-start">
                                             Choose your Location &gt;
                                         </p>
+                                        <p className="h6 ms-3">{choosenPlace}</p>
                                     </button>
-                                    {choosenPlace ? (
-                                        <p className="mb-5 ms-5">
-                                            {choosenPlace}
-                                        </p>
-                                    ) : (
-                                        ""
-                                    )}
                                     <LocationModal
                                         isOpen={isModalOpen}
                                         onClose={closeModal}

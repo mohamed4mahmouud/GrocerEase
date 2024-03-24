@@ -38,7 +38,7 @@ export const Products = () => {
                             <div key={product.id} className="col-md-2">
                                 <Link
                                     className={`cursor-pointer py-3 px-2 card ${Style.card} h-100 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-0-hover`}
-                                    to={`/product/${product.id}`}
+                                    to={`/products/${product.id}`}
                                 >
                                     <img
                                         src={product.image}

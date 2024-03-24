@@ -7,6 +7,62 @@ import CityDropDown from "./CityDropDown";
 import axios from "axios";
 
 export default function ProfileEdit() {
+    const [profileLoading, setProfileLoading] = useState(false);
+    const [profileMessage, setProfileMessage] = useState(null);
+    const [profileError, setProfileError] = useState(null);
+
+    const profileValidationSchema = Yup.object({
+        name: Yup.string().required("Full Name is required"),
+        email: Yup.string()
+            .email("Invalid email")
+            .required("Email is required"),
+        phone: Yup.string().required("Phone Number is required"),
+        address: Yup.string().required("Address is required"),
+    });
+
+    const updateProfileSubmit = async (values) => {
+        setProfileLoading(true);
+        try {
+            const response = await axios.put(
+                "http://localhost:8000/api/user/profile/edit",
+                values
+            );
+            setProfileLoading(false);
+            setProfileMessage(response.data.message);
+            setProfileError(null);
+        } catch (error) {
+            setProfileLoading(false);
+            setProfileMessage(null);
+            setProfileError(error.response.data.message);
+        }
+    };
+
+    const formikProfile = useFormik({
+        initialValues: {
+            name: "",
+            email: "",
+            phone: "",
+            address: "",
+        },
+        validationSchema: profileValidationSchema,
+        onSubmit: updateProfileSubmit,
+    });
+
+    const profileAlert = (
+        <>
+            {profileError && (
+                <div className="alert alert-danger p-2 mt-2">
+                    {profileError}
+                </div>
+            )}
+            {profileMessage && (
+                <div className="alert alert-success p-2 mt-2">
+                    {profileMessage}
+                </div>
+            )}
+        </>
+    );
+
     const validationSchema = Yup.object({
         current_password: Yup.string().required("Current password is required"),
 
@@ -23,11 +79,12 @@ export default function ProfileEdit() {
     const [message, setMessage] = useState(null);
     const [error, setError] = useState(null);
 
-
     const updatePasswordSubmit = async (values) => {
         setisLoading(true);
-        let { data } = await axios
-            .put(`http://localhost:8000/api/changepassword`, values)
+        let { data } = await axios.put(
+            `http://localhost:8000/api/changepassword`,
+            values
+        );
 
         if (data.msg === "Password Changed Successfully") {
             setisLoading(false);
@@ -49,6 +106,18 @@ export default function ProfileEdit() {
         validationSchema,
         onSubmit: updatePasswordSubmit,
     });
+
+    const passwordAlert = (
+        <>
+            {error ? (
+                <div className="alert alert alert-danger p-2 mt-2">{error}</div>
+            ) : null}
+            {message ? (
+                <div className="alert alert-success p-2 mt-2">{message}</div>
+            ) : null}
+        </>
+    );
+
     return (
         <div className="container mt-5">
             <div className="row">
@@ -62,30 +131,40 @@ export default function ProfileEdit() {
                                 <p className="h3">Account Settings</p>
                             </div>
                             <div className="card-body d-flex">
-                                <form className="col-md-7">
+                                <form
+                                    className="col-md-7"
+                                    onSubmit={formikProfile.handleSubmit}
+                                >
                                     <div className="form-group">
-                                        <label
-                                            htmlFor="userName"
-                                            className="mb-2"
-                                        >
+                                        <label htmlFor="name" className="mb-2">
                                             Full Name
                                         </label>
                                         <input
                                             type="text"
                                             className={`${style.inpOrg} form-control mb-2`}
-                                            id="userName"
-                                            placeholder="userName"
+                                            id="name"
+                                            placeholder="Name"
+                                            value={formikProfile.values.name}
+                                            onChange={
+                                                formikProfile.handleChange
+                                            }
+                                            onBlur={formikProfile.handleBlur}
                                         />
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="eMail" className="mb-2">
+                                        <label htmlFor="email" className="mb-2">
                                             Email
                                         </label>
                                         <input
                                             type="email"
                                             className={`${style.inpOrg} form-control mb-2`}
-                                            id="eMail"
+                                            id="email"
                                             placeholder="Email"
+                                            value={formikProfile.values.email}
+                                            onChange={
+                                                formikProfile.handleChange
+                                            }
+                                            onBlur={formikProfile.handleBlur}
                                         />
                                     </div>
                                     <div className="form-group">
@@ -97,7 +176,32 @@ export default function ProfileEdit() {
                                             className={`${style.inpOrg} form-control mb-4`}
                                             id="phone"
                                             placeholder="Phone"
+                                            value={formikProfile.values.phone}
+                                            onChange={
+                                                formikProfile.handleChange
+                                            }
+                                            onBlur={formikProfile.handleBlur}
                                         />
+                                    </div>
+                                    <div className="form-group">
+                                        <label
+                                            htmlFor="address"
+                                            className="mb-2"
+                                        >
+                                            Address
+                                        </label>
+                                        <input
+                                            type="tel"
+                                            className={`${style.inpOrg} form-control mb-4`}
+                                            id="address"
+                                            placeholder="Address"
+                                            value={formikProfile.values.address}
+                                            onChange={
+                                                formikProfile.handleChange
+                                            }
+                                            onBlur={formikProfile.handleBlur}
+                                        />
+                                        {profileAlert}
                                     </div>
                                     <button
                                         type="submit"
@@ -105,6 +209,16 @@ export default function ProfileEdit() {
                                     >
                                         Save Changes
                                     </button>
+                                    {error ? (
+                                        <div className="alert alert alert-danger p-2 mt-2">
+                                            {error}
+                                        </div>
+                                    ) : null}
+                                    {message ? (
+                                        <div className="alert alert-success p-2 mt-2">
+                                            {message}
+                                        </div>
+                                    ) : null}
                                 </form>
                                 <div className="col-md-5 text-center">
                                     <img
@@ -313,16 +427,7 @@ export default function ProfileEdit() {
                                         <span>Save Changes</span>
                                     )}
                                 </button>
-                                {error ? (
-                                    <div className="alert alert alert-danger p-2 mt-2">
-                                        {error}
-                                    </div>
-                                ) : null}
-                                {message ? (
-                                    <div className="alert alert-success p-2 mt-2">
-                                        {message}
-                                    </div>
-                                ) : null}
+                                {passwordAlert}
                             </form>
                         </div>
                     </div>

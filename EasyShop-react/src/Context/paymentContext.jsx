@@ -10,9 +10,6 @@ let headers = {
 };
 
 async function CardPayment(cartId, shipping_address) {
-    // console.log(cartId);
-    // console.log(shipping_address);
-    // console.log('context values:',values)
     let response = await axios.get(
         `http://localhost:8000/checkout/${cartId}`,
         {
@@ -25,16 +22,17 @@ async function CardPayment(cartId, shipping_address) {
 
 export default function PaymentContextProvider(props) {
     const [cartId, setCartId] = useState(null);
+    const [cartItems, setCartItems] = useState([]);
 
     async function fetchCartId() {
         try {
             const response = await getCart();
-            // console.log("Cart response:", response);
+            console.log("cart", response.data);
             const cartItems = response?.data?.cart;
             if (cartItems && cartItems.length > 0) {
-                const cartId = cartItems[0].cart_id;
-                // console.log("Cart Id:", cartId);
+                const { cart_id: cartId } = cartItems[0];
                 setCartId(cartId);
+                setCartItems(cartItems);
             } else {
                 console.error("Cart is empty or undefined");
             }
@@ -47,7 +45,7 @@ export default function PaymentContextProvider(props) {
     }, []);
 
     return (
-        <PaymentContext.Provider value={{ CardPayment, cartId }}>
+        <PaymentContext.Provider value={{ CardPayment, cartId, cartItems }}>
             {props.children}
         </PaymentContext.Provider>
     );

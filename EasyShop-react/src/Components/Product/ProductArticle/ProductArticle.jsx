@@ -3,14 +3,13 @@ import TabNavItem from './TabNavItem';
 import TabContent from './TabContent';
 import styles from './ProductArticle.module.css';
 import { RelatedProducts } from '../RelatedProducts/RelatedProducts';
-export const ProductArticle = ({data}) => {
+export const ProductArticle = ({ data }) => {
 
     const [activeTab, setActiveTab] = useState(1);
 
     const handleTabClick = (tabNumber) => {
         setActiveTab(tabNumber);
     };
-
     return (
         <>
             <ul className={styles.tabnav} role="tablist">
@@ -45,12 +44,15 @@ export const ProductArticle = ({data}) => {
                     >
                         {/* Tab 1 content */}
                         <div className="oldprice text-decoration-none col-md-12">
-                            Lorem ipsum dolor,
+                            {data?.data.products.article ?
+                                data?.data.products.article :
+                                `Lorem ipsum dolor,
                             sit amet consectetur adipisicing elit.
                             Cumque quibusdam modi ut asperiores atque nobis ex quod adipisci at nisi,
-                            necessitatibus
-                            assumenda rem laudantium architecto nostrum provident fuga. Asperiores, sapiente.
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusamus ullam officia aspernatur maxime? Cumque at doloribus hic? Provident consequuntur, ad consectetur magnam culpa nostrum, soluta dolor, ullam at autem libero.
+                            necessitatibus assumenda rem laudantium architecto nostrum provident fuga. Asperiores, sapiente.
+                            Lorem ipsum dolor sit amet consectetur:isloading...`}
+
+
                         </div>
 
                     </TabContent>
@@ -65,7 +67,8 @@ export const ProductArticle = ({data}) => {
                 <div className="col-md-5 ms-1 ">
                     {/* Video */}
                     <div className="ratio ratio-16x9">
-                        <iframe src="https://www.youtube.com/embed/vlDzYIIOYmM" title="YouTube video" allowfullscreen></iframe>
+                        <iframe width="560" height="315" src={data?.data.products.video?
+                        data.data.products.video:`https://www.youtube.com/embed/RA1GUc-oRcw?si=1mLf40JEpi1atae4`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
                     </div>
                     {/* Organic */}
                     <div className={`${styles.organic} row mt-3 rounded-3 border`}>
@@ -97,7 +100,7 @@ export const ProductArticle = ({data}) => {
                     </div>
                 </div>
             </div>
-            <RelatedProducts data={data}/>
+            <RelatedProducts data={data} />
 
         </>
     )
