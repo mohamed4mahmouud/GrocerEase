@@ -47,7 +47,6 @@ export default function Cart() {
 
     return (
         <>
-            (
             <Fragment>
                 <div className="container text-center">
                     <h1 className="mt-5 mb-5">My Shopping Cart</h1>
@@ -165,7 +164,6 @@ export default function Cart() {
                     </div>
                 </div>
             </Fragment>
-            ) ;
         </>
     );
 }

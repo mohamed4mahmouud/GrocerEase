@@ -211,7 +211,9 @@ export default function Navbar() {
                 {wordEntered && isLoading ? (
                     <div>Loading...</div> // Show loading spinner while fetching data
                 ) : (
-                    filterdData.length !== 0 && (
+                    wordEntered && filterdData.length == 0 ?
+                     <p>No Data Matched</p>
+                     :(
                         <div className="dataResult">
                             {filterdData.slice(0, 15).map((value, index) => {
                                 return (
@@ -231,6 +233,7 @@ export default function Navbar() {
                             })}
                         </div>
                     )
+                    
                 )}
             </div>
         </>

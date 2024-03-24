@@ -111,3 +111,7 @@
 .checkout {
     color: var(--darkblue-color);
 }
+.paginationBtn{
+    background-color: var(--icon-color) !important;
+    color: var(--white-color) !important;
+}

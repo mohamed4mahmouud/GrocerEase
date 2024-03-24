@@ -79,7 +79,7 @@ export default function Footer() {
                             <h6 className="fw-bold mb-4">Our Team</h6>
                             <p>
                                 <a
-                                    href="#!"
+                                    href="https://www.linkedin.com/in/seif-ahmed98/"
                                     className="text-reset text-decoration-none"
                                 >
                                     Seif Eldein Ahmed
@@ -87,7 +87,7 @@ export default function Footer() {
                             </p>
                             <p>
                                 <a
-                                    href="#!"
+                                    href="https://www.linkedin.com/in/mohamed-mahmoud-5b7619217/"
                                     className="text-reset text-decoration-none"
                                 >
                                     Mohamed Mahmoud
@@ -103,7 +103,7 @@ export default function Footer() {
                             </p>
                             <p>
                                 <a
-                                    href="#!"
+                                    href="https://www.linkedin.com/in/farah-ali-380a56216/"
                                     className="text-reset text-decoration-none"
                                 >
                                     Farah Ali
@@ -111,7 +111,7 @@ export default function Footer() {
                             </p>
                             <p>
                                 <a
-                                    href="#!"
+                                    href="https://www.linkedin.com/in/nourhan-shawky-52020b239/"
                                     className="text-reset text-decoration-none"
                                 >
                                     Nourhan Shawky
