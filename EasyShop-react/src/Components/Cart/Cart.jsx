@@ -10,7 +10,8 @@ import { removeAllFromCart } from "../../redux/Actions/action";
 import { Coupon } from "./Coupon";
 
 export async function getCart() {
-    return await axios.get(`http://127.0.0.1:8000/api/get-cart`);
+    const response = await axios.get(`http://127.0.0.1:8000/api/get-cart`);
+    return response.data;
 }
 
 export default function Cart() {
@@ -50,20 +51,25 @@ export default function Cart() {
                                             <th
                                                 style={{
                                                     width: "40%",
-                                                    paddingLeft: "20px",
+                                                    paddingLeft: "100px",
                                                 }}
                                             >
                                                 PRODUCT
                                             </th>
-                                            <th>PRICE</th>
                                             <th
                                                 style={{
-                                                    paddingLeft: "15px",
+                                                    paddingLeft: "70px",
+                                                }}
+                                            >
+                                                PRICE
+                                            </th>
+                                            <th
+                                                style={{
+                                                    paddingLeft: "50px",
                                                 }}
                                             >
                                                 QUANTITY
                                             </th>
-                                            <th>SUBTOTAL</th>
                                         </tr>
                                     </thead>
                                     {cartItems.map((cartItem, index) => (

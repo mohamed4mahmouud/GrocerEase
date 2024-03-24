@@ -2,13 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import { OrderSummery } from "./Order Summery";
-import { PaymentContext } from "../../Context/paymentContext";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 export const Checkout = () => {
-    const { cartId, cartItems } = useContext(PaymentContext);
-
-    const [shippingAddress, setShippingAddress] = useState("");
+    const [shipping_address, setShippingAddress] = useState("");
     const handleChange = (event) => {
         setShippingAddress(event.target.value);
     };
@@ -31,35 +29,17 @@ export const Checkout = () => {
         }
         getUser();
     }, []);
+    const cartItems = useSelector((state) => state.cartItems);
+    const serializedCartItems = JSON.stringify(cartItems);
 
-    const [shopId, setShopId] = useState("");
-
+    const [cartProduct, setCartProduct] = useState([]);
+    const shopId = cartItems.map((item) => item.shop_id);
+    const cartId = cartItems.map((item) => item.id);
     useEffect(() => {
-        async function fetchCart() {
-            try {
-                const response = await axios.get(
-                    `http://localhost:8000/api/products`,
-                    {
-                        headers: {
-                            token: localStorage.getItem("userToken"),
-                        },
-                    }
-                );
-                console.log("products", response.data);
-                // Assuming you have the cartItems available, iterate over them to find the shop ID
-                const cartItems = response.data.products;
-                if (cartItems && cartItems.length > 0) {
-                    // You can use any logic here to extract the shop ID, for example, taking it from the first item in the cart
-                    const shopId = cartItems[0].shop_id;
-                    setShopId(shopId);
-                } else {
-                    console.error("Cart is empty or undefined");
-                }
-            } catch (error) {
-                console.error("Error fetching cart data:", error);
-            }
+        const storedCart = JSON.parse(sessionStorage.getItem("cartState"));
+        if (storedCart) {
+            setCartProduct(storedCart.cartItems);
         }
-        fetchCart();
     }, []);
 
     return (
@@ -87,7 +67,7 @@ export const Checkout = () => {
                                                     id="shipping_address"
                                                     name="shipping_address"
                                                     placeholder="1234 Main St"
-                                                    value={shippingAddress}
+                                                    value={shipping_address}
                                                     onChange={handleChange}
                                                     required
                                                 />
@@ -96,7 +76,7 @@ export const Checkout = () => {
                                         <a
                                             className="btn greencart text-white fw-semibold"
                                             style={{ borderRadius: "20px" }}
-                                            href={`http://localhost:8000/checkout/${cartId}/${shippingAddress}/${user}/${shopId}`}
+                                            href={`http://localhost:8000/checkout?cartItems=${serializedCartItems}&shipping_address=${shipping_address}&user=${user}&shopId=${shopId}`}
                                         >
                                             Place order
                                         </a>

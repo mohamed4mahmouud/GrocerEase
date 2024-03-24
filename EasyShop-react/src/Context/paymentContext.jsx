@@ -22,7 +22,6 @@ async function CardPayment(cartId, shipping_address) {
 
 export default function PaymentContextProvider(props) {
     const [cartId, setCartId] = useState(null);
-    const [cartItems, setCartItems] = useState([]);
 
     async function fetchCartId() {
         try {
@@ -32,7 +31,6 @@ export default function PaymentContextProvider(props) {
             if (cartItems && cartItems.length > 0) {
                 const { cart_id: cartId } = cartItems[0];
                 setCartId(cartId);
-                setCartItems(cartItems);
             } else {
                 console.error("Cart is empty or undefined");
             }
@@ -45,7 +43,7 @@ export default function PaymentContextProvider(props) {
     }, []);
 
     return (
-        <PaymentContext.Provider value={{ CardPayment, cartId, cartItems }}>
+        <PaymentContext.Provider value={{ CardPayment, cartId }}>
             {props.children}
         </PaymentContext.Provider>
     );
