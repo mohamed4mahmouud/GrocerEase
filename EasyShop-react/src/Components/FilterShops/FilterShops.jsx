@@ -1,17 +1,25 @@
 import React, { useState } from "react";
 
-export default function FilterShops({ onRatingChange }) {
+export default function FilterShops({ onRatingChange , onMinChange}) {
     const [rating, setRating] = useState("");
-
+    const [minAmount, setMinAmount] = useState(""); 
     const handleRatingChange = (event) => {
         const newRating = parseInt(event.target.value);
         setRating(newRating);
         onRatingChange(newRating);
     };
-    //   TODO: handle reset all functionality
+    const handleMinAmountChange = (event) => {
+        const newMinAmount = parseInt(event.target.value);
+        setMinAmount(newMinAmount);
+        onMinChange(newMinAmount); 
+        
+    };
+    // console.log(minAmount);
     const resetAll = () => {
         setRating("");
+        setMinAmount("");
         onRatingChange("");
+        onMinChange("");
     };
     return (
         <>
@@ -57,6 +65,25 @@ export default function FilterShops({ onRatingChange }) {
                         className="form-check-input"
                         type="radio"
                         name="flexRadioDefault"
+                        id="flexRadioDefault2"
+                        value="2"
+                        checked={minAmount == 2}
+                        onChange={handleMinAmountChange}
+                    />
+                    <label
+                        className={`form-check-label ${
+                            rating === "1" ? "checked" : ""
+                        }`}
+                        htmlFor="flexRadioDefault2"
+                    >
+                        Minimum Order Amount
+                    </label>
+                </div>
+                <div className="form-check pt-3">
+                    <input
+                        className="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
                         id="flexRadioDefault1"
                     />
                     <label
@@ -80,20 +107,7 @@ export default function FilterShops({ onRatingChange }) {
                         Distance
                     </label>
                 </div>
-                <div className="form-check pt-3">
-                    <input
-                        className="form-check-input"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault2"
-                    />
-                    <label
-                        className="form-check-label"
-                        htmlFor="flexRadioDefault2"
-                    >
-                        Minimum orderd amount
-                    </label>
-                </div>
+                
                 <div className="form-check pt-3">
                     <input
                         className="form-check-input"

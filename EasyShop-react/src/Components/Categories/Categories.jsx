@@ -36,7 +36,7 @@ export default function Categories() {
             <div className="row">
               <div className={`${style.storeDiv} col-md-12 mt-5 rounded-top p-5 d-flex`}>
                 <div className="col-md-3 text-center">
-                  <img src="../../images/elEzaby.png" className="rounded-circle mt-4" width={130} alt="Avatar" />
+                  <img src={data?.data.shop.image} className="rounded-circle mt-4" width={130} alt="Avatar" />
                 </div>
                 <div className="col-md-8">
                   <p className="h3 fw-bold mt-4">{data?.data.shop.name}</p>

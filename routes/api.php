@@ -86,6 +86,7 @@ Route::middleware(['auth:sanctum'])->put('/coupons', [CouponController::class,  
 Route::get('/shops/{shopCategory}', [ShopsController::class, 'getCategorizedShops']);
 Route::get('/shops', [ShopsController::class, 'getAllShops']);
 Route::get('/filteredShops/{category}', [ShopsController::class, 'getFilteredShops']);
+Route::get('/minAmountShops/{category}', [ShopsController::class, 'getFilteredShopsByMinAmount']);
 Route::post('/store/create', [ShopsController::class, 'createShop'])->name('shops.create');
 Route::post('/checkPlaces/{category}', [ShopsController::class, 'checkPlaces']);
 //update shop route
