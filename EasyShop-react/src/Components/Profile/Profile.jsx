@@ -33,7 +33,7 @@ export default function Profile() {
     async function fetchUserData() {
         const response = await axios.get("http://localhost:8000/api/user", {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Authorization: `Bearer ${localStorage.getItem("userToken")}`,
             },
         });
         return response.data;
