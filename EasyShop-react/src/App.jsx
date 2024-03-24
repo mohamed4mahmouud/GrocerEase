@@ -21,6 +21,7 @@ import { Checkout } from "./Components/Checkout/BillingInfo";
 import Categories from "./Components/Categories/Categories";
 import OrderDetailsWrapper from "./Components/Order Details/OrderComponent";
 import ForgetPasswordForm from "./Components/ForgetPassword/ForgetPassword";
+import ResetPassword from "./Components/ResetPassword/ResetPassword";
 
 
 let routers = createBrowserRouter([
@@ -43,6 +44,7 @@ let routers = createBrowserRouter([
             { path: "checkout", element: <Checkout /> },
             { path: "categories", element: <Categories /> },
             { path: "forgetPassword", element: <ForgetPasswordForm /> },
+            { path: "resetPassword", element: <ResetPassword /> },
             {
                 path: "orders/:orderId",
                 element: <OrderDetailsWrapper />,
