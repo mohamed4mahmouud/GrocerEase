@@ -15,7 +15,7 @@ export async function getCart() {
 
 export default function Cart() {
     const cartItems = useSelector((state) => state.cartItems); // Accessing cart items from Redux store
-    
+
     let subtotal = 0;
     // Calculate subtotal
     cartItems.forEach((item) => {
@@ -50,20 +50,25 @@ export default function Cart() {
                                             <th
                                                 style={{
                                                     width: "40%",
-                                                    paddingLeft: "20px",
+                                                    paddingLeft: "100px",
                                                 }}
                                             >
                                                 PRODUCT
                                             </th>
-                                            <th>PRICE</th>
                                             <th
                                                 style={{
-                                                    paddingLeft: "15px",
+                                                    paddingLeft: "70px",
+                                                }}
+                                            >
+                                                PRICE
+                                            </th>
+                                            <th
+                                                style={{
+                                                    paddingLeft: "50px",
                                                 }}
                                             >
                                                 QUANTITY
                                             </th>
-                                            <th>SUBTOTAL</th>
                                         </tr>
                                     </thead>
                                     {cartItems.map((cartItem, index) => (
@@ -146,7 +151,7 @@ export default function Cart() {
                                                 name="total_price"
                                             />
                                             <button
-                                                className={`${style.coupon} rounded-5 text-white`}
+                                                className={`${style.coupon} rounded-5 text-white ms-2 p-2`}
                                                 type="submit"
                                             >
                                                 Apply coupon
