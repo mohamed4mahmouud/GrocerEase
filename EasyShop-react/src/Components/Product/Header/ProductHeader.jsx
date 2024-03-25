@@ -4,11 +4,9 @@ import { AddToCartComponent } from "../AddToCart/AddToCartComponent";
 
 
 export const ProductHeader = ({ data, isLoading }) => {
-    console.log(data?.data.products)
     return (
         <>
             <div className="row pt-4">
-                {/* TODO: Add product image */}
                 {isLoading ? (
                     <div className="d-flex justify-content-center mt-5">
                         <div className="spinner-border" role="status">

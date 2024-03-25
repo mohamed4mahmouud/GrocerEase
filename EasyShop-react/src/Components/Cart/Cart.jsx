@@ -95,7 +95,7 @@ export default function Cart() {
                                         className={`${style.cartFooter} card-footer d-flex justify-content-between`}
                                     >
                                         <Link
-                                            to="/products"
+                                            to="/"
                                             className={`${style.cartButton} rounded-5`}
                                         >
                                             Return to shop
@@ -127,7 +127,6 @@ export default function Cart() {
                                             </h6>
                                         </div>
                                         <hr />
-                                        {/* TODO: set shipping fee dynamically */}
                                         <div
                                             className={`${style.cartText} text-start d-flex justify-content-between`}
                                         >
@@ -146,11 +145,11 @@ export default function Cart() {
                                                 $
                                             </h5>
                                         </div>
-                                        <button
+                                        <Link to="/checkout"
                                             className={`${style.mainColor} btn btn-primary w-100 rounded-5 mt-3`}
                                         >
                                             Proceed to checkout
-                                        </button>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
