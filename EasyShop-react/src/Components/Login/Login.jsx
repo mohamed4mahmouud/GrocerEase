@@ -67,7 +67,7 @@ export default function Login() {
                     <div className="d-flex justify-content-center align-items-center">
                         <div className="mt-3">
                             <h3 className={`${style.colorPrim} mr-3`}>
-                                Talabatk Eh
+                                GrocerEase
                             </h3>
                         </div>
                         <div className="ms-2">

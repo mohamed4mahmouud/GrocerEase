@@ -2,18 +2,21 @@ import { Fragment } from "react";
 import { useFormik } from "formik";
 import style from "./SignUp.module.css";
 import * as Yup from "yup";
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 export const SignUp = () => {
-
+    const navigate = useNavigate();
     useEffect(() => {
-        document.body.style.background = 'linear-gradient(to right, white 0%, white 60%, #DEF9EC 60%, #DEF9EC 100%)';
-    
+        document.body.style.background =
+            "linear-gradient(to right, white 0%, white 60%, #DEF9EC 60%, #DEF9EC 100%)";
+
         return () => {
-          document.body.style.background = ''; 
+            document.body.style.background = "";
         };
-      }, []);
+    }, []);
 
     const phoneRegExp =
         /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -38,8 +41,14 @@ export const SignUp = () => {
     });
 
     async function registerSubmit(values) {
-     let response = await axios.post(`http://127.0.0.1:8000/api/auth/register`,values);
-     console.log(response);
+        let {data} = await axios.post(
+            `http://127.0.0.1:8000/api/auth/register`,
+            values
+        );
+       // console.log(response)
+       if(data.status){
+        navigate('/login');
+       }
     }
 
     let formik = useFormik({
@@ -62,7 +71,7 @@ export const SignUp = () => {
                     <div className="d-flex justify-content-center align-items-center">
                         <div className="mt-3">
                             <h3 className={`${style.colorPrim} mr-3`}>
-                                Talabatk Eh
+                                GrocerEase
                             </h3>
                         </div>
                         <div className="ms-2">
@@ -116,7 +125,6 @@ export const SignUp = () => {
                                     value={formik.values.email}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    
                                 />
                                 {formik.errors.email && formik.touched.email ? (
                                     <div className="alert alert-danger p-2 mt-2">
@@ -135,7 +143,6 @@ export const SignUp = () => {
                                     value={formik.values.phone}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    
                                 />
                                 {formik.errors.phone && formik.touched.phone ? (
                                     <div className="alert alert-danger p-2 mt-2">
@@ -154,7 +161,6 @@ export const SignUp = () => {
                                     value={formik.values.address}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    
                                 />
                                 {formik.errors.address &&
                                 formik.touched.address ? (
@@ -174,7 +180,6 @@ export const SignUp = () => {
                                     value={formik.values.password}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    
                                 />
                                 {formik.errors.password &&
                                 formik.touched.password ? (
@@ -196,7 +201,6 @@ export const SignUp = () => {
                                     value={formik.values.confirmPassword}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    
                                 />
                                 {formik.errors.confirmPassword &&
                                 formik.touched.confirmPassword ? (

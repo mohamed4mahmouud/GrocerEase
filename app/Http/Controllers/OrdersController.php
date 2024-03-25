@@ -20,11 +20,12 @@ class OrdersController extends Controller
     public function getAllOrders(Request $request)
     {
         //Getting Auth User-> Orders
+        //return response()->json($request->user());
         if ($request->user()) {
             $orders = $request->user()->orders;
             return $this->returnData('orders', $orders, "success");
         } else {
-            // If no login for faster shopping 
+            // If no login for faster shopping
             // We sending empty orders object
             return $this->returnData('orders', null, "success");
         }
@@ -57,7 +58,7 @@ class OrdersController extends Controller
 
 
 
-    //Payment 
+    //Payment
     public function checkout(Request $request)
     {
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
@@ -65,6 +66,9 @@ class OrdersController extends Controller
         $cartItems = json_decode($request->query('cartItems'));
         $shipping_address = $request->query('shipping_address');
         $user = $request->query('user');
+        // return response()->json([
+        //     'shipping' => $request,
+        // ]);
         $shopIds = array_unique(explode(',', $request->query('shopId')));
 
         $shopTotalPrices = [];
