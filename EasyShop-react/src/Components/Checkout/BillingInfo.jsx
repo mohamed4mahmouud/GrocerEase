@@ -15,12 +15,7 @@ export const Checkout = () => {
         async function getUser() {
             try {
                 const response = await axios.get(
-                    `http://localhost:8000/api/user`,
-                    {
-                        headers: {
-                            token: localStorage.getItem("userToken"),
-                        },
-                    }
+                    `http://localhost:8000/api/user`
                 );
                 setUser(response.data.id);
             } catch (error) {

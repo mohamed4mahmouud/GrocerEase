@@ -66,7 +66,7 @@ export const Products = () => {
                                         <p
                                             className={`card-text position-absolute fw-bolder bottom-1 end-0 me-2 font text-black`}
                                         >
-                                            ${product.price}
+                                            L€ {product.price}
                                         </p>
                                     </div>
                                 </Link>
