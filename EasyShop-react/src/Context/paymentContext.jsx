@@ -17,7 +17,6 @@ async function CardPayment(cartId, shipping_address) {
         },
         { headers }
     );
-    console.log(response);
 }
 
 export default function PaymentContextProvider(props) {
@@ -26,7 +25,6 @@ export default function PaymentContextProvider(props) {
     async function fetchCartId() {
         try {
             const response = await getCart();
-            console.log("cart", response.data);
             const cartItems = response?.data?.cart;
             if (cartItems && cartItems.length > 0) {
                 const { cart_id: cartId } = cartItems[0];

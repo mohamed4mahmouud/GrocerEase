@@ -101,7 +101,7 @@ export default function Login() {
                                 />
                             </div>
                             {formik.errors.email && formik.touched.email ? (
-                                <div className="alert alert-danger p-2 mt-2">
+                                <div className="text-danger text-decoration-none d-block me-5">
                                     {formik.errors.email}
                                 </div>
                             ) : null}
@@ -116,13 +116,14 @@ export default function Login() {
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                 />
-                            </div>
                             {formik.errors.password &&
                             formik.touched.password ? (
-                                <div className="alert alert-danger p-2 mt-2">
+                                <div className="text-danger text-decoration-none d-block me-5">
                                     {formik.errors.password}
                                 </div>
                             ) : null}
+                                <Link className="text-end text-danger text-decoration-none d-block me-5" to="/forgetPassword">forgot password?</Link>
+                            </div>
                             <button
                                 type="submit"
                                 className={`${style.customWidth90} btn btn-primary  mt-2 mb-2`}
@@ -144,7 +145,7 @@ export default function Login() {
                                 &#8594;
                             </button>
                             {error ? (
-                                <div className="alert alert alert-danger p-2 mt-2">
+                                <div className="text-danger text-decoration-none d-block p-2 mt-2">
                                     {error}
                                 </div>
                             ) : null}

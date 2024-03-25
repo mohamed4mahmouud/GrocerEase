@@ -15,6 +15,9 @@ async function getShops(category) {
 export async function getRatingFilteredShops(category) {
     return await axios.get(`http://127.0.0.1:8000/api/filteredShops/${category}`);
 }
+async function FilteredShopsByMinAmount(category) {
+    return await axios.get(`http://127.0.0.1:8000/api/minAmountShops/${category}`);
+}
 async function checkPlaces(places, category) {
     try {
         let data = {
@@ -36,6 +39,9 @@ export default function Shops() {
     const { data: filteredByRate } = useQuery("getFilteredShops", () =>
         getRatingFilteredShops(category)
     );
+    const { data: minAmountShops } = useQuery("FilteredShopsByMinAmount", () =>
+    FilteredShopsByMinAmount(category)
+);
     const [ratingFilter, setRatingFilter] = useState(null);
     const [places, setPlaces] = useState(null);
     const [choosenPlace, setchoosenPlace] = useState(null);
@@ -95,13 +101,30 @@ export default function Shops() {
             // console.log(originalPlaces);
         }
     };
-
+    const onMinChange = (minAmount) =>{
+        if (minAmount === 2) {
+            setRatingFilter(2);
+            if (places) {
+                const sortedPlaces = nearbyPlacesData.sort(
+                    (a, b) => a.min_order - b.min_order
+                );
+                setFilteredNearBy(sortedPlaces);
+                setRatingFilter(2);
+            }
+        } else {
+            setFilteredNearBy(null);
+            setRatingFilter(null);
+            setNearbyPlacesData([...originalPlaces]);
+            
+        }
+    }
+    // console.log(filteredNearBy);
     return (
         <>
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-lg-3 col-md-4 col-sm-12 p-3 mt-5">
-                        <FilterShops onRatingChange={onRatingChange} />
+                        <FilterShops onRatingChange={onRatingChange} onMinChange={onMinChange}/>
                     </div>
 
                     {isLoading ? (
@@ -158,32 +181,35 @@ export default function Shops() {
     function renderShopItems() {
         const shopData = nearbyPlacesData
             ? ratingFilter == 1
-                ? filteredNearBy
+                ?   filteredNearBy
+                :ratingFilter == 2 ?
+                    filteredNearBy
                 : nearbyPlacesData
             : ratingFilter == 1
-            ? filteredByRate?.data.shops
+            ?   filteredByRate?.data.shops
+            :ratingFilter == 2?
+                minAmountShops?.data.shops
             : data?.data.shops;
             const pageNumbers = [];
         for (let i = 1; i <= Math.ceil(shopData.length / shopsPerPage); i++) {
             pageNumbers.push(i);
         }
+        // {console.log(ratingFilter);}
         const indexOfLastShop = currentPage * shopsPerPage;
         const indexOfFirstShop = indexOfLastShop - shopsPerPage;
         const currentShops = shopData.slice(
             indexOfFirstShop,
             indexOfLastShop
         );
-
-
-        <div className="d-flex justify-content-center mt-5">
-            <div className="spinner-border" role="status">
-                <span className="visually-hidden">Loading...</span>
-            </div>
-        </div>;
-        // }
-
+        
         return (
             <>
+            {/* <div className="d-flex justify-content-center mt-5">
+                <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>; */}
+            
                 {currentShops.map((shop, key) => (
                     <div key={shop.id} className="col-md-12 mb-3">
                         <Link
@@ -195,7 +221,6 @@ export default function Shops() {
                                 style={{ height: "150px" }}
                             >
                                 <div className="col-md-4">
-                                    {/* TODO:/* fetch img here */}
                                     <img
                                         src={shop.image}
                                         alt=""

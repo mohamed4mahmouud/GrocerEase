@@ -1,8 +1,12 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 const ForgotPassword = () => {
+    let navigate = useNavigate();
     const initialValues = {
         email: "",
     };
@@ -13,10 +17,12 @@ const ForgotPassword = () => {
             .required("Email is required"),
     });
 
-    const handleSubmit = (values, { setSubmitting }) => {
-        // Handle form submission logic here, e.g., sending email to reset password
-        console.log(values);
+    const handleSubmit = async (values, { setSubmitting }) => {
+       let {data} = await axios.post(`http://localhost:8000/api/auth/forgot-password`,values);
         setSubmitting(false);
+        if(data.msg == "Emil sent with OTP"){
+            navigate('/resetPassword')
+        }
     };
 
     return (
@@ -29,8 +35,8 @@ const ForgotPassword = () => {
             >
                 {({ isSubmitting }) => (
                     <Form>
-                        <div className="mb-3">
-                            <label htmlFor="email" className="form-label">
+                        <div className="mb-3 font">
+                            <label htmlFor="email" className="form-label font">
                                 Email
                             </label>
                             <Field
@@ -47,7 +53,7 @@ const ForgotPassword = () => {
                         </div>
                         <button
                             type="submit"
-                            className="btn greencart text-white rounded-4 fw-semibold"
+                            className="btn greencart text-white rounded-4 fw-semibold font"
                             disabled={isSubmitting}
                         >
                             {isSubmitting ? "Submitting..." : "Submit"}

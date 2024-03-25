@@ -1,32 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 const ResetPassword = () => {
+    const [msg , setMsg] = useState('');
     const initialValues = {
         email: "",
-        code: "",
-        newPassword: "",
+        otp: "",
+        new_password: "",
     };
 
     const validationSchema = Yup.object({
         email: Yup.string()
             .email("Invalid email address")
             .required("Email is required"),
-        code: Yup.string().required("Code is required"),
-        newPassword: Yup.string()
+        new_password: Yup.string()
             .required("New password is required")
             .min(8, "Password must be at least 8 characters"),
     });
 
-    const handleSubmit = (values, { setSubmitting }) => {
-        console.log(values);
+    const handleSubmit = async (values, { setSubmitting }) => {
+       let {data}= await axios.post('http://localhost:8000/api/auth/reset-password' , values)
         setSubmitting(false);
+        setMsg(data.msg);
+        
     };
 
     return (
         <div className="container mt-5">
             <h2>Reset Password</h2>
+            {msg && <div className="alert alert-success fw-semibold">{msg}</div>}
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -56,12 +60,12 @@ const ResetPassword = () => {
                             </label>
                             <Field
                                 type="text"
-                                name="code"
+                                name="otp"
                                 id="code"
                                 className="form-control"
                             />
                             <ErrorMessage
-                                name="code"
+                                name="otp"
                                 component="div"
                                 className="text-danger"
                             />
@@ -72,12 +76,12 @@ const ResetPassword = () => {
                             </label>
                             <Field
                                 type="password"
-                                name="newPassword"
+                                name="new_password"
                                 id="newPassword"
                                 className="form-control"
                             />
                             <ErrorMessage
-                                name="newPassword"
+                                name="new_password"
                                 component="div"
                                 className="text-danger"
                             />

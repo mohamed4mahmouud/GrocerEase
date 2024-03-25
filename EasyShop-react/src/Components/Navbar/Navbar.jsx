@@ -70,7 +70,7 @@ export default function Navbar() {
                     <div className="container-fluid">
                         <Link className="navbar-brand bgnavbar fw-bold" to="/">
                             <img src={logo} width={40} className="mb-2" />{" "}
-                            Talabatk Eh
+                            GrocerEase
                         </Link>
                         <button
                             className="navbar-toggler"

@@ -31,8 +31,17 @@ class ShopsController extends Controller
     public function getFilteredShops(string $shopCategory)
     {
         $shops = Shop::where('category', $shopCategory)
-            ->where('rating', '>', 1)
+            ->where('rating', '>', 4)
             ->orderBy('rating', 'desc')
+            ->get();
+
+        return $this->returnData('shops', $shops, 'Success');
+    }
+    public function getFilteredShopsByMinAmount(string $shopCategory)
+    {
+        $shops = Shop::where('category', $shopCategory)
+            ->where('min_order', '<', 80)
+            ->orderBy('min_order', 'asc')
             ->get();
 
         return $this->returnData('shops', $shops, 'Success');
