@@ -6,21 +6,22 @@ const MapContainer = ({ coordinates }) => {
                 const google = window.google; // Ensure google is loaded in window scope
 
                 const position = { lat: coordinates.lat, lng: coordinates.lng };
-                const map = new google.maps.Map(document.getElementById("map"), {
-                    zoom: 14,
-                    center: position,
-                });
+                const map = new google.maps.Map(
+                    document.getElementById("map"),
+                    {
+                        zoom: 14,
+                        center: position,
+                    }
+                );
 
                 new google.maps.Marker({
                     position: position,
                     map: map,
                     title: "Delivery Location",
                 });
-
             } catch (error) {
-                console.error('Error initializing map:', error);
+                console.error("Error initializing map:", error);
             }
-            console.log(coordinates);
         }
 
         initMap();

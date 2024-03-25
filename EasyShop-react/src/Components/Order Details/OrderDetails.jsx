@@ -33,12 +33,9 @@ const OrderDetails = ({ orderId }) => {
             token: userToken,
         };
         const response = await axios.get(
-            `http://localhost:8000/api/orders/${orderId}`,
-            {
-                headers,
-            }
+            `http://localhost:8000/api/orders/${orderId}`
         );
-        console.log(response.data);
+        //console.log(response.data);
         return response.data;
     });
 
@@ -140,45 +137,8 @@ const OrderDetails = ({ orderId }) => {
                             Order Tracking
                         </h2>
                         <div className="mt-4">
-                            <Delivery />
+                            <Delivery order={orderData} />
                         </div>
-
-                        {/* <div className="table-container mt-3 p-0">
-                            <Table borderless>
-                                <thead>
-                                    <tr className="table-secondary">
-                                        <th className="text-uppercase">
-                                            Product
-                                        </th>
-                                        <th className="text-uppercase">
-                                            Price
-                                        </th>
-                                        <th className="text-uppercase">
-                                            Quantity
-                                        </th>
-                                        <th className="text-uppercase">
-                                            Suptotal
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {cartItems.map((cartItem, index) => (
-                                        <tr cartItem={cartItem} key={index}>
-                                            <td>
-                                                <img
-                                                    src={cartItem.image}
-                                                    alt=""
-                                                    width={40}
-                                                />
-                                            </td>
-                                            <td>{cartItem.price}</td>
-                                            <td>x {cartItem.quantity}</td>
-                                            <td>$ {cartItem.price}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </Table>
-                        </div> */}
                     </>
                 ) : (
                     <div>Error fetching order details</div>
