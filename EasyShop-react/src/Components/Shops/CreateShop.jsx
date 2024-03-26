@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+const GOOGLE_API_key= import.meta.VITE_GOOGLE_API_KEY;
 
 export default function CreateShop() {
     const categories = {
@@ -16,7 +17,7 @@ export default function CreateShop() {
     });
     const getAddress = async (lat , lng) => {
         let resp = await axios.get(
-            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyCI_RuGZN52I_Iteqgn0CmvzeUCVAchVNo`
+            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=`+GOOGLE_API_key
             );
             setAddress(resp.data.results[0].formatted_address);
             // console.log(address);
@@ -26,7 +27,7 @@ export default function CreateShop() {
         
         useEffect(() => {
             const googleMapScript = document.createElement('script');
-            googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCI_RuGZN52I_Iteqgn0CmvzeUCVAchVNo&libraries=places`;
+            googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=+`+GOOGLE_API_key+`&libraries=places`;
             googleMapScript.async = true;
             googleMapScript.onload = initMap;
             window.document.body.appendChild(googleMapScript);

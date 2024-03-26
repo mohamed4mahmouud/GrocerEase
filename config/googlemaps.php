@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'key'       => 'AIzaSyCI_RuGZN52I_Iteqgn0CmvzeUCVAchVNo',
+    'key'       => env('VITE_MAPBOX_KEY'),
 
     /*
     |--------------------------------------------------------------------------

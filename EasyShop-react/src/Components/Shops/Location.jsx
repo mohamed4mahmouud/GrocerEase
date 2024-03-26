@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useQuery } from "react-query";
-const apiKey = "AIzaSyCI_RuGZN52I_Iteqgn0CmvzeUCVAchVNo";
+const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 function getNearbyShops(category, latitude, longitude) {
     return axios.post(
         `https://places.googleapis.com/v1/places:searchNearby`,
@@ -38,14 +38,14 @@ const Location = ({ category, OnPlacedRecived, OnChoosenPlace }) => {
 
     const getAddress = async (lat, lng) => {
         let resp = await axios.get(
-            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyCI_RuGZN52I_Iteqgn0CmvzeUCVAchVNo`
+            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=`+apiKey
         );
         setAddress(resp.data.results[0].formatted_address);
     };
 
     useEffect(() => {
         const googleMapScript = document.createElement("script");
-        googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCI_RuGZN52I_Iteqgn0CmvzeUCVAchVNo&libraries=places`;
+        googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=`+apiKey+`&libraries=places`;
         googleMapScript.async = true;
         googleMapScript.onload = initMap;
         window.document.body.appendChild(googleMapScript);
